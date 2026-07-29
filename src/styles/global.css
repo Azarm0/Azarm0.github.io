@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /*
- * Self-hosted — no external font request, so no third-party call and nothing to
+ * Self-hosted, so no external font request, no third-party call and nothing to
  * leak a visitor's IP to Google.
  *
  * Only latin + latin-ext are imported. Turkish needs BOTH and no fewer:
@@ -20,7 +20,7 @@
 @import '@fontsource-variable/inter';
 
 @theme {
-  /* Sampled from MevcutDigital2.pdf — these are the printed brand values. */
+  /* Sampled from MevcutDigital2.pdf. These are the printed brand values. */
   --color-navy: #2e3b69;
   --color-navy-deep: #232d52;
   --color-stone: #e3dddb;
@@ -61,7 +61,7 @@
     text-wrap: pretty;
   }
 
-  /* Visible focus for keyboard users — never removed. */
+  /* Visible focus for keyboard users. Never removed. */
   :focus-visible {
     outline: 3px solid var(--color-navy);
     outline-offset: 3px;
@@ -77,8 +77,8 @@
 @layer components {
   /*
    * Scroll reveal, progressively enhanced. The hidden state is gated behind .js,
-   * which an inline head script adds. If scripting never runs — blocked, errored,
-   * ancient browser — nothing is ever hidden and the page reads normally.
+   * which an inline head script adds. If scripting never runs (blocked, errored,
+   * ancient browser) nothing is ever hidden and the page reads normally.
    * Transform + opacity only, so it never triggers layout.
    */
   .js .reveal {
@@ -127,7 +127,7 @@
   }
 }
 
-/* Anyone who asks for less motion gets none of it — content still fully visible. */
+/* Anyone who asks for less motion gets none of it. Content stays fully visible. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 

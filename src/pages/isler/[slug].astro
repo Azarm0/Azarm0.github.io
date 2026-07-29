@@ -17,13 +17,30 @@ const ctaMesaji = `Merhaba, sitenizdeki ${proje.isletme} çalışmasını görd�
 
 // Social previews need a 1200x630 raster; the card image is 1200x750 WebP.
 const ogGorsel = `/isler/${proje.slug}-og.jpg`;
+
+// Marked up as CreativeWork rather than a testimonial or Review, because nobody
+// hired us for these. Claiming otherwise in structured data would be a lie Google reads.
+const isSema = {
+  '@type': 'CreativeWork',
+  name: `${proje.isletme} konsept web sitesi`,
+  headline: proje.baslik,
+  abstract: proje.ozet,
+  inLanguage: 'tr',
+  creator: { '@id': 'https://mevcut.digital/#kurulus' },
+  image: `https://mevcut.digital${proje.gorsel}`,
+  url: `https://mevcut.digital/isler/${proje.slug}`,
+  genre: `${proje.sektor} web sitesi`,
+  creditText: 'Konsept çalışma. İşletmenin resmi web sitesi değildir.',
+};
 ---
 
 <Layout
-  baslik={`${proje.isletme} — ${proje.baslik}`}
-  aciklama={proje.ozet}
+  baslik={proje.seoBaslik}
+  aciklama={proje.seoAciklama}
   gorsel={ogGorsel}
   gorselAlt={proje.gorselAlt}
+  kirintiYolu={[{ ad: proje.seoBaslik, yol: `/isler/${proje.slug}` }]}
+  semaEkleri={[isSema]}
 >
   <article>
     {/* ---------- BAŞLIK ---------- */}

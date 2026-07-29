@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The client concept sites live under this domain as subfolders and should be
+# crawlable too, since each one targets its own local search terms.
+
+Sitemap: https://mevcut.digital/sitemap-index.xml

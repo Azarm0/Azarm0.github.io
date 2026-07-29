@@ -1,13 +1,42 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Logo from '../components/Logo.astro';
-import { site, whatsapp, paketler, surec } from '../data/site';
+import { site, whatsapp, paketler, surec, sorular } from '../data/site';
 import { projeler } from '../data/projeler';
+
+// Mirrors the visible FAQ below. Google and AI assistants quote from this.
+const sssSema = {
+  '@type': 'FAQPage',
+  mainEntity: sorular.map((s) => ({
+    '@type': 'Question',
+    name: s.soru,
+    acceptedAnswer: { '@type': 'Answer', text: s.cevap },
+  })),
+};
+
+const sorunlar = [
+  {
+    baslik: 'Instagram tek başına yetmiyor',
+    metin:
+      'Instagram takipçinizi elinizde tutuyor, ama arama yapan kişiye ulaşmıyor. Menüniz aranabilir değil, adresiniz haritaya düşmüyor. Hesabınız kapanırsa da her şey birlikte gidiyor.',
+  },
+  {
+    baslik: 'Arama sonuçlarında yoksanız',
+    metin:
+      '“Yakınımdaki pide salonu” diye arayan kişi ilk üç sonuca bakıyor, dördüncüye pek inmiyor. O listede çıkmak şans işi değil, kurulum işi.',
+  },
+  {
+    baslik: 'Karar birkaç saniyede veriliyor',
+    metin:
+      'Telefonda geç açılan ya da bozuk görünen bir sayfa, müşteriye işletme hakkında olmayan bir şey anlatıyor. Adil değil ama böyle oluyor.',
+  },
+];
 ---
 
 <Layout
-  baslik={site.ad}
-  aciklama="İstanbul'daki lokantalar, berberler ve küçük işletmeler için hızlı, mobil uyumlu web siteleri. Müşteriniz sizi Google'da arıyor — orada olun."
+  baslik="İstanbul Web Sitesi Yapımı"
+  aciklama="İstanbul’daki lokanta, berber ve küçük işletmeler için hızlı, mobil uyumlu web siteleri kuruyoruz. Örnek tasarımı ücretsiz hazırlıyoruz, WhatsApp’tan yazın."
+  semaEkleri={[sssSema]}
 >
   {/* ---------- HERO ---------- */}
   <section class="relative overflow-hidden">
@@ -21,9 +50,9 @@ import { projeler } from '../data/projeler';
         </h1>
 
         <p class="reveal reveal-delay-2 mt-7 max-w-xl text-lg text-charcoal/80 md:text-xl">
-          Bugün bir lokantayı, berberi ya da esnafı merak eden kişi önce telefonunu açıyor.
-          Karşısında bir site yoksa, bir sonrakine geçiyor. Biz o siteyi kuruyoruz — hızlı,
-          telefonda kusursuz ve sizin adınıza.
+          Bugün bir lokantayı ya da berberi merak eden kişi önce telefonunu açıyor.
+          Karşısında bir site yoksa bir sonrakine geçiyor. Biz o siteyi kuruyoruz:
+          hızlı açılan, telefonda düzgün görünen ve sizin adınıza olan bir site.
         </p>
 
         <div class="reveal reveal-delay-3 mt-10 flex flex-wrap items-center gap-4">
@@ -44,11 +73,11 @@ import { projeler } from '../data/projeler';
         </div>
 
         <p class="reveal reveal-delay-4 mt-7 text-sm text-charcoal/60">
-          İlk görüşme ve örnek tasarım ücretsiz. Beğenmezseniz yükümlülüğünüz yok.
+          İlk görüşme ve örnek tasarım ücretsiz. Beğenmediyseniz orada bırakırız.
         </p>
       </div>
 
-      {/* Brand mark as quiet ornament, not decoration-for-its-own-sake */}
+      {/* Brand mark as a quiet ornament rather than decoration for its own sake */}
       <div class="reveal reveal-delay-2 relative hidden lg:block" aria-hidden="true">
         <div class="relative mx-auto aspect-square w-full max-w-md">
           <div class="absolute inset-0 rounded-full bg-stone-light/70"></div>
@@ -65,29 +94,13 @@ import { projeler } from '../data/projeler';
       <div class="max-w-3xl">
         <p class="eyebrow reveal">Neden gerekli</p>
         <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Sitesi olmayan işletme, kapısı kapalı işletmedir.
+          Google’da çıkmıyorsanız, o müşteri komşunuza gidiyor.
         </h2>
       </div>
 
       <div class="mt-14 grid gap-px overflow-hidden rounded-2xl bg-charcoal/10 sm:grid-cols-3">
         {
-          [
-            {
-              baslik: 'Instagram yeterli değil',
-              metin:
-                'Instagram’da menünüz aranamaz, adresiniz Google Haritalar’a düşmez, saatiniz görünmez. Hesabınız kapanırsa her şey gider.',
-            },
-            {
-              baslik: 'Google’da yoksanız, yoksunuz',
-              metin:
-                '“Yakınımdaki pide salonu” diye arayan kişi ilk üç sonuca bakar. O listede olmak tesadüf değil, kurulum işidir.',
-            },
-            {
-              baslik: 'İlk izlenim üç saniye sürer',
-              metin:
-                'Telefonda geç açılan ya da bozuk görünen bir sayfa, müşteriye “burası özensiz” der. Haksız ama gerçek.',
-            },
-          ].map((madde, i) => (
+          sorunlar.map((madde, i) => (
             <div class={`reveal reveal-delay-${i + 1} bg-stone-light p-8 md:p-10`}>
               <h3 class="font-display text-lg font-semibold">{madde.baslik}</h3>
               <p class="mt-3.5 text-charcoal/75">{madde.metin}</p>
@@ -104,12 +117,12 @@ import { projeler } from '../data/projeler';
       <div class="max-w-3xl">
         <p class="eyebrow reveal">İşlerimiz</p>
         <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Konuşmak yerine yaptık.
+          Anlatmak yerine yaptık.
         </h2>
         <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
-          Aşağıdaki siteler, işletmeler bizden istemeden önce hazırlanmış <strong
-            class="font-semibold text-navy">konsept çalışmalardır</strong
-          >. Her biri gerçekten yayında — açın, telefonunuzda gezin, hızını görün.
+          Aşağıdaki siteleri, işletmeler bizden istemeden önce hazırladık. Hepsi
+          <strong class="font-semibold text-navy">konsept çalışma</strong>, hepsi gerçekten
+          yayında. Açın, telefonunuzda gezin, ne kadar hızlı açıldığına bakın.
         </p>
       </div>
 
@@ -163,8 +176,8 @@ import { projeler } from '../data/projeler';
       </ul>
 
       <p class="reveal mt-10 max-w-3xl text-sm text-charcoal/60">
-        Bu sayfadaki işletmelerle henüz bir anlaşmamız yok; çalışmalar tanıtım amacıyla,
-        kendi girişimimizle hazırlandı. Hiçbiri işletmenin resmi web sitesi değildir.
+        Bu sayfadaki işletmelerle henüz bir anlaşmamız bulunmuyor. Çalışmaları tanıtım
+        amacıyla, kendi girişimimizle hazırladık. Hiçbiri işletmenin resmi web sitesi değildir.
       </p>
     </div>
   </section>
@@ -178,8 +191,8 @@ import { projeler } from '../data/projeler';
           Bütçenize göre bir başlangıç var.
         </h2>
         <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
-          En küçük paket ücretsiz: siteniz bizim adresimiz altında yayına girer. İşe
-          yaradığını gördüğünüzde kendi alan adınıza geçersiniz.
+          En küçük paket ücretsiz: siteniz bizim adresimiz altında yayına giriyor. İşe
+          yaradığını gördüğünüzde kendi alan adınıza geçiyorsunuz.
         </p>
       </div>
 
@@ -263,7 +276,7 @@ import { projeler } from '../data/projeler';
       <div class="max-w-3xl">
         <p class="eyebrow reveal">Nasıl çalışıyoruz</p>
         <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Dört adım, sürpriz yok.
+          Dört adımda ilerliyoruz.
         </h2>
       </div>
 
@@ -281,23 +294,60 @@ import { projeler } from '../data/projeler';
     </div>
   </section>
 
+  {/* ---------- SIK SORULANLAR ---------- */}
+  <section id="sorular" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
+    <div class="container-page py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow reveal">Sık sorulanlar</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+          WhatsApp’ta en çok bunlar soruluyor.
+        </h2>
+      </div>
+
+      <div class="mt-12 grid max-w-4xl gap-4">
+        {
+          sorular.map((s, i) => (
+            <details
+              class={`reveal reveal-delay-${(i % 4) + 1} group rounded-xl border border-charcoal/12 bg-stone-light px-6 py-5 open:bg-stone`}
+            >
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-semibold text-navy">
+                {s.soru}
+                <svg
+                  viewBox="0 0 20 20"
+                  class="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path d="M10 4.5v11M4.5 10h11" stroke-linecap="round" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-charcoal/80">{s.cevap}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   {/* ---------- HAKKIMIZDA + CTA ---------- */}
   <section id="iletisim" class="scroll-mt-24 bg-navy text-stone">
     <div class="container-page grid gap-14 py-20 md:py-28 lg:grid-cols-2 lg:gap-20">
       <div>
         <p class="eyebrow reveal !text-stone/55">Hakkımızda</p>
         <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold !text-stone">
-          İki kişilik bir ekip. Aracı yok.
+          İki kişilik bir ekibiz.
         </h2>
         <div class="reveal reveal-delay-2 mt-6 space-y-4 text-lg text-stone/80">
           <p>
-            Mevcut Digital iki ortaktan oluşuyor: biri işi konuşur, diğeri kodu yazar.
-            Aradığınızda çağrı merkezine değil, siteyi yapan kişiye ulaşırsınız.
+            Mevcut Digital iki ortaktan oluşuyor. Biri işi konuşuyor, diğeri kodu yazıyor.
+            Aradığınızda çağrı merkezine değil, siteyi yapan kişiye ulaşıyorsunuz.
           </p>
           <p>
-            İstanbul’daki lokantalar, berberler ve mahalle esnafıyla çalışıyoruz. Küçük
-            işletmenin nasıl döndüğünü biliyoruz: vaktiniz yok, teknik terimlerle
-            ilgilenmiyorsunuz, sonuç istiyorsunuz. Biz de öyle çalışıyoruz.
+            İstanbul’daki lokantalar ve mahalle esnafıyla çalışıyoruz. Küçük işletmenin nasıl
+            döndüğünü biliyoruz: vaktiniz kısıtlı ve teknik terimlerle uğraşmak istemiyorsunuz.
+            Biz de sizi teknik terimlerle yormuyoruz.
           </p>
         </div>
       </div>

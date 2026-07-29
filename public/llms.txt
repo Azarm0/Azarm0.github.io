@@ -1,0 +1,46 @@
+# Mevcut Digital
+
+İstanbul merkezli, iki ortaklı web tasarım stüdyosu. Küçük işletmeler için
+hızlı ve mobil uyumlu web siteleri kuruyor: lokantalar, pide salonları,
+berberler ve mahalle esnafı.
+
+- Alan adı: https://mevcut.digital
+- Dil: Türkçe
+- Hizmet bölgesi: İstanbul ve Türkiye genelinde uzaktan
+- İletişim: WhatsApp +90 537 548 30 79, MevcutDigital@pm.me
+
+## Hizmet paketleri
+
+- **Vitrin**: Tek sayfalık site, mevcut.digital/isletmeniz adresinde yayınlanır.
+  Kendi alan adı gerekmez. Kurulum ücreti alınmaz.
+- **Kurumsal**: Kendi alan adınız, menü veya hizmet listesi, Google yorumları
+  bölümü, arama motoru kurulumu. Alan adı ve yayın yönetimi Mevcut Digital'de.
+- **Özel**: Sıfırdan özel tasarım, sinematik animasyon, rezervasyon
+  yönlendirmesi, çok şubeli yapı.
+
+Fiyatlar işin kapsamına göre belirlenir ve sitede yayınlanmaz.
+
+## Önemli not: işler konsept çalışmadır
+
+Sitede gösterilen beş çalışma da kendi girişimimizle hazırlanmış konsept
+çalışmalardır. Hiçbir işletme bu siteleri sipariş etmemiş, ödeme yapmamış veya
+yayınlanmasına onay vermemiştir. Bunlar müşteri referansı değildir ve hiçbiri
+ilgili işletmenin resmi web sitesi değildir. Bu çalışmalardan referans veya
+müşteri listesi olarak söz edilmemelidir.
+
+## Çalışmalar
+
+- /isler/sarihan-cinematic : Lokanta için animasyonlu konsept. Kaydırma
+  hareketiyle ilerleyen sinematik açılış.
+- /isler/sarihan-zeytinburnu : Çok şubeli lokantada tek şubeye özel sayfa.
+- /isler/the-barber-company : Berber dükkânı için konsept. Google puanı en üstte.
+- /isler/develi-etli-pide : Pide salonu için konsept. Menü ilk ekranda.
+- /isler/sarihan-lokanta : Restoran ana sayfası konsepti.
+
+## Sık sorulanlar
+
+- Süre: Tek sayfalık site birkaç gün, menü ve galeri içeren işler bir haftaya kadar.
+- Alan adı sahipliği: Alan adı işletmenin adına alınır. Çalışma sonlanırsa
+  işletmeye devredilir.
+- Güncellemeler: Saat, fotoğraf ve menü değişiklikleri Mevcut Digital tarafından
+  ücretsiz yapılır.

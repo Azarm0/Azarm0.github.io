@@ -10,11 +10,17 @@ import poppins700Latin from '@fontsource/poppins/files/poppins-latin-700-normal.
 import poppins700LatinExt from '@fontsource/poppins/files/poppins-latin-ext-700-normal.woff2?url';
 
 interface Props {
+  /** Keep under ~43 chars: the brand suffix adds 17 and Google cuts near 60. */
   baslik: string;
+  /** Aim for 150 to 160 chars. */
   aciklama: string;
   /** Absolute-from-root path to the social preview image. */
   gorsel?: string;
   gorselAlt?: string;
+  /** Breadcrumb trail for detail pages, in order, excluding the home link. */
+  kirintiYolu?: { ad: string; yol: string }[];
+  /** Extra JSON-LD graph nodes contributed by the page. */
+  semaEkleri?: Record<string, unknown>[];
 }
 
 const {
@@ -22,11 +28,66 @@ const {
   aciklama,
   gorsel = '/brand/og-default.png',
   gorselAlt = 'Mevcut Digital',
+  kirintiYolu = [],
+  semaEkleri = [],
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const gorselMutlak = new URL(gorsel, Astro.site).href;
-const tamBaslik = baslik === site.ad ? `${site.ad} — ${site.slogan}` : `${baslik} — ${site.ad}`;
+// Pipe rather than an em dash. The dash is the single most recognisable AI tell
+// and it shows up in the SERP, which is the first thing a prospect ever sees.
+const tamBaslik = `${baslik} | ${site.ad}`;
+
+const kurulusSema = {
+  '@type': 'ProfessionalService',
+  '@id': `${site.url}/#kurulus`,
+  name: site.ad,
+  slogan: site.slogan,
+  description: aciklama,
+  url: site.url,
+  telephone: site.telefon,
+  email: site.eposta,
+  image: `${site.url}/brand/og-default.png`,
+  logo: `${site.url}/brand/lotus-favicon.svg`,
+  priceRange: '$$',
+  knowsLanguage: 'tr',
+  areaServed: [
+    { '@type': 'City', name: 'İstanbul' },
+    { '@type': 'Country', name: 'Türkiye' },
+  ],
+  address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
+  serviceType: [
+    'Web sitesi tasarımı',
+    'Küçük işletme web sitesi',
+    'Restoran web sitesi',
+    'Berber web sitesi',
+  ],
+};
+
+const kirintiSema =
+  kirintiYolu.length > 0
+    ? {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: site.url },
+          ...kirintiYolu.map((k, i) => ({
+            '@type': 'ListItem',
+            position: i + 2,
+            name: k.ad,
+            item: new URL(k.yol, site.url).href,
+          })),
+        ],
+      }
+    : null;
+
+const sema = {
+  '@context': 'https://schema.org',
+  '@graph': [kurulusSema, kirintiSema, ...semaEkleri].filter(Boolean),
+};
+
+// JSON.stringify does not escape "</script>", so close the tag defensively.
+// Every value here is authored, but this keeps it safe if data ever comes from elsewhere.
+const semaJson = JSON.stringify(sema).replace(/<\//g, '<\\/');
 ---
 
 <!doctype html>
@@ -67,7 +128,9 @@ const tamBaslik = baslik === site.ad ? `${site.ad} — ${site.slogan}` : `${basl
       href={poppins700LatinExt}
     />
 
-    {/* WhatsApp and Facebook read these from the raw HTML — they never run JS. */}
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    {/* WhatsApp and Facebook read these from the raw HTML. They never run JS. */}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.ad} />
     <meta property="og:locale" content="tr_TR" />
@@ -93,21 +156,7 @@ const tamBaslik = baslik === site.ad ? `${site.ad} — ${site.slogan}` : `${basl
       document.documentElement.classList.add('js');
     </script>
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'ProfessionalService',
-        name: site.ad,
-        slogan: site.slogan,
-        description: aciklama,
-        url: site.url,
-        telephone: site.telefon,
-        email: site.eposta,
-        areaServed: { '@type': 'City', name: 'İstanbul' },
-        address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
-      })}
-    />
+    <script type="application/ld+json" set:html={semaJson} />
   </head>
 
   <body>

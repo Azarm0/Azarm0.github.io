@@ -19,8 +19,8 @@ export type Paket = {
   aciklama: string;
   kapsam: string[];
   /**
-   * Prices are deliberately absent — they are still being negotiated. When a number
-   * is finally settled, fill this in and the card renders it. Nothing else changes.
+   * Prices are deliberately absent while they are still being negotiated. Once a
+   * number is settled, fill this in and the card renders it. Nothing else changes.
    */
   fiyat: string | null;
   fiyatNotu: string | null;
@@ -33,11 +33,11 @@ export const paketler: Paket[] = [
     ad: 'Vitrin',
     vurgu: 'Önce görünür olun',
     aciklama:
-      'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almadan, bizim adresimiz üzerinden yayında olursunuz.',
+      'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almanız gerekmiyor, sitemiz üzerinden bir adres alıyorsunuz ve aynı gün yayına giriyorsunuz.',
     kapsam: [
       'Tek sayfalık site',
       'mevcut.digital/isletmeniz adresinde yayın',
-      'Telefonda kusursuz görünüm',
+      'Telefonda düzgün görünen tasarım',
       'Tek dokunuşla arama ve WhatsApp',
       'Google Haritalar ve yol tarifi',
       'Fotoğraf galerisi',
@@ -51,7 +51,7 @@ export const paketler: Paket[] = [
     ad: 'Kurumsal',
     vurgu: 'Kendi adınızla',
     aciklama:
-      'Kendi alan adınız, kendi kimliğiniz. Alan adını ve yayını sizin adınıza biz alır, biz yönetiriz — siz işinize bakarsınız.',
+      'Kendi alan adınız, kendi kimliğiniz. Alan adını sizin adınıza biz alıyoruz, yayında kalmasını da biz takip ediyoruz. Siz işinize bakıyorsunuz.',
     kapsam: [
       'Vitrin paketindeki her şey',
       'Kendi alan adınız (isletmeniz.com)',
@@ -71,7 +71,7 @@ export const paketler: Paket[] = [
     ad: 'Özel',
     vurgu: 'Tamamen size özel',
     aciklama:
-      'Hazır şablon yok. Tasarımdan animasyona kadar işletmeniz için sıfırdan kurgulanan bir site.',
+      'Şablon kullanmadığımız paket. Tasarımı, animasyonu ve akışı işletmeniz için sıfırdan kuruyoruz. Bu sayfadaki sinematik çorba çalışması bu paketten çıktı.',
     kapsam: [
       'Kurumsal paketteki her şey',
       'Sıfırdan özel tasarım',
@@ -92,24 +92,62 @@ export const surec = [
     adim: '01',
     baslik: 'Konuşuyoruz',
     metin:
-      'WhatsApp’tan yazın, işletmenizi anlatın. Ne yaptığınızı, kimin geldiğini ve neyi değiştirmek istediğinizi dinliyoruz. Ücretsiz.',
+      'WhatsApp’tan yazın, işletmenizi anlatın. Ne yaptığınızı ve müşterinizin sizi nasıl bulduğunu dinliyoruz. Bu görüşme için para almıyoruz.',
   },
   {
     adim: '02',
     baslik: 'Örneğini görüyorsunuz',
     metin:
-      'Size özel bir taslak hazırlıyoruz. Beğenmezseniz yükümlülüğünüz yok — bu sayfadaki işlerin çoğu böyle başladı.',
+      'Size özel bir taslak hazırlıyoruz. Bu sayfadaki işlerin hepsi böyle başladı: kimse istemeden önce yaptık, sonra sahibine gösterdik.',
   },
   {
     adim: '03',
     baslik: 'Yayına alıyoruz',
     metin:
-      'Onaydan sonra fotoğrafları, menüyü ve iletişim bilgilerini yerleştirip siteyi yayına alıyoruz.',
+      'Onayınızdan sonra fotoğrafları, menüyü ve iletişim bilgilerinizi yerleştirip siteyi açıyoruz. Genelde birkaç gün sürüyor.',
   },
   {
     adim: '04',
     baslik: 'Arkasında duruyoruz',
     metin:
-      'Saatiniz değişti, menüye yeni bir şey eklendi — yazın, güncelleyelim. Site yayında kaldığı sürece yanınızdayız.',
+      'Saatiniz değişti, menüye yeni bir tabak eklendi. Yazın, aynı gün güncelliyoruz. Site yayında kaldığı sürece bu böyle devam ediyor.',
+  },
+];
+
+/**
+ * Answers to the questions Kadirhan gets asked on WhatsApp before anything else.
+ * Rendered as visible copy and mirrored into FAQPage structured data, which is
+ * what Google and AI assistants quote from.
+ */
+export const sorular = [
+  {
+    soru: 'Web sitesi yaptırmak ne kadar sürüyor?',
+    cevap:
+      'Tek sayfalık bir site genelde birkaç gün içinde yayında oluyor. Menü, galeri ve şube sayfası olan daha büyük işler bir haftayı bulabiliyor. Fotoğraflarınız ve menüniz hazırsa süre kısalıyor.',
+  },
+  {
+    soru: 'Fiyatlar ne kadar?',
+    cevap:
+      'İşin kapsamına göre değişiyor, o yüzden sayfaya sabit bir fiyat yazmıyoruz. WhatsApp’tan işletmenizi anlatın, aynı gün net bir fiyat söylüyoruz. En küçük paketimiz için kurulum ücreti almıyoruz.',
+  },
+  {
+    soru: 'Alan adı benim adıma mı olacak?',
+    cevap:
+      'Kurumsal ve Özel paketlerde alan adını sizin işletmeniz adına alıyoruz, faturasını ve yenilemesini biz takip ediyoruz. Bizimle çalışmayı bırakırsanız alan adı size devredilir, sizde kalır.',
+  },
+  {
+    soru: 'Instagram hesabım var, siteye gerek var mı?',
+    cevap:
+      'Instagram müşteriyi elinizde tutmak için iyi çalışıyor ama arama için çalışmıyor. Google’da “yakınımdaki berber” diye arayan kişi Instagram gönderilerinizi görmüyor. Menüniz de aranabilir değil, adresiniz haritaya düşmüyor.',
+  },
+  {
+    soru: 'Sitemi kendim güncelleyebilir miyim?',
+    cevap:
+      'Gerek yok, güncellemeleri biz yapıyoruz ve bunun için ayrıca ücret almıyoruz. Saat değişikliği, yeni fotoğraf, menüye eklenen bir tabak: WhatsApp’tan yazmanız yeterli.',
+  },
+  {
+    soru: 'Nerelerde çalışıyorsunuz?',
+    cevap:
+      'İstanbul’daki işletmelerle çalışıyoruz, ağırlıklı olarak Bahçelievler, Zeytinburnu ve çevresi. Site işi uzaktan yürüdüğü için Türkiye’nin başka şehirlerinden de iş alıyoruz.',
   },
 ];
