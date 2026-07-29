@@ -4,6 +4,11 @@ import { site } from '../data/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
+// Imported so Vite fingerprints and copies them, and the preload href below
+// always matches the hashed filename the CSS actually requests.
+import poppins700Latin from '@fontsource/poppins/files/poppins-latin-700-normal.woff2?url';
+import poppins700LatinExt from '@fontsource/poppins/files/poppins-latin-ext-700-normal.woff2?url';
+
 interface Props {
   baslik: string;
   aciklama: string;
@@ -33,9 +38,34 @@ const tamBaslik = baslik === site.ad ? `${site.ad} — ${site.slogan}` : `${basl
     <meta name="description" content={aciklama} />
     <link rel="canonical" href={canonical} />
 
-    <link rel="icon" href="/brand/lotus.svg" type="image/svg+xml" />
+    {/*
+      Must be lotus-favicon.svg, not lotus.svg: the latter is fill="currentColor"
+      for in-page use, and a favicon inherits no colour, so it would render black.
+      This one carries its own navy plate and stone mark.
+    */}
+    <link rel="icon" href="/brand/lotus-favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <meta name="theme-color" content="#2E3B69" />
+
+    {/*
+      The h1 above the fold is Poppins 700. Preloading it removes a render-blocking
+      round trip after CSS parse, which is the main LCP cost on this page. Only the
+      two subsets Turkish actually needs are preloaded.
+    */}
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href={poppins700Latin}
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href={poppins700LatinExt}
+    />
 
     {/* WhatsApp and Facebook read these from the raw HTML — they never run JS. */}
     <meta property="og:type" content="website" />

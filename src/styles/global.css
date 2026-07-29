@@ -1,10 +1,22 @@
 @import 'tailwindcss';
 
-/* Self-hosted — no external font request. Poppins matches the printed wordmark. */
-@import '@fontsource/poppins/400.css';
-@import '@fontsource/poppins/500.css';
-@import '@fontsource/poppins/600.css';
-@import '@fontsource/poppins/700.css';
+/*
+ * Self-hosted — no external font request, so no third-party call and nothing to
+ * leak a visitor's IP to Google.
+ *
+ * Only latin + latin-ext are imported. Turkish needs BOTH and no fewer:
+ * ı ç ü ö live in latin, while ş ğ İ live in latin-ext. The unsubsetted
+ * `@fontsource/poppins/400.css` entry points also drag in Devanagari, which this
+ * site can never use.
+ */
+@import '@fontsource/poppins/latin-400.css';
+@import '@fontsource/poppins/latin-500.css';
+@import '@fontsource/poppins/latin-600.css';
+@import '@fontsource/poppins/latin-700.css';
+@import '@fontsource/poppins/latin-ext-400.css';
+@import '@fontsource/poppins/latin-ext-500.css';
+@import '@fontsource/poppins/latin-ext-600.css';
+@import '@fontsource/poppins/latin-ext-700.css';
 @import '@fontsource-variable/inter';
 
 @theme {
