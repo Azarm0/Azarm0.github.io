@@ -28,7 +28,7 @@ const isSema = {
   inLanguage: 'tr',
   creator: { '@id': 'https://mevcut.digital/#kurulus' },
   image: `https://mevcut.digital${proje.gorsel}`,
-  url: `https://mevcut.digital/isler/${proje.slug}`,
+  url: `https://mevcut.digital/isler/${proje.slug}/`,
   genre: `${proje.sektor} web sitesi`,
   creditText: 'Konsept çalışma. İşletmenin resmi web sitesi değildir.',
 };
@@ -39,7 +39,7 @@ const isSema = {
   aciklama={proje.seoAciklama}
   gorsel={ogGorsel}
   gorselAlt={proje.gorselAlt}
-  kirintiYolu={[{ ad: proje.seoBaslik, yol: `/isler/${proje.slug}` }]}
+  kirintiYolu={[{ ad: proje.seoBaslik, yol: `/isler/${proje.slug}/` }]}
   semaEkleri={[isSema]}
 >
   <article>
@@ -168,7 +168,7 @@ const isSema = {
           digerleri.map((diger, i) => (
             <li class={`reveal reveal-delay-${i + 1} group`}>
               <a
-                href={`/isler/${diger.slug}`}
+                href={`/isler/${diger.slug}/`}
                 class="flex h-full flex-col overflow-hidden rounded-2xl border border-charcoal/10 bg-stone-light transition-all duration-300 hover:-translate-y-1 hover:border-navy/25 hover:shadow-[0_18px_40px_-24px_rgba(46,59,105,0.45)]"
               >
                 <div class="aspect-16/10 overflow-hidden bg-stone-dark">
