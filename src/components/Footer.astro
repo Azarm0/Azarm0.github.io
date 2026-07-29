@@ -1,0 +1,74 @@
+---
+import Logo from './Logo.astro';
+import { site, whatsapp } from '../data/site';
+
+const yil = new Date().getFullYear();
+---
+
+<footer class="mt-24 bg-navy text-stone md:mt-32">
+  <div class="container-page py-16 md:py-20">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3">
+          <Logo class="h-10 w-auto" />
+          <span class="font-display text-lg font-bold tracking-tight">MEVCUT DIGITAL</span>
+        </div>
+        <p class="mt-5 max-w-sm text-stone/75">
+          {site.slogan}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-sm font-semibold uppercase tracking-[0.18em] text-stone/60">
+          İletişim
+        </h2>
+        <ul class="mt-5 space-y-3">
+          <li>
+            <a
+              href={whatsapp()}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex min-h-11 items-center text-stone transition-opacity duration-200 hover:opacity-75"
+            >
+              WhatsApp ile yazın
+            </a>
+          </li>
+          <li>
+            <a
+              href={site.telefonHref}
+              class="inline-flex min-h-11 items-center text-stone transition-opacity duration-200 hover:opacity-75"
+            >
+              {site.telefon}
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${site.eposta}`}
+              class="inline-flex min-h-11 items-center break-all text-stone transition-opacity duration-200 hover:opacity-75"
+            >
+              {site.eposta}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-display text-sm font-semibold uppercase tracking-[0.18em] text-stone/60">
+          Menü
+        </h2>
+        <ul class="mt-5 space-y-3">
+          <li><a href="/#isler" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">İşlerimiz</a></li>
+          <li><a href="/#hizmetler" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">Hizmetler</a></li>
+          <li><a href="/#surec" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">Süreç</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-3 border-t border-stone/15 pt-8 text-sm text-stone/55 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {yil} Mevcut Digital</p>
+      <p>İstanbul, Türkiye</p>
+    </div>
+  </div>
+</footer>

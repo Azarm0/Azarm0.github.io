@@ -1,0 +1,341 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import { site, whatsapp, paketler, surec } from '../data/site';
+import { projeler } from '../data/projeler';
+---
+
+<Layout
+  baslik={site.ad}
+  aciklama="İstanbul'daki lokantalar, berberler ve küçük işletmeler için hızlı, mobil uyumlu web siteleri. Müşteriniz sizi Google'da arıyor — orada olun."
+>
+  {/* ---------- HERO ---------- */}
+  <section class="relative overflow-hidden">
+    <div class="container-page grid items-center gap-14 py-20 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:py-36">
+      <div>
+        <p class="eyebrow reveal">İstanbul · Web Tasarım</p>
+
+        <h1 class="reveal reveal-delay-1 mt-5 text-[clamp(2.25rem,6vw,4.25rem)] font-bold">
+          Müşteriniz sizi<br />
+          <span class="text-charcoal">arıyor.</span> Bulabiliyor mu?
+        </h1>
+
+        <p class="reveal reveal-delay-2 mt-7 max-w-xl text-lg text-charcoal/80 md:text-xl">
+          Bugün bir lokantayı, berberi ya da esnafı merak eden kişi önce telefonunu açıyor.
+          Karşısında bir site yoksa, bir sonrakine geçiyor. Biz o siteyi kuruyoruz — hızlı,
+          telefonda kusursuz ve sizin adınıza.
+        </p>
+
+        <div class="reveal reveal-delay-3 mt-10 flex flex-wrap items-center gap-4">
+          <a
+            href={whatsapp()}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex min-h-13 items-center gap-2.5 rounded-full bg-navy px-7 py-3.5 font-display text-base font-semibold text-stone transition-all duration-200 hover:bg-navy-deep active:scale-[0.98]"
+          >
+            WhatsApp’tan yazın
+          </a>
+          <a
+            href="#isler"
+            class="inline-flex min-h-13 items-center gap-2 rounded-full border border-navy/25 px-7 py-3.5 font-display text-base font-semibold text-navy transition-colors duration-200 hover:border-navy/60 hover:bg-navy/5"
+          >
+            İşlerimize bakın
+          </a>
+        </div>
+
+        <p class="reveal reveal-delay-4 mt-7 text-sm text-charcoal/60">
+          İlk görüşme ve örnek tasarım ücretsiz. Beğenmezseniz yükümlülüğünüz yok.
+        </p>
+      </div>
+
+      {/* Brand mark as quiet ornament, not decoration-for-its-own-sake */}
+      <div class="reveal reveal-delay-2 relative hidden lg:block" aria-hidden="true">
+        <div class="relative mx-auto aspect-square w-full max-w-md">
+          <div class="absolute inset-0 rounded-full bg-stone-light/70"></div>
+          <div class="absolute inset-[12%] rounded-full border border-navy/10"></div>
+          <Logo class="absolute inset-0 m-auto h-auto w-[46%] text-navy/90" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- SORUN ---------- */}
+  <section class="border-y border-charcoal/10 bg-stone-light/60">
+    <div class="container-page py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow reveal">Neden gerekli</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+          Sitesi olmayan işletme, kapısı kapalı işletmedir.
+        </h2>
+      </div>
+
+      <div class="mt-14 grid gap-px overflow-hidden rounded-2xl bg-charcoal/10 sm:grid-cols-3">
+        {
+          [
+            {
+              baslik: 'Instagram yeterli değil',
+              metin:
+                'Instagram’da menünüz aranamaz, adresiniz Google Haritalar’a düşmez, saatiniz görünmez. Hesabınız kapanırsa her şey gider.',
+            },
+            {
+              baslik: 'Google’da yoksanız, yoksunuz',
+              metin:
+                '“Yakınımdaki pide salonu” diye arayan kişi ilk üç sonuca bakar. O listede olmak tesadüf değil, kurulum işidir.',
+            },
+            {
+              baslik: 'İlk izlenim üç saniye sürer',
+              metin:
+                'Telefonda geç açılan ya da bozuk görünen bir sayfa, müşteriye “burası özensiz” der. Haksız ama gerçek.',
+            },
+          ].map((madde, i) => (
+            <div class={`reveal reveal-delay-${i + 1} bg-stone-light p-8 md:p-10`}>
+              <h3 class="font-display text-lg font-semibold">{madde.baslik}</h3>
+              <p class="mt-3.5 text-charcoal/75">{madde.metin}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- İŞLER ---------- */}
+  <section id="isler" class="scroll-mt-24">
+    <div class="container-page py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow reveal">İşlerimiz</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+          Konuşmak yerine yaptık.
+        </h2>
+        <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
+          Aşağıdaki siteler, işletmeler bizden istemeden önce hazırlanmış <strong
+            class="font-semibold text-navy">konsept çalışmalardır</strong
+          >. Her biri gerçekten yayında — açın, telefonunuzda gezin, hızını görün.
+        </p>
+      </div>
+
+      <ul class="mt-14 grid gap-7 sm:grid-cols-2 lg:gap-8" role="list">
+        {
+          projeler.map((proje, i) => (
+            <li class={`reveal reveal-delay-${(i % 4) + 1} group`}>
+              <a
+                href={`/isler/${proje.slug}`}
+                class="flex h-full flex-col overflow-hidden rounded-2xl border border-charcoal/10 bg-stone-light transition-all duration-300 hover:-translate-y-1 hover:border-navy/25 hover:shadow-[0_18px_40px_-24px_rgba(46,59,105,0.45)]"
+              >
+                <div class="relative aspect-16/10 overflow-hidden bg-stone-dark">
+                  <img
+                    src={proje.gorsel}
+                    alt={proje.gorselAlt}
+                    width="1200"
+                    height="750"
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <span class="absolute top-3.5 left-3.5 rounded-full bg-stone/92 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-wide text-navy uppercase backdrop-blur-sm">
+                    Konsept
+                  </span>
+                </div>
+
+                <div class="flex flex-1 flex-col p-7">
+                  <p class="font-display text-xs font-semibold tracking-widest text-charcoal/50 uppercase">
+                    {proje.sektor} · {proje.sehir}
+                  </p>
+                  <h3 class="mt-3 font-display text-xl font-semibold">{proje.baslik}</h3>
+                  <p class="mt-3 flex-1 text-charcoal/75">{proje.ozet}</p>
+                  <span class="mt-6 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-navy">
+                    Çalışmayı gör
+                    <svg
+                      viewBox="0 0 20 20"
+                      class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="reveal mt-10 max-w-3xl text-sm text-charcoal/60">
+        Bu sayfadaki işletmelerle henüz bir anlaşmamız yok; çalışmalar tanıtım amacıyla,
+        kendi girişimimizle hazırlandı. Hiçbiri işletmenin resmi web sitesi değildir.
+      </p>
+    </div>
+  </section>
+
+  {/* ---------- HİZMETLER ---------- */}
+  <section id="hizmetler" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
+    <div class="container-page py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow reveal">Hizmetler</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+          Bütçenize göre bir başlangıç var.
+        </h2>
+        <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
+          En küçük paket ücretsiz: siteniz bizim adresimiz altında yayına girer. İşe
+          yaradığını gördüğünüzde kendi alan adınıza geçersiniz.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-7 lg:grid-cols-3">
+        {
+          paketler.map((paket, i) => (
+            <div
+              class={`reveal reveal-delay-${i + 1} flex flex-col rounded-2xl border p-8 md:p-9 ${
+                paket.oneCikan
+                  ? 'border-navy bg-navy text-stone shadow-[0_20px_50px_-30px_rgba(46,59,105,0.7)]'
+                  : 'border-charcoal/12 bg-stone-light'
+              }`}
+            >
+              {paket.oneCikan && (
+                <span class="mb-5 self-start rounded-full bg-stone/20 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-widest uppercase">
+                  En çok tercih edilen
+                </span>
+              )}
+
+              <h3 class={`font-display text-2xl font-bold ${paket.oneCikan ? 'text-stone' : ''}`}>
+                {paket.ad}
+              </h3>
+              <p
+                class={`mt-1.5 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/70' : 'text-charcoal/55'}`}
+              >
+                {paket.vurgu}
+              </p>
+
+              <p class={`mt-5 ${paket.oneCikan ? 'text-stone/85' : 'text-charcoal/75'}`}>
+                {paket.aciklama}
+              </p>
+
+              <ul class="mt-7 flex-1 space-y-3" role="list">
+                {paket.kapsam.map((madde) => (
+                  <li class="flex gap-3">
+                    <svg
+                      viewBox="0 0 20 20"
+                      class={`mt-1 h-4 w-4 shrink-0 ${paket.oneCikan ? 'text-stone/70' : 'text-navy'}`}
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.25"
+                      aria-hidden="true"
+                    >
+                      <path d="m4.5 10.5 3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class={`text-sm ${paket.oneCikan ? 'text-stone/90' : 'text-charcoal/80'}`}>
+                      {madde}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <p
+                class={`mt-7 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/70' : 'text-charcoal/55'}`}
+              >
+                {paket.fiyatNotu}
+              </p>
+
+              <a
+                href={whatsapp(paket.cta)}
+                target="_blank"
+                rel="noopener"
+                class={`mt-4 inline-flex min-h-12 items-center justify-center rounded-full px-6 py-3 font-display text-sm font-semibold transition-all duration-200 active:scale-[0.98] ${
+                  paket.oneCikan
+                    ? 'bg-stone text-navy hover:bg-white'
+                    : 'bg-navy text-stone hover:bg-navy-deep'
+                }`}
+              >
+                Fiyat için yazın
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- SÜREÇ ---------- */}
+  <section id="surec" class="scroll-mt-24">
+    <div class="container-page py-20 md:py-28">
+      <div class="max-w-3xl">
+        <p class="eyebrow reveal">Nasıl çalışıyoruz</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+          Dört adım, sürpriz yok.
+        </h2>
+      </div>
+
+      <ol class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4" role="list">
+        {
+          surec.map((adim, i) => (
+            <li class={`reveal reveal-delay-${i + 1} border-t-2 border-navy/20 pt-6`}>
+              <span class="font-display text-3xl font-bold text-navy/25">{adim.adim}</span>
+              <h3 class="mt-3 font-display text-lg font-semibold">{adim.baslik}</h3>
+              <p class="mt-3 text-charcoal/75">{adim.metin}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {/* ---------- HAKKIMIZDA + CTA ---------- */}
+  <section id="iletisim" class="scroll-mt-24 bg-navy text-stone">
+    <div class="container-page grid gap-14 py-20 md:py-28 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <p class="eyebrow reveal !text-stone/55">Hakkımızda</p>
+        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold !text-stone">
+          İki kişilik bir ekip. Aracı yok.
+        </h2>
+        <div class="reveal reveal-delay-2 mt-6 space-y-4 text-lg text-stone/80">
+          <p>
+            Mevcut Digital iki ortaktan oluşuyor: biri işi konuşur, diğeri kodu yazar.
+            Aradığınızda çağrı merkezine değil, siteyi yapan kişiye ulaşırsınız.
+          </p>
+          <p>
+            İstanbul’daki lokantalar, berberler ve mahalle esnafıyla çalışıyoruz. Küçük
+            işletmenin nasıl döndüğünü biliyoruz: vaktiniz yok, teknik terimlerle
+            ilgilenmiyorsunuz, sonuç istiyorsunuz. Biz de öyle çalışıyoruz.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-3 rounded-2xl bg-stone/8 p-8 md:p-10">
+        <h3 class="font-display text-xl font-semibold !text-stone">Bir mesaj yeterli</h3>
+        <p class="mt-3 text-stone/75">
+          İşletmenizi anlatın, size ne yapabileceğimizi ücretsiz gösterelim.
+        </p>
+
+        <a
+          href={whatsapp()}
+          target="_blank"
+          rel="noopener"
+          class="mt-7 inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-stone px-7 py-3.5 font-display text-base font-semibold text-navy transition-all duration-200 hover:bg-white active:scale-[0.98]"
+        >
+          WhatsApp’tan yazın
+        </a>
+
+        <dl class="mt-8 space-y-4 border-t border-stone/15 pt-8 text-sm">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <dt class="text-stone/55">Telefon</dt>
+            <dd>
+              <a href={site.telefonHref} class="font-medium underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+                {site.telefon}
+              </a>
+            </dd>
+          </div>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <dt class="text-stone/55">E-posta</dt>
+            <dd>
+              <a href={`mailto:${site.eposta}`} class="font-medium underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+                {site.eposta}
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</Layout>

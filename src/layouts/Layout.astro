@@ -1,0 +1,133 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  baslik: string;
+  aciklama: string;
+  /** Absolute-from-root path to the social preview image. */
+  gorsel?: string;
+  gorselAlt?: string;
+}
+
+const {
+  baslik,
+  aciklama,
+  gorsel = '/brand/og-default.png',
+  gorselAlt = 'Mevcut Digital',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const gorselMutlak = new URL(gorsel, Astro.site).href;
+const tamBaslik = baslik === site.ad ? `${site.ad} — ${site.slogan}` : `${baslik} — ${site.ad}`;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tamBaslik}</title>
+    <meta name="description" content={aciklama} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href="/brand/lotus.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2E3B69" />
+
+    {/* WhatsApp and Facebook read these from the raw HTML — they never run JS. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.ad} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={tamBaslik} />
+    <meta property="og:description" content={aciklama} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={gorselMutlak} />
+    <meta property="og:image:alt" content={gorselAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={tamBaslik} />
+    <meta name="twitter:description" content={aciklama} />
+    <meta name="twitter:image" content={gorselMutlak} />
+
+    {/*
+      Runs before paint so the reveal styles only ever apply when scripting is
+      available. Without this class nothing is hidden, so a failed script can
+      never leave the page blank. Inline and tiny by design.
+    */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        name: site.ad,
+        slogan: site.slogan,
+        description: aciklama,
+        url: site.url,
+        telephone: site.telefon,
+        email: site.eposta,
+        areaServed: { '@type': 'City', name: 'İstanbul' },
+        address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
+      })}
+    />
+  </head>
+
+  <body>
+    <a
+      href="#icerik"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-navy focus:px-5 focus:py-3 focus:text-stone focus:rounded"
+    >
+      İçeriğe geç
+    </a>
+
+    <Header />
+    <main id="icerik">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Scroll reveal. IntersectionObserver only toggles a class; CSS owns the motion,
+      // and the reduced-motion media query neutralises it entirely.
+      const azHareket = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const hedefler = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
+
+      const goster = (el: HTMLElement) => el.classList.add('is-visible');
+
+      if (azHareket || !('IntersectionObserver' in window)) {
+        hedefler.forEach(goster);
+      } else {
+        const gozlemci = new IntersectionObserver(
+          (girisler) => {
+            girisler.forEach((giris) => {
+              if (giris.isIntersecting) {
+                goster(giris.target as HTMLElement);
+                gozlemci.unobserve(giris.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.1 },
+        );
+
+        // Anything at or above the fold on first paint is shown outright. Without
+        // this, landing on a hash link like /#hizmetler leaves every section above
+        // the anchor permanently invisible, because it never intersects.
+        for (const el of hedefler) {
+          if (el.getBoundingClientRect().top < window.innerHeight) {
+            goster(el);
+          } else {
+            gozlemci.observe(el);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
