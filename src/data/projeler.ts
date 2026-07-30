@@ -154,35 +154,4 @@ export const projeler: Proje[] = [
     paket: 'Kurumsal',
     izinli: false,
   },
-  {
-    slug: 'sarihan-lokanta',
-    isletme: 'Sarıhan İşkembe',
-    sektor: 'Lokanta',
-    sehir: 'Zeytinburnu, İstanbul',
-    baslik: 'Kaydırdıkça pişen bir çorba',
-    ozet:
-      'Sayfayı kaydırdıkça tereyağı çorbanın üzerine düşüyor ve yayılıyor. Ziyaretçiyi ilk saniyelerde yakalayan sinematik bir açılış.',
-    seoBaslik: 'Animasyonlu Lokanta Web Sitesi',
-    seoAciklama:
-      'Bir işkembe lokantası için hazırladığımız konsept: sayfayı kaydırdıkça çorbanın üzerine tereyağı düşüyor. Sinematik açılış, tam menü ve tek dokunuşla arama.',
-    hikaye: [
-      'Bir lokantanın sitesine giren kişi tek bir şeyi merak eder: burası iyi mi? Fotoğraf galerisi bu soruya cevap vermiyor. İştah açıyor ama ikna etmiyor.',
-      'Bu konsept çalışmada açılışı videoya değil, parmağın hareketine bağladık. Ziyaretçi kaydırdıkça çorbanın üzerine acılı tereyağı düşüyor ve yavaşça yayılıyor. Hareketi sayfa değil, kullanıcı yönetiyor.',
-      'Amaç gösteriş değil. İnsanın ekranda kalma süresini uzatmak istiyoruz, çünkü duran kişi menüye iniyor ve menüye inen kişi telefonu açıyor.',
-    ],
-    ozellikler: [
-      'Kaydırmayla ilerleyen sinematik açılış',
-      'Tam menü ve fiyat bölümü',
-      'Google yorumlarından seçkiler',
-      'Tek dokunuşla arama ve yol tarifi',
-      'Telefonda da akıcı çalışan animasyon',
-    ],
-    teknik:
-      'Video oynatmak yerine klip 98 adet WebP kareye bölünüyor ve kaydırma konumuna göre canvas üzerine çiziliyor. Videoyu currentTime ile kaydırmak takılıyor, bu yöntem takılmıyor.',
-    demoUrl: 'https://mevcut.digital/sarihan-lokanta/',
-    gorsel: '/isler/sarihan-lokanta.webp',
-    gorselAlt: 'Sarıhan İşkembe kaydırmalı çorba konseptinin açılış ekranı',
-    paket: 'Özel',
-    izinli: false,
-  },
 ];

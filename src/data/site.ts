@@ -35,6 +35,8 @@ export const paketler: Paket[] = [
     aciklama:
       'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almanız gerekmiyor, sitemiz üzerinden bir adres alıyorsunuz ve aynı gün yayına giriyorsunuz.',
     kapsam: [
+      'Kurulum ücreti yok',
+      'Aynı gün yayında',
       'Tek sayfalık site',
       'mevcut.digital/isletmeniz adresinde yayın',
       'Telefonda düzgün görünen tasarım',
@@ -68,7 +70,7 @@ export const paketler: Paket[] = [
     ad: 'Özel',
     vurgu: 'Tamamen size özel',
     aciklama:
-      'Şablon kullanmadığımız paket. Tasarımı, animasyonu ve akışı işletmeniz için sıfırdan kuruyoruz. Bu sayfadaki sinematik çorba çalışması bu paketten çıktı.',
+      'Şablon kullanmadığımız paket. Tasarımı, animasyonu ve akışı işletmeniz için sıfırdan kuruyoruz. Bu sayfadaki gece açılışlı lokanta çalışması bu paketten çıktı.',
     kapsam: [
       'Kurumsal paketteki her şey',
       'Sıfırdan özel tasarım',
@@ -114,7 +116,7 @@ export const surec = [
 ];
 
 /**
- * Answers to the questions Kadirhan gets asked on WhatsApp before anything else.
+ * Answers to the questions we get asked on WhatsApp before anything else.
  * Rendered as visible copy and mirrored into FAQPage structured data, which is
  * what Google and AI assistants quote from.
  */

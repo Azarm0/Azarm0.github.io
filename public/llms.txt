@@ -12,17 +12,20 @@ berberler ve mahalle esnafı.
 ## Hizmet paketleri
 
 - **Vitrin**: Tek sayfalık site, mevcut.digital/isletmeniz adresinde yayınlanır.
-  Kendi alan adı gerekmez. Kurulum ücreti alınmaz.
-- **Kurumsal**: Kendi alan adınız, menü veya hizmet listesi, Google yorumları
-  bölümü, arama motoru kurulumu. Alan adı ve yayın yönetimi Mevcut Digital'de.
+  Kendi alan adı gerekmez. Kurulum ücreti alınmaz, aynı gün yayına girer.
+- **Kurumsal**: Kendi alan adınız, menü veya hizmet listesi, Instagram
+  bağlantısı, arama motoru kurulumu. Alan adı ve yayın yönetimi Mevcut
+  Digital'de.
 - **Özel**: Sıfırdan özel tasarım, sinematik animasyon, rezervasyon
-  yönlendirmesi, çok şubeli yapı.
+  yönlendirmesi, çok şubeli yapı. İşletmenin menüsünü ve saatlerini bilen,
+  sitede/WhatsApp'ta/Instagram'da yanıt veren yapay zekâ asistanı bu pakete
+  dahildir.
 
 Fiyatlar işin kapsamına göre belirlenir ve sitede yayınlanmaz.
 
 ## Önemli not: işler konsept çalışmadır
 
-Sitede gösterilen beş çalışma da kendi girişimimizle hazırlanmış konsept
+Sitede gösterilen dört çalışma da kendi girişimimizle hazırlanmış konsept
 çalışmalardır. Hiçbir işletme bu siteleri sipariş etmemiş, ödeme yapmamış veya
 yayınlanmasına onay vermemiştir. Bunlar müşteri referansı değildir ve hiçbiri
 ilgili işletmenin resmi web sitesi değildir. Bu çalışmalardan referans veya
@@ -30,12 +33,11 @@ müşteri listesi olarak söz edilmemelidir.
 
 ## Çalışmalar
 
-- /isler/sarihan-cinematic : Lokanta için animasyonlu konsept. Kaydırma
-  hareketiyle ilerleyen sinematik açılış.
+- /isler/sarihan-cinematic : Gece açık lokanta için konsept. Açılışta gece
+  yarısı yanan vitrini gösteren sinematik video.
 - /isler/sarihan-zeytinburnu : Çok şubeli lokantada tek şubeye özel sayfa.
 - /isler/the-barber-company : Berber dükkânı için konsept. Google puanı en üstte.
 - /isler/develi-etli-pide : Pide salonu için konsept. Menü ilk ekranda.
-- /isler/sarihan-lokanta : Restoran ana sayfası konsepti.
 
 ## Sık sorulanlar
 
@@ -44,3 +46,6 @@ müşteri listesi olarak söz edilmemelidir.
   işletmeye devredilir.
 - Güncellemeler: Saat, fotoğraf ve menü değişiklikleri Mevcut Digital tarafından
   ücretsiz yapılır.
+- Yapay zekâ asistanı: Özel pakette verilir. İşletmenin menüsünü, saatlerini ve
+  adresini bilir; sitede, WhatsApp'ta veya Instagram'da yanıt verir. Bilmediği
+  soruyu uydurmaz, işletmenin numarasına yönlendirir.
