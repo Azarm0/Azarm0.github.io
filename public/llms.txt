@@ -40,14 +40,14 @@ gerçek bir müşteri deneyimi olarak söz edilmemelidir.
 
 ## Çalışmalar
 
-- /isler/sarihan-cinematic : Gece açık lokanta için konsept. Açılışta gece
-  yarısı yanan vitrini gösteren sinematik video.
 - /isler/sarihan-zeytinburnu : Çok şubeli lokantada tek şubeye özel sayfa.
-- /isler/the-barber-company : Berber dükkânı için konsept. Google puanı en üstte.
-- /isler/develi-etli-pide : Pide salonu için konsept. Menü ilk ekranda.
 - /isler/mikron-teknik : Telefon tamircisi için konsept. Cihaz ve arıza
   seçilince tahmini fiyat ve süre anında çıkıyor; bırakılan cihaz takip
   koduyla izleniyor. KURGUSAL örnek işletme; gerçek bir dükkân değildir.
+- /isler/the-barber-company : Berber dükkânı için konsept. Google puanı en üstte.
+- /isler/sarihan-cinematic : Gece açık lokanta için konsept. Açılışta gece
+  yarısı yanan vitrini gösteren sinematik video.
+- /isler/develi-etli-pide : Pide salonu için konsept. Menü ilk ekranda.
 
 ## Sık sorulanlar
 
