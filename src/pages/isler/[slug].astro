@@ -30,7 +30,9 @@ const isSema = {
   image: `https://mevcut.digital${proje.gorsel}`,
   url: `https://mevcut.digital/isler/${proje.slug}/`,
   genre: `${proje.sektor} web sitesi`,
-  creditText: 'Konsept çalışma. İşletmenin resmi web sitesi değildir.',
+  creditText: proje.kurgu
+    ? 'Konsept çalışma. İşletme kurgusaldır; gerçek bir dükkân değildir.'
+    : 'Konsept çalışma. İşletmenin resmi web sitesi değildir.',
 };
 ---
 
@@ -111,7 +113,11 @@ const isSema = {
         />
       </figure>
       <figcaption class="reveal mt-4 text-sm text-charcoal/55">
-        {proje.isletme} için hazırlanan konsept çalışma. İşletmenin resmi web sitesi değildir.
+        {
+          proje.kurgu
+            ? `${proje.isletme} kurgusal bir örnek işletmedir; gerçek bir dükkân değildir. Sayfadaki fiyatlar ve yorumlar, tasarımı göstermek için yazılmış örnek içeriktir.`
+            : `${proje.isletme} için hazırlanan konsept çalışma. İşletmenin resmi web sitesi değildir.`
+        }
       </figcaption>
     </div>
 

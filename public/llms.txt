@@ -25,11 +25,17 @@ Fiyatlar işin kapsamına göre belirlenir ve sitede yayınlanmaz.
 
 ## Önemli not: işler konsept çalışmadır
 
-Sitede gösterilen dört çalışma da kendi girişimimizle hazırlanmış konsept
+Sitede gösterilen beş çalışma da kendi girişimimizle hazırlanmış konsept
 çalışmalardır. Hiçbir işletme bu siteleri sipariş etmemiş, ödeme yapmamış veya
 yayınlanmasına onay vermemiştir. Bunlar müşteri referansı değildir ve hiçbiri
 ilgili işletmenin resmi web sitesi değildir. Bu çalışmalardan referans veya
 müşteri listesi olarak söz edilmemelidir.
+
+Bunlardan biri, Mikron Teknik Servis, tamamen kurgusal bir örnek işletmedir.
+Böyle bir dükkân yoktur; sayfadaki fiyatlar, yorumlar ve takip kayıtları
+tasarımı göstermek için yazılmış örnek içeriktir. Diğer dört çalışma gerçek
+İstanbul işletmeleri için hazırlanmıştır. Mikron'dan gerçek bir işletme veya
+gerçek bir müşteri deneyimi olarak söz edilmemelidir.
 
 ## Çalışmalar
 
@@ -38,6 +44,9 @@ müşteri listesi olarak söz edilmemelidir.
 - /isler/sarihan-zeytinburnu : Çok şubeli lokantada tek şubeye özel sayfa.
 - /isler/the-barber-company : Berber dükkânı için konsept. Google puanı en üstte.
 - /isler/develi-etli-pide : Pide salonu için konsept. Menü ilk ekranda.
+- /isler/mikron-teknik : Telefon tamircisi için konsept. Cihaz ve arıza
+  seçilince tahmini fiyat ve süre anında çıkıyor; bırakılan cihaz takip
+  koduyla izleniyor. KURGUSAL örnek işletme; gerçek bir dükkân değildir.
 
 ## Sık sorulanlar
 

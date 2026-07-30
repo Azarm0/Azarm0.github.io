@@ -30,6 +30,14 @@ export type Proje = {
   paket: 'Vitrin' | 'Kurumsal' | 'Özel';
   /** True only once the business has given written permission to be featured. */
   izinli: boolean;
+  /**
+   * True when the business itself is invented rather than a real one we built
+   * for unasked. Every other entry is a real İstanbul business with real
+   * scraped reviews, so a fictional one has to say so — otherwise the visible
+   * disclaimer ("bu işletmelerle henüz bir anlaşmamız bulunmuyor") reads as a
+   * claim that this shop exists and simply has not signed yet.
+   */
+  kurgu?: boolean;
 };
 
 export const projeler: Proje[] = [
@@ -153,5 +161,37 @@ export const projeler: Proje[] = [
     gorselAlt: 'Develi Etli Pide konsept sitesinin açılış ekranı',
     paket: 'Kurumsal',
     izinli: false,
+  },
+  {
+    slug: 'mikron-teknik',
+    isletme: 'Mikron Teknik Servis',
+    sektor: 'Telefon Tamiri',
+    sehir: 'Bahçelievler, İstanbul',
+    baslik: 'Fiyatı soran müşteri, cevabı sayfada buluyor',
+    ozet:
+      'Cihazını ve arızasını seçen müşteri fiyatı ve süreyi anında görüyor. Bıraktığı cihazın durumunu da koduyla takip ediyor.',
+    seoBaslik: 'Telefon Tamiri Web Sitesi',
+    seoAciklama:
+      'Telefon tamircisi için konsept çalışma: cihaz ve arıza seçilince fiyat anında çıkıyor, bırakılan cihaz takip koduyla izleniyor. Kurgusal örnek işletme.',
+    hikaye: [
+      'Telefon tamircisine gelen ilk soru her zaman aynı: “ekran kaç para?” Bu soruya telefonda cevap vermek günde kırk kez tekrar eden bir iş, ve soranın çoğu fiyatı duyunca kapatıyor.',
+      'Bu konsept çalışmada cevabı sayfaya taşıdık. Müşteri cihazını, arızasını ve parça tercihini seçiyor; tahmini fiyatı, süresini ve garanti süresini kendisi görüyor. Dükkân da sadece gelmeye karar vermiş kişiyle konuşuyor.',
+      'İkinci parça, cihazı bırakan müşteri için: fişteki kodu girince cihazının hangi aşamada olduğunu görüyor. “Hazır mı?” diye arayan telefonları kesen şey bu.',
+    ],
+    ozellikler: [
+      'Cihaz ve arızaya göre anında fiyat',
+      'Orijinal ve uyumlu parça karşılaştırması',
+      'Takip koduyla arıza durumu sorgulama',
+      'Fiyatı hazır gelen WhatsApp mesajı',
+      'Telefonda tek elle kullanılan fiyat çubuğu',
+    ],
+    teknik:
+      'React ve Vite. Fiyat tablosu ve takip kayıtları tek bir veri dosyasında; yeni model eklemek bir satır. Sunucu yok, her şey tarayıcıda çalışıyor.',
+    demoUrl: 'https://mevcut.digital/mikron-teknik/',
+    gorsel: '/isler/mikron-teknik.webp',
+    gorselAlt: 'Mikron Teknik Servis konsept sitesinin fiyat sorgulama ekranı',
+    paket: 'Özel',
+    izinli: false,
+    kurgu: true,
   },
 ];

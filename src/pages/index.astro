@@ -145,7 +145,7 @@ const sorunlar = [
                     class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                   <span class="absolute top-3.5 left-3.5 rounded-full bg-stone/92 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-wide text-navy uppercase backdrop-blur-sm">
-                    Konsept
+                    {proje.kurgu ? 'Kurgu konsept' : 'Konsept'}
                   </span>
                 </div>
 
@@ -178,6 +178,8 @@ const sorunlar = [
       <p class="reveal mt-10 max-w-3xl text-sm text-charcoal/60">
         Bu sayfadaki işletmelerle henüz bir anlaşmamız bulunmuyor. Çalışmaları tanıtım
         amacıyla, kendi girişimimizle hazırladık. Hiçbiri işletmenin resmi web sitesi değildir.
+        “Kurgu konsept” etiketli çalışmadaki işletme ise tamamen kurgusaldır: o dükkân
+        gerçekte yoktur, sayfadaki yorumlar ve fiyatlar örnek içeriktir.
       </p>
     </div>
   </section>
