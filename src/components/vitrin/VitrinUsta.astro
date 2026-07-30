@@ -1,0 +1,161 @@
+---
+/**
+ * Usta template: berber, erkek kuaförü, güzellik salonu.
+ *
+ * The person leads, not the shop. In Salon İmaj's seven customer comments the
+ * phrase "Salim ağabey" appears in four; nobody writes about the premises. So
+ * `ustaAdi` gets the headline and the business name sits above it as a label,
+ * which is the inverse of the yemek template.
+ *
+ * Testimonials sit high, directly under the services. For a berber the entire
+ * decision is "will this man cut my hair the way I want", and that question is
+ * only ever answered by other men saying he did. On the yemek template the same
+ * section sits far lower, under the photographs, because there the food answers
+ * it first.
+ *
+ * Dark by default: near-black and brass. Turkish barbershop interiors are wood
+ * and mirror, and the trade's own signage is condensed uppercase, which is why
+ * the display face here is a grotesque rather than the yemek serif.
+ */
+import type { Vitrin } from '../../data/vitrin';
+import Galeri from './Galeri.astro';
+import Yorumlar from './Yorumlar.astro';
+import Bilgiler from './Bilgiler.astro';
+import CagriBar from './CagriBar.astro';
+import Durum from './Durum.astro';
+
+interface Props {
+  vitrin: Vitrin;
+}
+
+const { vitrin } = Astro.props;
+const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURIComponent(vitrin.whatsappMesaj)}`;
+const baslik = vitrin.ustaAdi ?? vitrin.isletme;
+---
+
+<header class="v-shell flex items-center justify-between gap-4 py-5">
+  <div>
+    <p class="v-eyebrow">{vitrin.kategori}</p>
+    <p class="mt-1 text-lg font-semibold">{vitrin.isletme}</p>
+  </div>
+
+  <a href={`tel:+${vitrin.telefonE164}`} class="hidden text-right md:block">
+    <span class="block text-xs" style="color:var(--v-muted)">Telefon</span>
+    <span class="block text-lg font-semibold tabular-nums" style="color:var(--v-accent)">
+      {vitrin.telefon}
+    </span>
+  </a>
+</header>
+
+<section class="v-section pt-2">
+  <div class="v-shell grid items-center gap-10 md:grid-cols-[1.05fr_1fr] md:gap-14">
+    <div>
+      {
+        vitrin.kurulusYili && (
+          <p class="v-eyebrow">{vitrin.kurulusYili}’ten beri aynı dükkânda</p>
+        )
+      }
+      <h1 class="mt-4 text-5xl md:text-7xl">{baslik}</h1>
+      <p class="mt-5 max-w-md text-lg md:text-xl" style="color:var(--v-muted)">
+        {vitrin.vurgu}
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={whatsappUrl} target="_blank" rel="noopener" class="v-btn v-btn-primary">
+          Randevu alın
+        </a>
+        <a href={`tel:+${vitrin.telefonE164}`} class="v-btn v-btn-ghost">
+          {vitrin.telefon}
+        </a>
+      </div>
+
+      <Durum saatler={vitrin.saatler} class="mt-7" />
+    </div>
+
+    <div class="overflow-hidden rounded-lg" style="background:var(--v-sunken)">
+      <img
+        src={vitrin.kapak.src}
+        alt={vitrin.kapak.alt}
+        width="1200"
+        height="1400"
+        /* LCP element on this template too, so it is never lazy. */
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="h-full w-full object-cover"
+        style="aspect-ratio:6 / 7"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="v-section" style="background:var(--v-sunken)">
+  <div class="v-shell v-reveal max-w-3xl">
+    <p class="v-eyebrow">Hakkımızda</p>
+    <p class="mt-5 text-xl leading-relaxed md:text-2xl">{vitrin.hakkinda}</p>
+  </div>
+</section>
+
+<section id="hizmetler" class="v-section">
+  <div class="v-shell">
+    <div class="v-reveal max-w-2xl">
+      <p class="v-eyebrow">Hizmetler</p>
+      <h2 class="mt-3 text-3xl md:text-4xl">{vitrin.listeBasligi}</h2>
+    </div>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
+      {
+        vitrin.liste.map((bolum) => (
+          <div class="v-card v-reveal p-6">
+            <h3 class="text-2xl">{bolum.baslik}</h3>
+            <ul class="mt-4 space-y-2.5">
+              {bolum.maddeler.map((madde) => (
+                <li class="flex items-start gap-3 leading-snug" style="color:var(--v-muted)">
+                  <span
+                    class="mt-2 h-1 w-3 flex-none rounded"
+                    style="background:var(--v-accent)"
+                    aria-hidden="true"
+                  />
+                  {madde}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="v-reveal mt-8 text-sm" style="color:var(--v-muted)">
+      Fiyatlar için arayabilir veya WhatsApp’tan yazabilirsiniz.
+    </p>
+  </div>
+</section>
+
+<Yorumlar yorumlar={vitrin.yorumlar} eyebrow="Müşterilerimiz" baslik="Ne diyorlar" />
+
+<Galeri
+  gorseller={vitrin.galeri}
+  eyebrow="Dükkândan"
+  baslik="Çalışmalarımız"
+  oran="yatay"
+/>
+
+<Bilgiler vitrin={vitrin} />
+
+{
+  vitrin.instagram && (
+    <section class="v-shell pb-16 text-center">
+      <a href={vitrin.instagram} target="_blank" rel="noopener" class="v-btn v-btn-ghost">
+        Instagram’da takip edin
+      </a>
+    </section>
+  )
+}
+
+<div class="h-24 md:hidden"></div>
+
+<CagriBar
+  telefon={vitrin.telefon}
+  telefonE164={vitrin.telefonE164}
+  whatsappMesaj={vitrin.whatsappMesaj}
+/>

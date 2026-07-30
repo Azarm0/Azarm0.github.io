@@ -1,0 +1,328 @@
+/**
+ * Vitrin tier sites.
+ *
+ * Every Vitrin customer is one entry in this array plus a folder of photos under
+ * `public/vitrin/<slug>/`. Nothing else. The route at `src/pages/[vitrin].astro`
+ * builds the page, and the existing Pages workflow publishes it. That is what
+ * makes "aynı gün yayında" true rather than a promise we quietly break.
+ *
+ * WHAT BELONGS IN VITRIN, AND WHY THE SHAPE IS WHAT IT IS
+ *
+ * The ceiling is drawn at our labour, not at how good the page looks. Anything
+ * an owner can hand over in one WhatsApp message is in. Anything that costs us
+ * an hour of typing is not. That is why `liste` holds category and service NAMES
+ * with no prices: every real Turkish site surveyed (Zübeyir, Perran, Kenan Usta)
+ * shows menu categories without a single number, because inflation turns a
+ * printed price into a maintenance burden and a liability. Kurumsal is where
+ * priced menus, scraped reviews and SEO work live.
+ *
+ * Three fields exist here that the template builders do not have a slot for, and
+ * they came out of reading nine real Turkish esnaf sites:
+ *
+ *   `ustaAdi`  The customer attaches to the person, not the shop. Salon İmaj has
+ *              seven testimonials and "Salim ağabey" appears in four of them.
+ *   `tarif`    Nobody navigates by street address. Salon İmaj writes "PTT'nin
+ *              olduğu bina, İgdaş ödeme noktası karşısı". A map embed does not
+ *              replace this.
+ *   `kapaliGunler`  Stated separately and loudly. The single most common reason
+ *              anyone opens one of these pages is to find out if you are open.
+ */
+
+export type VitrinTur = 'yemek' | 'usta';
+
+export type VitrinSaat = {
+  /** Human-readable day span, e.g. "Pazartesi - Cumartesi". */
+  gunler: string;
+  /** 24h "HH:MM". Fed to openingHoursSpecification for real businesses. */
+  acilis: string;
+  kapanis: string;
+  /** Machine day names for schema. Omit and no schema row is emitted. */
+  gunKodlari?: (
+    | 'Monday'
+    | 'Tuesday'
+    | 'Wednesday'
+    | 'Thursday'
+    | 'Friday'
+    | 'Saturday'
+    | 'Sunday'
+  )[];
+};
+
+export type VitrinListe = {
+  baslik: string;
+  /** Names only. Never prices: see the file header. */
+  maddeler: string[];
+};
+
+export type VitrinGorsel = {
+  /** Path under /vitrin/<slug>/. */
+  src: string;
+  alt: string;
+};
+
+export type VitrinYorum = {
+  /** Full name. Initials read as invented, which defeats the point. */
+  ad: string;
+  metin: string;
+};
+
+export type Vitrin = {
+  /** Becomes the URL: mevcut.digital/<slug>. Must not collide with a repo name. */
+  slug: string;
+  tur: VitrinTur;
+
+  isletme: string;
+  /** The person behind the counter. Rendered prominently on the usta template. */
+  ustaAdi?: string;
+  /** Shown as an eyebrow above the name, e.g. "BERBER". */
+  kategori: string;
+  /** One line under the business name. Under ~60 chars or it wraps badly on 375px. */
+  vurgu: string;
+  /** "2002 yılından bu güne" style trust signal. Rendered as "<yıl>'den beri". */
+  kurulusYili?: number;
+
+  /** Two or three sentences, first person plural, written by a human. */
+  hakkinda: string;
+
+  telefon: string;
+  /** E.164, digits only, no plus. Used for both tel: and wa.me. */
+  telefonE164: string;
+  whatsappMesaj: string;
+  instagram?: string;
+
+  adres: {
+    satirlar: string[];
+    /** Landmark directions. The thing people actually navigate by. */
+    tarif?: string;
+    ilce: string;
+    sehir: string;
+    /** Google Maps link. No embed: an iframe would ship third-party cookies. */
+    haritaUrl?: string;
+  };
+
+  saatler: VitrinSaat[];
+  /** e.g. "Pazar günleri kapalıyız". Rendered separately and emphasised. */
+  kapaliGunler?: string;
+
+  listeBasligi: string;
+  liste: VitrinListe[];
+
+  kapak: VitrinGorsel;
+  galeri: VitrinGorsel[];
+  yorumlar: VitrinYorum[];
+
+  seo: {
+    /** Under ~43 chars: the layout appends " | <isletme>". */
+    baslik: string;
+    /** 150 to 160 chars. */
+    aciklama: string;
+  };
+
+  /**
+   * True when the business is invented for demonstration.
+   *
+   * This flag is load-bearing, not decorative. A kurgu page is served `noindex`
+   * and emits NO LocalBusiness JSON-LD. Publishing an indexable page with a
+   * schema-marked address, telephone and opening hours for a business that does
+   * not exist would be feeding Google a fabricated business record. The template
+   * supports the full schema; a real customer switches it on by simply not
+   * carrying this flag.
+   */
+  kurgu?: boolean;
+};
+
+export const vitrinler: Vitrin[] = [
+  {
+    slug: 'cinaralti-kahvalti',
+    tur: 'yemek',
+    isletme: 'Çınaraltı Kahvaltı Salonu',
+    kategori: 'Kahvaltı Salonu',
+    vurgu: 'Sabahın en güzel hâli, çınarın altında',
+    kurulusYili: 1998,
+    hakkinda:
+      'Çınaraltı, adını kapımızın önündeki çınardan alıyor. 1998’den bu yana aynı sokakta, aynı tezgâhta kahvaltı veriyoruz. Peynirimiz Ezine’den, balımız Kars’tan geliyor; hamur işini her sabah burada açıyoruz. Serpme kahvaltımız iki kişilikten başlıyor, ama tek başına gelip çayını içen de bizim misafirimiz.',
+    telefon: '0212 555 40 12',
+    telefonE164: '902125554012',
+    whatsappMesaj: 'Merhaba, kahvaltı için yer ayırtmak istiyorum.',
+    instagram: 'https://instagram.com/cinaraltikahvalti',
+    adres: {
+      satirlar: ['Yıldız Sokak No: 14/A'],
+      tarif: 'Muhtarlığın olduğu sokak, eczanenin tam karşısı. Kapının önünde büyük çınar var.',
+      ilce: 'Bahçelievler',
+      sehir: 'İstanbul',
+    },
+    saatler: [
+      {
+        gunler: 'Pazartesi - Cuma',
+        acilis: '07:00',
+        kapanis: '16:00',
+        gunKodlari: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      },
+      {
+        gunler: 'Cumartesi - Pazar',
+        acilis: '08:00',
+        kapanis: '17:00',
+        gunKodlari: ['Saturday', 'Sunday'],
+      },
+    ],
+    listeBasligi: 'Sofrada neler var',
+    liste: [
+      {
+        baslik: 'Serpme Kahvaltı',
+        maddeler: [
+          'Ezine beyaz peynir',
+          'Eski kaşar',
+          'Kars balı ve kaymak',
+          'Köy tereyağı',
+          'Zeytin çeşitleri',
+          'Mevsim yeşillikleri',
+        ],
+      },
+      {
+        baslik: 'Tavadan',
+        maddeler: ['Sucuklu yumurta', 'Menemen', 'Pastırmalı yumurta', 'Kaygana'],
+      },
+      {
+        baslik: 'Fırından',
+        maddeler: ['Sıcak açma', 'Susamlı simit', 'Tahinli çörek', 'Peynirli börek'],
+      },
+      {
+        baslik: 'İçecekler',
+        maddeler: ['Demlik çay', 'Türk kahvesi', 'Taze sıkılmış portakal suyu', 'Ihlamur'],
+      },
+    ],
+    kapak: {
+      src: '/vitrin/cinaralti-kahvalti/kapak.webp',
+      alt: 'Ahşap masada bakır sahan içinde sucuklu yumurta, sepette simit ve ekmek, yanında zeytin ve acuka',
+    },
+    galeri: [
+      {
+        src: '/vitrin/cinaralti-kahvalti/galeri-1.webp',
+        alt: 'Üstten çekilmiş serpme kahvaltı sofrası: peynir tabağı, sigara böreği, zeytin, reçel ve yumurta',
+      },
+      {
+        src: '/vitrin/cinaralti-kahvalti/galeri-2.webp',
+        alt: 'Beyaz tabakta peynir, domates ve zeytin; arkasında tahta tepside ekmek ve bakır cezve',
+      },
+      {
+        src: '/vitrin/cinaralti-kahvalti/galeri-3.webp',
+        alt: 'İnce belli bardakta demlenmiş çay ve tabağında kaşığı',
+      },
+      {
+        src: '/vitrin/cinaralti-kahvalti/galeri-4.webp',
+        alt: 'Kilim örtülü masada kahvaltı tabağı, tost, çay ve Türk kahvesi',
+      },
+    ],
+    yorumlar: [
+      {
+        ad: 'Selin Akgün',
+        metin:
+          'Kahvaltıya gidip de acele ettirilmediğim tek yer. Çayı bitince kimse sormadan yenisi geliyor.',
+      },
+      {
+        ad: 'Murat Yıldırım',
+        metin:
+          'Peynirin tadı çocukluğumu hatırlattı. Serpmeyi iki kişi bitiremedik, abartmıyorum.',
+      },
+      {
+        ad: 'Hatice Demirci',
+        metin: 'Sokakta çınarın altında oturup kahvaltı etmek başka bir şey. Yazın mutlaka gidin.',
+      },
+    ],
+    seo: {
+      baslik: 'Bahçelievler Kahvaltı Salonu',
+      aciklama:
+        'Bahçelievler’de 1998’den beri serpme kahvaltı. Ezine peyniri, Kars balı, her sabah açılan hamur işi. Çalışma saatleri, adres ve tek dokunuşla arama.',
+    },
+    kurgu: true,
+  },
+  {
+    slug: 'usta-nuri-berber',
+    tur: 'usta',
+    isletme: 'Usta Nuri Erkek Kuaförü',
+    ustaAdi: 'Nuri Usta',
+    kategori: 'Erkek Kuaförü',
+    vurgu: 'Otuz yıldır aynı makas, aynı özen',
+    kurulusYili: 1995,
+    hakkinda:
+      'Nuri Usta 1995’ten bu yana bu dükkânda tıraş yapıyor. Randevu ile çalışıyoruz. Böylece koltuktaki müşteriye acele ettirmeden bakabiliyoruz, gelen de kapıda yarım saat oyalanmıyor. Ustura tıraşı, sakal düzeltme ve klasik erkek kesimi; işin özü değişmedi, sadece ekipman yenilendi.',
+    telefon: '0212 555 18 34',
+    telefonE164: '902125551834',
+    whatsappMesaj: 'Merhaba, tıraş için randevu almak istiyorum.',
+    instagram: 'https://instagram.com/ustanuriberber',
+    adres: {
+      satirlar: ['Menekşe Caddesi No: 27'],
+      tarif: 'PTT’nin yanındaki pasajın girişi, kırtasiyenin üst katı.',
+      ilce: 'Bahçelievler',
+      sehir: 'İstanbul',
+    },
+    saatler: [
+      {
+        gunler: 'Pazartesi - Cumartesi',
+        acilis: '09:00',
+        kapanis: '20:00',
+        gunKodlari: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      },
+    ],
+    kapaliGunler: 'Pazar günleri kapalıyız.',
+    listeBasligi: 'Hizmetlerimiz',
+    liste: [
+      {
+        baslik: 'Saç',
+        maddeler: ['Klasik erkek kesimi', 'Makine kesimi', 'Çocuk tıraşı', 'Fön ve şekillendirme'],
+      },
+      {
+        baslik: 'Sakal',
+        maddeler: ['Ustura tıraşı', 'Sakal kesimi ve düzeltme', 'Sıcak havlu bakımı'],
+      },
+      {
+        baslik: 'Bakım',
+        maddeler: ['Yüz maskesi', 'Kaş alma', 'Ağda'],
+      },
+    ],
+    kapak: {
+      src: '/vitrin/usta-nuri-berber/kapak.webp',
+      alt: 'Berber koltuğunda başı geriye yaslanmış müşterinin sakalı makasla düzeltiliyor',
+    },
+    galeri: [
+      {
+        src: '/vitrin/usta-nuri-berber/galeri-1.webp',
+        alt: 'Dükkânın ahşap kepenklerinden içeri vuran gün ışığı ve pencere önündeki berber koltuğu',
+      },
+      {
+        src: '/vitrin/usta-nuri-berber/galeri-2.webp',
+        alt: 'Tarak ve makasla yapılan klasik erkek saç kesimi',
+      },
+      {
+        src: '/vitrin/usta-nuri-berber/galeri-3.webp',
+        alt: 'Tuğla duvarlı dükkânda sarkıt lambaların altında sıralanmış üç berber koltuğu',
+      },
+      {
+        src: '/vitrin/usta-nuri-berber/galeri-4.webp',
+        alt: 'Akşam saatlerinde dükkânın aynalı tezgâhı ve deri berber koltukları',
+      },
+    ],
+    yorumlar: [
+      {
+        ad: 'Emre Şahin',
+        metin:
+          'On iki senedir Nuri Usta’ya gidiyorum. Ne istediğimi söylemeye gerek kalmıyor, oturuyorum yeterli.',
+      },
+      {
+        ad: 'Kadir Öztürk',
+        metin: 'Ustura tıraşını hâlâ düzgün yapan kaç kişi kaldı bilmiyorum. Nuri Usta onlardan biri.',
+      },
+      {
+        ad: 'Bora Çelik',
+        metin:
+          'Randevu ile çalışması çok iyi. Girip yarım saat sıra beklemiyorsun, saatinde giriyorsun.',
+      },
+    ],
+    seo: {
+      baslik: 'Bahçelievler Erkek Kuaförü',
+      aciklama:
+        'Bahçelievler’de 1995’ten beri Nuri Usta. Ustura tıraşı, sakal düzeltme ve klasik erkek kesimi. Randevu ile çalışıyoruz. Çalışma saatleri ve tek dokunuşla arama.',
+    },
+    kurgu: true,
+  },
+];

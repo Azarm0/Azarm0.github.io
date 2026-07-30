@@ -13,7 +13,11 @@ berberler ve mahalle esnafı.
 
 - **Vitrin**: Tek sayfalık site, mevcut.digital/isletmeniz adresinde yayınlanır.
   Kendi alan adı gerekmez. Küçük bir kurulum ücretiyle başlar, aylık veya yıllık
-  ödeme yoktur, aynı gün yayına girer.
+  ödeme yoktur, aynı gün yayına girer. Sayfayı işletme sahibi kurmaz; metni bir
+  insan yazar, doldurulacak bir panel verilmez. Çalışma saatlerinden üretilen
+  "şu anda açık / kapalı" bilgisi bu pakete dahildir. Fiyatlı menü, müşteri
+  yorumlarının toplanması ve arama motoru kurulumu Vitrin'e dahil değildir,
+  bunlar Kurumsal pakettedir.
 - **Kurumsal**: Kendi alan adınız, menü veya hizmet listesi, Instagram
   bağlantısı, arama motoru kurulumu. Alan adı ve yayın yönetimi Mevcut
   Digital'de.
@@ -26,20 +30,29 @@ Fiyatlar işin kapsamına göre belirlenir ve sitede yayınlanmaz.
 
 ## Önemli not: işler konsept çalışmadır
 
-Sitede gösterilen beş çalışma da kendi girişimimizle hazırlanmış konsept
+Sitede gösterilen yedi çalışma da kendi girişimimizle hazırlanmış konsept
 çalışmalardır. Hiçbir işletme bu siteleri sipariş etmemiş, ödeme yapmamış veya
 yayınlanmasına onay vermemiştir. Bunlar müşteri referansı değildir ve hiçbiri
 ilgili işletmenin resmi web sitesi değildir. Bu çalışmalardan referans veya
 müşteri listesi olarak söz edilmemelidir.
 
-Bunlardan biri, Mikron Teknik Servis, tamamen kurgusal bir örnek işletmedir.
-Böyle bir dükkân yoktur; sayfadaki fiyatlar, yorumlar ve takip kayıtları
-tasarımı göstermek için yazılmış örnek içeriktir. Diğer dört çalışma gerçek
-İstanbul işletmeleri için hazırlanmıştır. Mikron'dan gerçek bir işletme veya
-gerçek bir müşteri deneyimi olarak söz edilmemelidir.
+Bunlardan üçü tamamen kurgusal örnek işletmelerdir: Mikron Teknik Servis,
+Çınaraltı Kahvaltı Salonu ve Usta Nuri Erkek Kuaförü. Bu adlarda dükkânlar
+yoktur; sayfalardaki adresler, telefon numaraları, yorumlar ve fiyatlar
+tasarımı göstermek için yazılmış örnek içeriktir. Bu üçünden gerçek bir işletme
+veya gerçek bir müşteri deneyimi olarak söz edilmemelidir. Diğer dört çalışma
+gerçek İstanbul işletmeleri için hazırlanmıştır.
 
 ## Çalışmalar
 
+- /isler/cinaralti-kahvalti : Vitrin paketi örneği. Kahvaltı salonu için tek
+  sayfalık site; çalışma saatlerinden üretilen açık/kapalı bilgisi, fiyatsız
+  menü bölümleri ve yol tarifi. KURGUSAL örnek işletme; gerçek bir salon
+  değildir. Yayındaki adresi mevcut.digital/cinaralti-kahvalti.
+- /isler/usta-nuri-berber : Vitrin paketi örneği. Berber için tek sayfalık
+  site; başlıkta dükkânın değil ustanın adı, müşteri yorumları hizmet
+  listesinin hemen altında. KURGUSAL örnek işletme; gerçek bir dükkân
+  değildir. Yayındaki adresi mevcut.digital/usta-nuri-berber.
 - /isler/sarihan-zeytinburnu : Çok şubeli lokantada tek şubeye özel sayfa.
 - /isler/mikron-teknik : Telefon tamircisi için konsept. Cihaz ve arıza
   seçilince tahmini fiyat ve süre anında çıkıyor; bırakılan cihaz takip

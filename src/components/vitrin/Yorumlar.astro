@@ -1,0 +1,68 @@
+---
+/**
+ * Customer comments.
+ *
+ * Full names, never initials. Salon İmaj runs seven of these signed "Bora Balar",
+ * "Erol Kaba", "İbrahim Uysal", and they read as real because of it; the same
+ * lines signed "B.B." would read as invented. This is also why there are no star
+ * ratings here: a number is a claim we would have to be able to back, a quoted
+ * sentence with a name on it is just what someone said.
+ */
+import type { VitrinYorum } from '../../data/vitrin';
+
+interface Props {
+  yorumlar: VitrinYorum[];
+  baslik: string;
+  eyebrow: string;
+}
+
+const { yorumlar, baslik, eyebrow } = Astro.props;
+---
+
+{
+  yorumlar.length > 0 && (
+    <section id="yorumlar" class="v-section" style="background:var(--v-sunken)">
+      <div class="v-shell">
+        <div class="v-reveal max-w-2xl">
+          <p class="v-eyebrow">{eyebrow}</p>
+          <h2 class="mt-3 text-3xl md:text-4xl">{baslik}</h2>
+        </div>
+
+        <ul class="mt-10 grid gap-5 md:grid-cols-3">
+          {yorumlar.map((yorum, i) => (
+            <li
+              class:list={['v-card v-reveal flex h-full flex-col p-6', `v-gecikme-${i % 3}`]}
+            >
+              <blockquote class="flex-1 leading-relaxed">“{yorum.metin}”</blockquote>
+              <p class="mt-5 text-sm font-semibold" style="color:var(--v-accent)">
+                {yorum.ad}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /*
+   * Staggered entrance, ~70ms apart. Must carry the same two-class specificity
+   * as the `.js [data-vitrin] .v-reveal` rule in vitrin.css, whose `transition`
+   * shorthand would otherwise reset delay back to 0s and flatten the stagger.
+   */
+  .js [data-vitrin] .v-gecikme-1 {
+    transition-delay: 70ms;
+  }
+
+  .js [data-vitrin] .v-gecikme-2 {
+    transition-delay: 140ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-vitrin] .v-gecikme-1,
+    .js [data-vitrin] .v-gecikme-2 {
+      transition-delay: 0s;
+    }
+  }
+</style>

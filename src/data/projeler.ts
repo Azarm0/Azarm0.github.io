@@ -42,6 +42,70 @@ export type Proje = {
 
 export const projeler: Proje[] = [
   {
+    slug: 'cinaralti-kahvalti',
+    isletme: 'Çınaraltı Kahvaltı Salonu',
+    sektor: 'Kahvaltı Salonu',
+    sehir: 'Bahçelievler, İstanbul',
+    baslik: 'En küçük paket de bir sabah işi değil',
+    ozet:
+      'Vitrin paketinin ne verdiğini göstermek için hazırlanan kahvaltı salonu örneği. Tek sayfa, kendi alan adı olmadan, aynı gün yayında.',
+    seoBaslik: 'Kahvaltı Salonu Web Sitesi',
+    seoAciklama:
+      'Vitrin paketi için konsept çalışma: tek sayfalık kahvaltı salonu sitesi. Açık mı kapalı mı bilgisi, menü bölümleri, yol tarifi ve tek dokunuşla arama.',
+    hikaye: [
+      'Mahalle esnafının çoğunda mesele büyük bir site değil. Google’da arayan kişi üç şeyi merak ediyor: şu anda açık mısınız, tam olarak neredesiniz, size nasıl ulaşırım. Bu sorular cevapsız kaldığı sürece sayfanın kaç bölümü olduğu kimsenin umurunda olmuyor.',
+      'Vitrin bu üç cevabı tek sayfaya koyuyor ve orada bırakıyor. Farkı içerik miktarında değil, işi kimin yaptığında: fotoğrafı biz seçiyoruz, metni bir insan yazıyor, sahibinin hiçbir panele girip bir şey doldurması gerekmiyor.',
+      'Menüde fiyat yok, bu da bilinçli. İstanbul’un köklü lokantalarının sitelerine baktığımızda hiçbirinde fiyat göremedik. Enflasyonla birlikte yazılı fiyat bir ay içinde eskiyor ve sürekli güncelleme işine dönüşüyor.',
+    ],
+    ozellikler: [
+      'Aynı gün yayında, tek sayfa',
+      '“Şu anda açık” bilgisi saatlerden otomatik',
+      'Menü bölümleri ve öne çıkan tabaklar',
+      'Tarif üstü adres ve yol tarifi bağlantısı',
+      'Tek dokunuşla arama ve WhatsApp',
+    ],
+    teknik:
+      'Site, ajans sitesinin içinde bir adres olarak yayınlanıyor. Yeni bir işletme eklemek tek bir kayıt ve birkaç fotoğraf demek, bu yüzden aynı gün sözü tutulabiliyor.',
+    demoUrl: 'https://mevcut.digital/cinaralti-kahvalti/',
+    gorsel: '/isler/cinaralti-kahvalti.webp',
+    gorselAlt: 'Çınaraltı Kahvaltı Salonu konsept sitesinin açılış ekranı',
+    paket: 'Vitrin',
+    izinli: false,
+    kurgu: true,
+  },
+  {
+    slug: 'usta-nuri-berber',
+    isletme: 'Usta Nuri Erkek Kuaförü',
+    sektor: 'Erkek Kuaförü',
+    sehir: 'Bahçelievler, İstanbul',
+    baslik: 'Müşteri dükkâna değil, ustaya geliyor',
+    ozet:
+      'Aynı Vitrin paketi, bu kez bir berber için. Sayfanın en üstünde dükkânın adı değil, ustanın adı duruyor.',
+    seoBaslik: 'Berber Web Sitesi Örneği',
+    seoAciklama:
+      'Vitrin paketi için konsept çalışma: berber ve erkek kuaförü sitesi. Ustanın adı en üstte, altında hizmetler, müşteri yorumları ve randevu için WhatsApp.',
+    hikaye: [
+      'Berber sitelerini incelerken tekrar eden bir şey fark ettik. Beşiktaş’ta 2002’den beri açık olan bir dükkânın sayfasındaki yedi müşteri yorumunun dördünde ustanın adı geçiyor. Dükkândan söz eden tek yorum yok.',
+      'Bu yüzden bu sayfada başlık işletmenin adı değil, ustanın adı. Dükkân adı onun üstünde küçük bir etiket olarak duruyor. Müşteri yorumları da alışılmışın aksine yukarı alındı, hizmet listesinin hemen altına.',
+      'Karar basit bir soruya dayanıyor: bu adam saçımı istediğim gibi keser mi. Bu sorunun cevabını, aynı koltukta yıllardır tıraş olan başka adamlar veriyor.',
+    ],
+    ozellikler: [
+      'Ustanın adı sayfanın en üstünde',
+      'Müşteri yorumları hizmetlerin hemen altında',
+      'Kapalı olunan gün ayrıca belirtiliyor',
+      'Randevu için hazır WhatsApp mesajı',
+      'Koyu, ahşap tonlu dükkân görünümü',
+    ],
+    teknik:
+      'Kahvaltı salonuyla aynı altyapıyı paylaşıyor. Renkler, yazı karakteri ve bölüm sırası işin türüne göre değişiyor.',
+    demoUrl: 'https://mevcut.digital/usta-nuri-berber/',
+    gorsel: '/isler/usta-nuri-berber.webp',
+    gorselAlt: 'Usta Nuri Erkek Kuaförü konsept sitesinin açılış ekranı',
+    paket: 'Vitrin',
+    izinli: false,
+    kurgu: true,
+  },
+  {
     slug: 'sarihan-zeytinburnu',
     isletme: 'Sarıhan İşkembe Zeytinburnu',
     sektor: 'Lokanta',

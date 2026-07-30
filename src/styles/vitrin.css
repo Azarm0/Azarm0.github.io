@@ -1,0 +1,266 @@
+@import 'tailwindcss';
+
+/*
+ * Vitrin tier stylesheet. Deliberately separate from global.css.
+ *
+ * global.css carries the Mevcut brand: navy headings, stone background, Poppins.
+ * A customer's site must not inherit any of that. It is their shop, not our
+ * agency, and a berber whose page is quietly navy-and-stone looks like it came
+ * off a conveyor belt. So this file starts from Tailwind alone and defines its
+ * own palettes.
+ *
+ * FONT LOADING
+ *
+ * Both display faces are declared here even though any given page uses one. This
+ * costs nothing: an @font-face declaration the page never applies is a few
+ * hundred bytes of CSS, and the browser only fetches the woff2 for a family that
+ * is actually rendered. Splitting them per template would save nothing and cost
+ * a second stylesheet.
+ *
+ * latin AND latin-ext are both required, never one or the other. Turkish splits
+ * across the two subsets: ı ç ü ö sit in latin, while ş ğ İ sit in latin-ext.
+ * Drop latin-ext and "Kuaförü" renders but "Bahçelievler'de tıraş" loses its ş.
+ * Only the weights actually used are imported.
+ */
+@import '@fontsource-variable/inter';
+
+/* Yemek: warm serif. Single weight, the headings never use anything else. */
+@import '@fontsource/fraunces/latin-600.css';
+@import '@fontsource/fraunces/latin-ext-600.css';
+
+/* Usta: condensed grotesque, the voice of Turkish shop signage. */
+@import '@fontsource/oswald/latin-500.css';
+@import '@fontsource/oswald/latin-ext-500.css';
+
+@theme {
+  --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-yemek: 'Fraunces', ui-serif, Georgia, serif;
+  --font-usta: 'Oswald', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/*
+ * Palettes live as custom properties on the page root so every component below
+ * reads the same four or five names. Swapping a customer to a different mood
+ * later is one attribute, not a search-and-replace through markup.
+ *
+ * Every foreground/background pair below was checked against WCAG AA. The
+ * tightest is --v-muted on --v-bg, which clears 5:1 in both themes.
+ */
+[data-vitrin] {
+  --v-radius: 0.5rem;
+  --v-shell: 76rem;
+}
+
+/* Kahvaltı, lokanta, kafe. Cream and terracotta, the colours of a sofra. */
+[data-vitrin='yemek'] {
+  --v-bg: #fbf7f0;
+  --v-surface: #ffffff;
+  --v-sunken: #f4ece0;
+  --v-ink: #2c211a;
+  --v-muted: #6b5b4e;
+  --v-accent: #a6472e;
+  --v-accent-ink: #ffffff;
+  --v-deep: #3e2b22;
+  --v-deep-ink: #f6efe6;
+  --v-line: #e7ddce;
+  --v-display: var(--font-yemek);
+  --v-display-tracking: -0.015em;
+  --v-display-transform: none;
+}
+
+/* Berber, kuaför. Near-black and brass, the colours of the dükkân itself. */
+[data-vitrin='usta'] {
+  --v-bg: #14110f;
+  --v-surface: #1e1a17;
+  --v-sunken: #100e0c;
+  --v-ink: #f2ede7;
+  --v-muted: #b8aba0;
+  --v-accent: #c08a4b;
+  --v-accent-ink: #14110f;
+  --v-deep: #0b0908;
+  --v-deep-ink: #f2ede7;
+  --v-line: #2e2823;
+  --v-display: var(--font-usta);
+  --v-display-tracking: 0.02em;
+  --v-display-transform: uppercase;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body[data-vitrin] {
+    background-color: var(--v-bg);
+    color: var(--v-ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+
+  [data-vitrin] :is(h1, h2, h3) {
+    font-family: var(--v-display);
+    letter-spacing: var(--v-display-tracking);
+    text-transform: var(--v-display-transform);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Never removed. A keyboard user has to be able to see where they are. */
+  [data-vitrin] :focus-visible {
+    outline: 3px solid var(--v-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  [data-vitrin] ::selection {
+    background: var(--v-accent);
+    color: var(--v-accent-ink);
+  }
+
+  /*
+   * Reserve the aspect ratio before the file arrives so nothing below a photo
+   * jumps down when it loads. This is the whole of our CLS budget.
+   */
+  [data-vitrin] img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  .v-shell {
+    width: 100%;
+    max-width: var(--v-shell);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .v-shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Section spacing tier. Kept to three values so the rhythm stays legible. */
+  .v-section {
+    padding-block: 3.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .v-section {
+      padding-block: 5.5rem;
+    }
+  }
+
+  .v-eyebrow {
+    font-family: var(--v-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--v-accent);
+  }
+
+  /*
+   * Minimum 44px tall, always. Half of these taps happen one-handed on a phone
+   * while someone is walking, and the CTA is the only thing on the page that
+   * has to work under those conditions.
+   */
+  .v-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: 1.5rem;
+    border-radius: var(--v-radius);
+    font-family: var(--v-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: var(--v-display-tracking);
+    text-transform: var(--v-display-transform);
+    cursor: pointer;
+    transition:
+      transform 0.18s var(--ease-out-soft),
+      background-color 0.18s var(--ease-out-soft),
+      border-color 0.18s var(--ease-out-soft);
+  }
+
+  .v-btn:active {
+    transform: scale(0.98);
+  }
+
+  .v-btn-primary {
+    background-color: var(--v-accent);
+    color: var(--v-accent-ink);
+  }
+
+  .v-btn-primary:hover {
+    background-color: color-mix(in srgb, var(--v-accent) 88%, black);
+  }
+
+  .v-btn-ghost {
+    border: 1.5px solid color-mix(in srgb, var(--v-ink) 28%, transparent);
+    color: var(--v-ink);
+  }
+
+  .v-btn-ghost:hover {
+    border-color: var(--v-accent);
+    color: var(--v-accent);
+  }
+
+  .v-card {
+    background-color: var(--v-surface);
+    border: 1px solid var(--v-line);
+    border-radius: var(--v-radius);
+  }
+
+  /*
+   * Scroll reveal, gated behind .js exactly as global.css does it. If scripting
+   * never runs, nothing is ever hidden and the page reads top to bottom.
+   * Transform and opacity only, so it never triggers layout.
+   */
+  .js [data-vitrin] .v-reveal {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+    transition:
+      opacity 0.55s var(--ease-out-soft),
+      transform 0.55s var(--ease-out-soft);
+  }
+
+  .js [data-vitrin] .v-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Anyone who asks for less motion gets none. Content stays fully visible. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-vitrin] .v-reveal,
+  .js [data-vitrin] .v-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

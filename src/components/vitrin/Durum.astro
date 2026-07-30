@@ -1,0 +1,121 @@
+---
+/**
+ * "Şu anda açık, 20:00'a kadar" as a line of text.
+ *
+ * Deliberately NOT a pill badge with a status dot. That chip is the default
+ * shape every generator reaches for, so it reads as machine output no matter
+ * how good the rest of the page is, and it puts meaning in a coloured dot that
+ * the words beside it were already carrying. Here the sentence does the work:
+ * no container, no border, no background, no dot. Colour only reinforces a
+ * state the text has already stated outright, which also means it survives
+ * greyscale and every form of colour blindness.
+ *
+ * Computed client-side in Europe/İstanbul rather than at build time, because a
+ * statically built page is cached and would otherwise confidently announce
+ * "açık" at three in the morning. Renders nothing until the script has decided,
+ * so a visitor without JS sees no claim rather than a wrong one. The full hours
+ * table is always rendered separately, so nothing is ever lost.
+ */
+import type { VitrinSaat } from '../../data/vitrin';
+
+interface Props {
+  saatler: VitrinSaat[];
+  class?: string;
+}
+
+const { saatler, class: sinif = '' } = Astro.props;
+
+// Only entries with machine-readable days can be evaluated.
+const cozulebilir = saatler.filter((s) => s.gunKodlari?.length);
+---
+
+{
+  cozulebilir.length > 0 && (
+    <p
+      class:list={['v-durum', sinif]}
+      data-saatler={JSON.stringify(
+        cozulebilir.map((s) => ({ g: s.gunKodlari, a: s.acilis, k: s.kapanis })),
+      )}
+      hidden
+    />
+  )
+}
+
+<style>
+  .v-durum {
+    font-size: 0.95rem;
+    font-weight: 500;
+    /* The closing time must not jitter as the minute ticks over. */
+    font-variant-numeric: tabular-nums;
+    color: var(--v-muted);
+  }
+
+  .v-durum[hidden] {
+    display: none;
+  }
+
+  /* Open reads in the shop's own accent; closed stays quiet. */
+  .v-durum[data-acik='evet'] {
+    color: var(--v-accent);
+  }
+</style>
+
+<script>
+  type Aralik = { g: string[]; a: string; k: string };
+
+  const dakika = (hhmm: string) => {
+    const [s, d] = hhmm.split(':').map(Number);
+    return s * 60 + d;
+  };
+
+  /*
+   * The visitor's own clock is irrelevant: someone checking from Berlin still
+   * needs to know whether the shop in Bahçelievler is open. Both the weekday and
+   * the time are read in Europe/İstanbul.
+   */
+  const istanbulSimdi = () => {
+    const parcalar = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Istanbul',
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+
+    const al = (tur: string) => parcalar.find((p) => p.type === tur)?.value ?? '';
+    // "24" is a legal hour in en-GB at midnight; normalise it to 0.
+    const saat = Number(al('hour')) % 24;
+    return { gun: al('weekday'), dakika: saat * 60 + Number(al('minute')) };
+  };
+
+  for (const satir of document.querySelectorAll<HTMLElement>('.v-durum')) {
+    const ham = satir.dataset.saatler;
+    if (!ham) continue;
+
+    let aralikler: Aralik[];
+    try {
+      aralikler = JSON.parse(ham);
+    } catch {
+      continue; // Leave it hidden rather than show a guess.
+    }
+
+    const { gun, dakika: simdi } = istanbulSimdi();
+    const bugun = aralikler.find((a) => a.g.includes(gun));
+
+    let acik = false;
+    let kapanis = '';
+
+    if (bugun) {
+      const basla = dakika(bugun.a);
+      const bitis = dakika(bugun.k);
+      // A closing time earlier than the opening time means the shift runs past
+      // midnight, which is ordinary for a late-night salon.
+      acik = bitis > basla ? simdi >= basla && simdi < bitis : simdi >= basla || simdi < bitis;
+      kapanis = bugun.k;
+    }
+
+    satir.textContent = acik ? `Şu anda açık, ${kapanis}’a kadar` : 'Şu anda kapalı';
+    satir.dataset.acik = acik ? 'evet' : 'hayir';
+    satir.hidden = false;
+  }
+</script>

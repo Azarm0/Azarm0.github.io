@@ -36,11 +36,13 @@ export const paketler: Paket[] = [
     ad: 'Vitrin',
     vurgu: 'Önce görünür olun',
     aciklama:
-      'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almanız gerekmiyor, sitemiz üzerinden bir adres alıyorsunuz ve aynı gün yayına giriyorsunuz.',
+      'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almanız gerekmiyor, sitemiz üzerinden bir adres alıyorsunuz ve aynı gün yayına giriyorsunuz. Sayfayı siz kurmuyorsunuz, biz kuruyoruz.',
     kapsam: [
       'Aynı gün yayında',
       'Tek sayfalık site',
       'mevcut.digital/isletmeniz adresinde yayın',
+      'Metninizi bir insan yazıyor, panel doldurmuyorsunuz',
+      '“Şu anda açık” bilgisi saatlerinizden otomatik',
       'Telefonda düzgün görünen tasarım',
       'Tek dokunuşla arama ve WhatsApp',
     ],

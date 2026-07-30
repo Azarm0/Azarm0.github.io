@@ -1,0 +1,172 @@
+---
+/**
+ * Yemek template: lokanta, pide salonu, kahvaltıcı, kafe.
+ *
+ * Photo leads. For a food business the decision is made on how the sofra looks,
+ * so the cover photo takes the fold and the words come second.
+ *
+ * The menu carries categories and dish names with NO prices, which is not an
+ * omission. Zübeyir, Perran and Kenan Usta all do exactly this: with inflation a
+ * printed price is stale within a month and becomes a maintenance job we would
+ * be doing for free forever. Priced menus are a Kurumsal feature.
+ */
+import type { Vitrin } from '../../data/vitrin';
+import Galeri from './Galeri.astro';
+import Yorumlar from './Yorumlar.astro';
+import Bilgiler from './Bilgiler.astro';
+import CagriBar from './CagriBar.astro';
+import Durum from './Durum.astro';
+
+interface Props {
+  vitrin: Vitrin;
+}
+
+const { vitrin } = Astro.props;
+const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURIComponent(vitrin.whatsappMesaj)}`;
+---
+
+<header class="v-shell flex items-center justify-between gap-4 py-5">
+  <div>
+    <p class="v-eyebrow">{vitrin.kategori}</p>
+    <p class="mt-1 text-lg font-semibold">{vitrin.isletme}</p>
+  </div>
+
+  {/* Desktop only: on a phone the sticky CagriBar owns this job. */}
+  <a href={`tel:+${vitrin.telefonE164}`} class="hidden text-right md:block">
+    <span class="block text-xs" style="color:var(--v-muted)">Telefon</span>
+    <span class="block text-lg font-semibold tabular-nums" style="color:var(--v-accent)">
+      {vitrin.telefon}
+    </span>
+  </a>
+</header>
+
+<section class="v-shell">
+  <div class="relative overflow-hidden rounded-lg">
+    <img
+      src={vitrin.kapak.src}
+      alt={vitrin.kapak.alt}
+      width="1600"
+      height="1000"
+      /* The only eager image on the page. It is the LCP element. */
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      class="h-[62vh] max-h-[34rem] w-full object-cover md:h-[70vh]"
+    />
+
+    {/*
+      Scrim, not decoration. White text over an unknown photograph is a contrast
+      gamble; this floor guarantees the headline stays readable whatever the
+      customer sends us.
+    */}
+    <div
+      class="absolute inset-0"
+      style="background:linear-gradient(to top, rgba(20,14,10,.88) 0%, rgba(20,14,10,.45) 45%, rgba(20,14,10,.15) 100%)"
+    >
+    </div>
+
+    <div class="absolute inset-x-0 bottom-0 p-6 md:p-10">
+      <div class="max-w-2xl">
+        {
+          vitrin.kurulusYili && (
+            <p
+              class="v-eyebrow"
+              style="color:color-mix(in srgb, #fff 82%, transparent)"
+            >
+              {vitrin.kurulusYili}’den beri
+            </p>
+          )
+        }
+        <h1 class="mt-3 text-4xl text-white md:text-6xl">{vitrin.isletme}</h1>
+        <p class="mt-4 text-lg text-white/85 md:text-xl">{vitrin.vurgu}</p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={whatsappUrl} target="_blank" rel="noopener" class="v-btn v-btn-primary">
+            WhatsApp’tan yazın
+          </a>
+          <a
+            href="#bilgiler"
+            class="v-btn"
+            style="border:1.5px solid rgba(255,255,255,.45);color:#fff"
+          >
+            Saatler ve adres
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Durum saatler={vitrin.saatler} class="mt-5" />
+</section>
+
+<section class="v-section">
+  <div class="v-shell v-reveal max-w-3xl">
+    <p class="v-eyebrow">Hakkımızda</p>
+    <p class="mt-5 text-xl leading-relaxed md:text-2xl">{vitrin.hakkinda}</p>
+  </div>
+</section>
+
+<section id="menu" class="v-section" style="background:var(--v-sunken)">
+  <div class="v-shell">
+    <div class="v-reveal max-w-2xl">
+      <p class="v-eyebrow">Menü</p>
+      <h2 class="mt-3 text-3xl md:text-4xl">{vitrin.listeBasligi}</h2>
+    </div>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        vitrin.liste.map((bolum) => (
+          <div class="v-card v-reveal p-6">
+            <h3 class="text-xl">{bolum.baslik}</h3>
+            <ul class="mt-4 space-y-2">
+              {bolum.maddeler.map((madde) => (
+                <li class="leading-snug" style="color:var(--v-muted)">
+                  {madde}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="v-reveal mt-8 text-sm" style="color:var(--v-muted)">
+      Güncel fiyatlar için bizi arayabilir veya WhatsApp’tan yazabilirsiniz.
+    </p>
+  </div>
+</section>
+
+<Galeri
+  gorseller={vitrin.galeri}
+  eyebrow="Galeri"
+  baslik="Mutfaktan ve salondan"
+  oran="kare"
+/>
+
+<Yorumlar yorumlar={vitrin.yorumlar} eyebrow="Misafirlerimiz" baslik="Ne diyorlar" />
+
+<Bilgiler vitrin={vitrin} />
+
+{
+  vitrin.instagram && (
+    <section class="v-shell pb-16 text-center">
+      <a
+        href={vitrin.instagram}
+        target="_blank"
+        rel="noopener"
+        class="v-btn v-btn-ghost"
+      >
+        Instagram’da takip edin
+      </a>
+    </section>
+  )
+}
+
+{/* Clears the fixed bar so the last section is never trapped underneath it. */}
+<div class="h-24 md:hidden"></div>
+
+<CagriBar
+  telefon={vitrin.telefon}
+  telefonE164={vitrin.telefonE164}
+  whatsappMesaj={vitrin.whatsappMesaj}
+/>

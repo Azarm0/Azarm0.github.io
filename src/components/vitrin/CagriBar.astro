@@ -1,0 +1,115 @@
+---
+/**
+ * Sticky call/WhatsApp bar, phones only.
+ *
+ * Every real Turkish esnaf site surveyed puts the phone number in the header and
+ * never makes you hunt for a contact page. Kenan Usta puts two up there. On a
+ * 375px screen a header number scrolls away in one flick, so this pins the same
+ * two actions to the bottom of the viewport where a thumb already rests.
+ *
+ * Hidden on desktop, where the header contact block stays visible anyway.
+ */
+interface Props {
+  telefon: string;
+  telefonE164: string;
+  whatsappMesaj: string;
+}
+
+const { telefon, telefonE164, whatsappMesaj } = Astro.props;
+
+// Pre-filled, so nobody is ever staring at an empty chat box wondering what to type.
+const whatsappUrl = `https://wa.me/${telefonE164}?text=${encodeURIComponent(whatsappMesaj)}`;
+---
+
+<div class="v-cagri-bar" role="group" aria-label="İletişim">
+  <a href={`tel:+${telefonE164}`} class="v-cagri-dugme v-cagri-ara">
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"
+      ></path>
+    </svg>
+    <span>Ara</span>
+    <span class="sr-only">{telefon}</span>
+  </a>
+
+  <a href={whatsappUrl} target="_blank" rel="noopener" class="v-cagri-dugme v-cagri-wa">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path
+        d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.13c-.24.68-1.42 1.31-1.96 1.36-.5.05-.98.24-3.3-.69-2.77-1.09-4.54-3.92-4.68-4.1-.14-.18-1.12-1.49-1.12-2.85 0-1.35.71-2.02.96-2.29.25-.28.55-.35.73-.35h.52c.17 0 .4-.06.62.48.24.57.8 1.98.87 2.12.07.14.12.31.02.5-.1.18-.15.29-.29.45-.14.16-.3.36-.43.48-.14.14-.29.29-.12.57.17.28.75 1.24 1.61 2.01 1.11.99 2.04 1.29 2.33 1.44.29.14.46.12.63-.07.17-.2.72-.85.92-1.14.19-.29.38-.24.64-.14.26.09 1.67.79 1.96.93.29.14.48.21.55.33.07.12.07.68-.17 1.36Z"
+      ></path>
+    </svg>
+    <span>WhatsApp</span>
+  </a>
+</div>
+
+<style>
+  .v-cagri-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    /* Clears the iOS home indicator so the buttons are never half under it. */
+    padding-bottom: calc(0.625rem + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--v-bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--v-line);
+  }
+
+  /*
+   * Phones only. This has to live here rather than as a `md:hidden` utility on
+   * the element: Astro scopes component styles with an attribute selector, so
+   * `.v-cagri-bar[data-astro-cid-…] { display: grid }` scores 0-2-0 and beats
+   * Tailwind's `.md\:hidden` at 0-1-0. The utility silently lost and the bar
+   * sat across the footer on every desktop view.
+   */
+  @media (min-width: 768px) {
+    .v-cagri-bar {
+      display: none;
+    }
+  }
+
+  .v-cagri-dugme {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    /* Comfortably past the 44px floor, because this gets tapped while walking. */
+    min-height: 3rem;
+    border-radius: var(--v-radius);
+    font-family: var(--v-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: var(--v-display-tracking);
+    text-transform: var(--v-display-transform);
+    transition: transform 0.15s var(--ease-out-soft);
+  }
+
+  .v-cagri-dugme:active {
+    transform: scale(0.98);
+  }
+
+  .v-cagri-ara {
+    background: var(--v-accent);
+    color: var(--v-accent-ink);
+  }
+
+  /* WhatsApp's own green, so the button is recognised before it is read. */
+  .v-cagri-wa {
+    background: #25d366;
+    color: #05291a;
+  }
+</style>

@@ -1,0 +1,210 @@
+---
+/**
+ * Shell for a Vitrin customer's site.
+ *
+ * Deliberately NOT Layout.astro. That one mounts the agency Header and Footer,
+ * which would put Mevcut's navigation on top of a berber's shop page. The only
+ * thing we leave behind here is one discreet credit line in the footer.
+ */
+import '../styles/vitrin.css';
+import type { Vitrin } from '../data/vitrin';
+import { site } from '../data/site';
+
+import frauncesLatin from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import frauncesLatinExt from '@fontsource/fraunces/files/fraunces-latin-ext-600-normal.woff2?url';
+import oswaldLatin from '@fontsource/oswald/files/oswald-latin-500-normal.woff2?url';
+import oswaldLatinExt from '@fontsource/oswald/files/oswald-latin-ext-500-normal.woff2?url';
+
+interface Props {
+  vitrin: Vitrin;
+}
+
+const { vitrin } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const kapakMutlak = new URL(vitrin.kapak.src, Astro.site).href;
+// Pipe, never an em dash. The dash is the loudest AI tell and it shows up in the
+// SERP, which is the first thing anyone ever sees of this site.
+const tamBaslik = `${vitrin.seo.baslik} | ${vitrin.isletme}`;
+
+const yemekMi = vitrin.tur === 'yemek';
+
+// Only the face this page actually renders. Preloading the other one would fetch
+// ~20KB that never gets drawn.
+const onYukleme = yemekMi
+  ? [frauncesLatin, frauncesLatinExt]
+  : [oswaldLatin, oswaldLatinExt];
+
+const temaRengi = yemekMi ? '#A6472E' : '#14110F';
+
+/*
+ * Favicon without an asset pipeline. Every customer gets their initial on the
+ * accent colour, generated at build time, so nobody has to design and export a
+ * 32px mark for a site that costs a small setup fee.
+ */
+const basHarf = vitrin.isletme.trim().charAt(0).toLocaleUpperCase('tr-TR');
+const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${temaRengi}"/><text x="32" y="44" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#ffffff" text-anchor="middle">${basHarf}</text></svg>`;
+const faviconUrl = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
+
+/*
+ * A kurgu entry is an invented business. Emitting LocalBusiness JSON-LD with its
+ * address, telephone and opening hours on an indexable page would hand Google a
+ * fabricated business record, so both the schema and the indexing are switched
+ * off together. A real customer carries no kurgu flag and gets the full markup
+ * with no other change.
+ */
+const gercek = !vitrin.kurgu;
+
+const isletmeSema = gercek
+  ? {
+      '@context': 'https://schema.org',
+      '@type': yemekMi ? 'Restaurant' : 'HairSalon',
+      '@id': `${canonical}#isletme`,
+      name: vitrin.isletme,
+      description: vitrin.seo.aciklama,
+      url: canonical,
+      telephone: `+${vitrin.telefonE164}`,
+      image: kapakMutlak,
+      ...(vitrin.kurulusYili ? { foundingDate: String(vitrin.kurulusYili) } : {}),
+      ...(yemekMi ? { servesCuisine: 'Türk mutfağı', acceptsReservations: true } : {}),
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: vitrin.adres.satirlar.join(', '),
+        addressLocality: vitrin.adres.ilce,
+        addressRegion: vitrin.adres.sehir,
+        addressCountry: 'TR',
+      },
+      openingHoursSpecification: vitrin.saatler
+        .filter((s) => s.gunKodlari?.length)
+        .map((s) => ({
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: s.gunKodlari,
+          opens: s.acilis,
+          closes: s.kapanis,
+        })),
+      ...(vitrin.instagram ? { sameAs: [vitrin.instagram] } : {}),
+    }
+  : null;
+
+// JSON.stringify does not escape "</script>". Everything here is authored, but
+// this stays correct if the data ever stops being.
+const semaJson = isletmeSema ? JSON.stringify(isletmeSema).replace(/<\//g, '<\\/') : null;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tamBaslik}</title>
+    <meta name="description" content={vitrin.seo.aciklama} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={faviconUrl} type="image/svg+xml" />
+    <meta name="theme-color" content={temaRengi} />
+
+    {
+      gercek ? (
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+      ) : (
+        <meta name="robots" content="noindex, nofollow" />
+      )
+    }
+
+    {
+      onYukleme.map((href) => (
+        <link rel="preload" as="font" type="font/woff2" crossorigin href={href} />
+      ))
+    }
+
+    {/* WhatsApp and Facebook read these from raw HTML. They never run JS. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={vitrin.isletme} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={tamBaslik} />
+    <meta property="og:description" content={vitrin.seo.aciklama} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={kapakMutlak} />
+    <meta property="og:image:alt" content={vitrin.kapak.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    {semaJson && <script type="application/ld+json" set:html={semaJson} />}
+  </head>
+
+  <body data-vitrin={vitrin.tur}>
+    <a
+      href="#icerik"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:px-5 focus:py-3"
+      style="background:var(--v-accent);color:var(--v-accent-ink)"
+    >
+      İçeriğe geç
+    </a>
+
+    {
+      vitrin.kurgu && (
+        <div
+          class="px-5 py-2 text-center text-sm"
+          style="background:var(--v-deep);color:var(--v-deep-ink)"
+        >
+          Bu bir örnek çalışmadır. {vitrin.isletme} gerçek bir işletme değildir.
+        </div>
+      )
+    }
+
+    <main id="icerik">
+      <slot />
+    </main>
+
+    <footer style="background:var(--v-deep);color:var(--v-deep-ink)">
+      <div class="v-shell flex flex-col items-center gap-2 py-8 text-center text-sm">
+        <p style="color:color-mix(in srgb, var(--v-deep-ink) 70%, transparent)">
+          &copy; {new Date().getFullYear()} {vitrin.isletme}
+        </p>
+        <p style="color:color-mix(in srgb, var(--v-deep-ink) 55%, transparent)">
+          Site:{' '}
+          <a
+            href={site.url}
+            class="underline underline-offset-4 transition-colors hover:opacity-80"
+            style="color:var(--v-deep-ink)"
+          >
+            {site.ad}
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll reveal. The observer only toggles a class; CSS owns the motion and
+      // the reduced-motion query neutralises it entirely.
+      const azHareket = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const hedefler = Array.from(document.querySelectorAll<HTMLElement>('.v-reveal'));
+      const goster = (el: HTMLElement) => el.classList.add('is-visible');
+
+      if (azHareket || !('IntersectionObserver' in window)) {
+        hedefler.forEach(goster);
+      } else {
+        const gozlemci = new IntersectionObserver(
+          (girisler) => {
+            girisler.forEach((giris) => {
+              if (giris.isIntersecting) {
+                goster(giris.target as HTMLElement);
+                gozlemci.unobserve(giris.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
+        );
+
+        // Anything already on screen at first paint is shown outright, otherwise
+        // landing on a hash link leaves everything above the anchor invisible.
+        for (const el of hedefler) {
+          if (el.getBoundingClientRect().top < window.innerHeight) goster(el);
+          else gozlemci.observe(el);
+        }
+      }
+    </script>
+  </body>
+</html>

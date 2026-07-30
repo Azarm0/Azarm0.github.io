@@ -1,0 +1,33 @@
+---
+/**
+ * Vitrin customer sites, served at mevcut.digital/<slug>.
+ *
+ * This is the whole publishing pipeline for the Vitrin tier. Adding a customer
+ * is one object in `src/data/vitrin.ts` plus a folder of photos; the existing
+ * Pages workflow builds and publishes on push. No new repository, no npm install
+ * per customer, no DNS wait. That is what makes "aynı gün yayında" a promise we
+ * can actually keep at the price the tier charges.
+ *
+ * The route is a root-level rest-free dynamic segment, so a slug must never
+ * collide with a GitHub Pages project repo already served at mevcut.digital/<repo>/
+ * (the-barber-company, mikron-teknik, develi-etli-pide, sarihan-*). The project
+ * repo wins that fight and the Vitrin page would silently never appear.
+ */
+import type { GetStaticPaths } from 'astro';
+import { vitrinler } from '../data/vitrin';
+import VitrinLayout from '../layouts/VitrinLayout.astro';
+import VitrinYemek from '../components/vitrin/VitrinYemek.astro';
+import VitrinUsta from '../components/vitrin/VitrinUsta.astro';
+
+export const getStaticPaths = (() =>
+  vitrinler.map((vitrin) => ({
+    params: { vitrin: vitrin.slug },
+    props: { vitrin },
+  }))) satisfies GetStaticPaths;
+
+const { vitrin } = Astro.props;
+---
+
+<VitrinLayout vitrin={vitrin}>
+  {vitrin.tur === 'yemek' ? <VitrinYemek vitrin={vitrin} /> : <VitrinUsta vitrin={vitrin} />}
+</VitrinLayout>
