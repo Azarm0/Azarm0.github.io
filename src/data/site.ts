@@ -130,6 +130,11 @@ export const sorular = [
       'İşin kapsamına göre değişiyor, o yüzden sayfaya sabit bir fiyat yazmıyoruz. WhatsApp’tan işletmenizi anlatın, aynı gün net bir fiyat söylüyoruz. En küçük paketimiz için kurulum ücreti almıyoruz.',
   },
   {
+    soru: 'Yapay zekâ asistanı ne işe yarıyor?',
+    cevap:
+      'Menünüzü, saatlerinizi ve adresinizi öğreniyor; “kaça kadar açıksınız”, “şu yemek kaç para” gibi soruları gecenin üçünde de yanıtlıyor. Sitede, WhatsApp’ta veya Instagram’da çalışabiliyor. Bilmediği bir şey sorulduğunda uydurmuyor, sizin numaranıza yönlendiriyor. Özel pakette veriyoruz.',
+  },
+  {
     soru: 'Alan adı benim adıma mı olacak?',
     cevap:
       'Kurumsal ve Özel paketlerde alan adını sizin işletmeniz adına alıyoruz, faturasını ve yenilemesini biz takip ediyoruz. Bizimle çalışmayı bırakırsanız alan adı size devredilir, sizde kalır.',

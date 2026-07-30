@@ -37,7 +37,7 @@ export const projeler: Proje[] = [
     slug: 'sarihan-cinematic',
     isletme: 'Sarıhan İşkembe',
     sektor: 'Lokanta',
-    sehir: 'İstanbul',
+    sehir: 'Zeytinburnu, İstanbul',
     baslik: 'Gece açık olduğu ilk saniyede belli',
     ozet:
       'Sayfa gece yarısı yanan vitrinle açılıyor. 7/24 açık bir salonun en büyük avantajı, tek bir cümle okumadan anlaşılıyor.',
@@ -61,7 +61,7 @@ export const projeler: Proje[] = [
     demoUrl: 'https://mevcut.digital/sarihan-cinematic/',
     gorsel: '/isler/sarihan-cinematic.webp',
     gorselAlt: 'Sarıhan İşkembe sinematik konsept sitesinin açılış ekranı',
-    paket: 'Kurumsal',
+    paket: 'Özel',
     izinli: false,
   },
   {
@@ -158,7 +158,7 @@ export const projeler: Proje[] = [
     slug: 'sarihan-lokanta',
     isletme: 'Sarıhan İşkembe',
     sektor: 'Lokanta',
-    sehir: 'İstanbul',
+    sehir: 'Zeytinburnu, İstanbul',
     baslik: 'Kaydırdıkça pişen bir çorba',
     ozet:
       'Sayfayı kaydırdıkça tereyağı çorbanın üzerine düşüyor ve yayılıyor. Ziyaretçiyi ilk saniyelerde yakalayan sinematik bir açılış.',
