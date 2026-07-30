@@ -35,7 +35,6 @@ export const paketler: Paket[] = [
     aciklama:
       'İşletmenizi internete taşımanın en hızlı yolu. Kendi alan adınızı almanız gerekmiyor, sitemiz üzerinden bir adres alıyorsunuz ve aynı gün yayına giriyorsunuz.',
     kapsam: [
-      'Kurulum ücreti yok',
       'Aynı gün yayında',
       'Tek sayfalık site',
       'mevcut.digital/isletmeniz adresinde yayın',
@@ -129,7 +128,7 @@ export const sorular = [
   {
     soru: 'Fiyatlar ne kadar?',
     cevap:
-      'İşin kapsamına göre değişiyor, o yüzden sayfaya sabit bir fiyat yazmıyoruz. WhatsApp’tan işletmenizi anlatın, aynı gün net bir fiyat söylüyoruz. En küçük paketimiz için kurulum ücreti almıyoruz.',
+      'İşin kapsamına göre değişiyor, o yüzden sayfaya sabit bir fiyat yazmıyoruz. WhatsApp’tan işletmenizi anlatın, aynı gün net bir fiyat söylüyoruz.',
   },
   {
     soru: 'Yapay zekâ asistanı ne işe yarıyor?',

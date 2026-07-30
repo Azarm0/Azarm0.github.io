@@ -12,7 +12,8 @@ berberler ve mahalle esnafı.
 ## Hizmet paketleri
 
 - **Vitrin**: Tek sayfalık site, mevcut.digital/isletmeniz adresinde yayınlanır.
-  Kendi alan adı gerekmez. Kurulum ücreti alınmaz, aynı gün yayına girer.
+  Kendi alan adı gerekmez. Küçük bir kurulum ücretiyle başlar, aylık veya yıllık
+  ödeme yoktur, aynı gün yayına girer.
 - **Kurumsal**: Kendi alan adınız, menü veya hizmet listesi, Instagram
   bağlantısı, arama motoru kurulumu. Alan adı ve yayın yönetimi Mevcut
   Digital'de.
