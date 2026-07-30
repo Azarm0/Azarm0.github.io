@@ -25,6 +25,9 @@ export type Paket = {
   fiyat: string | null;
   fiyatNotu: string | null;
   oneCikan: boolean;
+  /** Button label, specific to the package so the three cards don't repeat the same text. */
+  ctaEtiket: string;
+  /** Pre-filled WhatsApp message text. */
   cta: string;
 };
 
@@ -44,6 +47,7 @@ export const paketler: Paket[] = [
     fiyat: null,
     fiyatNotu: 'Başlangıç paketi',
     oneCikan: false,
+    ctaEtiket: 'Vitrin’i başlatın',
     cta: 'Vitrin paketi hakkında bilgi almak istiyorum.',
   },
   {
@@ -63,6 +67,7 @@ export const paketler: Paket[] = [
     fiyat: null,
     fiyatNotu: 'Kurulum + yıllık bakım',
     oneCikan: true,
+    ctaEtiket: 'Kurumsal’ı konuşalım',
     cta: 'Kurumsal paket hakkında bilgi almak istiyorum.',
   },
   {
@@ -83,6 +88,7 @@ export const paketler: Paket[] = [
     fiyat: null,
     fiyatNotu: 'Projeye göre',
     oneCikan: false,
+    ctaEtiket: 'Özel paketi anlatın',
     cta: 'Özel paket hakkında bilgi almak istiyorum.',
   },
 ];
