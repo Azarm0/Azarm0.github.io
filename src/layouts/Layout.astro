@@ -46,8 +46,10 @@ const kurulusSema = {
   slogan: site.slogan,
   description: aciklama,
   url: site.url,
-  telephone: site.telefon,
-  email: site.eposta,
+  // No `telephone` or `email` here on purpose. Both are still visible in the
+  // footer and the contact section as real mailto:/tel: links, but a labelled
+  // field in structured data is the version harvesters can read without
+  // guessing, and it earns no rich result for ProfessionalService.
   image: `${site.url}/brand/og-default.png`,
   logo: `${site.url}/brand/lotus-favicon.svg`,
   priceRange: '$$',

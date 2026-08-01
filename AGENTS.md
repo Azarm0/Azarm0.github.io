@@ -1,26 +1,21 @@
-## Content lives in four places that do not know about each other
+## Content lives in three data files
 
-Site copy is split across four files, and the build only reads three of them.
-Change one and the others go stale silently — nothing catches it.
+Site copy is split across three files, all of them read by the build.
 
 | File | What it holds | Read by |
 |---|---|---|
 | `src/data/site.ts` | packages, process, FAQ, contact | the build |
 | `src/data/projeler.ts` | case studies | the build |
 | `src/data/vitrin.ts` | Vitrin customer sites | the build |
-| `public/llms.txt` | a hand-written summary of all of the above | nothing — copied verbatim to the deployed site |
 
-`llms.txt` is what AI assistants quote when someone asks about this agency, so a
-stale claim there is a wrong answer given confidently to a prospect. On
-2026-07-30 it was found describing a case study as the wrong project, listing a
-package feature that had been removed, and advertising a work count that was off
-by one — all because earlier edits touched only the TypeScript.
+There used to be a fourth, `public/llms.txt`, a hand-written prose summary of the
+other three that nothing read at build time and that drifted stale twice. It was
+deleted on 2026-08-01. Two reasons: no major AI company reads llms.txt in
+production, so it was not doing the job it was written for, and it carried the
+agency's email and phone number as plaintext, which made it the easiest thing on
+the site to scrape. Do not reintroduce it.
 
-**After editing `site.ts`, `projeler.ts` or `vitrin.ts`, open `llms.txt` and
-reconcile it.** Check the work count, the count of fictional businesses, the
-per-work descriptions, the package bullet lists, and the FAQ.
-
-A fifth file drifts too and lives outside this repo:
+A file outside this repo does still drift:
 `C:\Dev\Sites\_tools\satis\kadirhan-saha-karti.md` maps shop types to demo URLs.
 A new demo that is not in that table never gets shown to a customer.
 
