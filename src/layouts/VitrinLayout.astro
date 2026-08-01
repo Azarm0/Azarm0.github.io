@@ -10,10 +10,15 @@ import '../styles/vitrin.css';
 import type { Vitrin } from '../data/vitrin';
 import { site } from '../data/site';
 
-import frauncesLatin from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
-import frauncesLatinExt from '@fontsource/fraunces/files/fraunces-latin-ext-600-normal.woff2?url';
-import oswaldLatin from '@fontsource/oswald/files/oswald-latin-500-normal.woff2?url';
-import oswaldLatinExt from '@fontsource/oswald/files/oswald-latin-ext-500-normal.woff2?url';
+// The hand-subset faces from scripts/font-altkume.mjs, not the fontsource
+// originals. Imported so Vite fingerprints them and the preload href below
+// always matches the hashed filename the CSS actually requests.
+import frauncesLatin from '../fonts/fraunces-tr-600.woff2?url';
+import frauncesLatinExt from '../fonts/fraunces-tr-ext-600.woff2?url';
+import oswaldLatin from '../fonts/oswald-tr-500.woff2?url';
+import oswaldLatinExt from '../fonts/oswald-tr-ext-500.woff2?url';
+import interTr400 from '../fonts/inter-tr-400.woff2?url';
+import interTr600 from '../fonts/inter-tr-600.woff2?url';
 
 interface Props {
   vitrin: Vitrin;
@@ -31,9 +36,19 @@ const yemekMi = vitrin.tur === 'yemek';
 
 // Only the face this page actually renders. Preloading the other one would fetch
 // ~20KB that never gets drawn.
+// Body text is Inter on both templates and it carries the hours, the address and
+// the phone number, so it is preloaded alongside the display face rather than
+// discovered after the CSS parses.
+//
+// Both Inter weights, not just 400. The 600 is the business name in the header
+// and the day labels in the hours table, so it is drawn above the fold on every
+// page. Measured against a throttled Chromium it was being fetched anyway, just
+// one round trip later than the rest, because nothing announced it until the
+// stylesheet had been downloaded and parsed. On a 2s-latency connection that is
+// the difference between the header settling and the header reflowing.
 const onYukleme = yemekMi
-  ? [frauncesLatin, frauncesLatinExt]
-  : [oswaldLatin, oswaldLatinExt];
+  ? [frauncesLatin, frauncesLatinExt, interTr400, interTr600]
+  : [oswaldLatin, oswaldLatinExt, interTr400, interTr600];
 
 const temaRengi = yemekMi ? '#A6472E' : '#14110F';
 

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { projeler } from '../../data/projeler';
 import { whatsapp } from '../../data/site';
+import { gorselNitelikleri } from '../../lib/gorsel';
 
 export function getStaticPaths() {
   return projeler.map((proje) => ({
@@ -103,11 +104,12 @@ const isSema = {
     <div class="container-page py-12 md:py-16">
       <figure class="reveal overflow-hidden rounded-2xl border border-charcoal/10 bg-stone-dark">
         <img
-          src={proje.gorsel}
+          {...gorselNitelikleri(proje.gorsel, '(min-width: 1216px) 1136px, calc(100vw - 3rem)')}
           alt={proje.gorselAlt}
           width="1200"
           height="750"
           loading="eager"
+          fetchpriority="high"
           decoding="async"
           class="w-full object-cover object-top"
         />
@@ -179,7 +181,7 @@ const isSema = {
               >
                 <div class="aspect-16/10 overflow-hidden bg-stone-dark">
                   <img
-                    src={diger.gorsel}
+                    {...gorselNitelikleri(diger.gorsel)}
                     alt={diger.gorselAlt}
                     width="1200"
                     height="750"

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Logo from '../components/Logo.astro';
 import { site, whatsapp, paketler, surec, sorular } from '../data/site';
 import { projeler } from '../data/projeler';
+import { gorselNitelikleri } from '../lib/gorsel';
 
 // Mirrors the visible FAQ below. Google and AI assistants quote from this.
 const sssSema = {
@@ -120,7 +121,13 @@ const sorunlar = [
           Anlatmak yerine yaptık.
         </h2>
         <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
-          Aşağıdaki siteleri, işletmeler bizden istemeden önce hazırladık. Hepsi
+          {/*
+            The space before <strong> is explicit. Astro strips a trailing newline
+            between text and an inline tag, which rendered this live as
+            "Hepsikonsept çalışma", in the one sentence carrying the konsept
+            disclosure. Do not reflow this line without keeping {' '}.
+          */}
+          Aşağıdaki siteleri, işletmeler bizden istemeden önce hazırladık. Hepsi{' '}
           <strong class="font-semibold text-navy">konsept çalışma</strong>, hepsi gerçekten
           yayında. Açın, telefonunuzda gezin, ne kadar hızlı açıldığına bakın.
         </p>
@@ -136,7 +143,7 @@ const sorunlar = [
               >
                 <div class="relative aspect-16/10 overflow-hidden bg-stone-dark">
                   <img
-                    src={proje.gorsel}
+                    {...gorselNitelikleri(proje.gorsel)}
                     alt={proje.gorselAlt}
                     width="1200"
                     height="750"
@@ -374,7 +381,7 @@ const sorunlar = [
           <div class="flex flex-wrap items-baseline justify-between gap-2">
             <dt class="text-stone/55">Telefon</dt>
             <dd>
-              <a href={site.telefonHref} class="font-medium underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+              <a href={site.telefonHref} class="font-semibold underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
                 {site.telefon}
               </a>
             </dd>
@@ -382,7 +389,7 @@ const sorunlar = [
           <div class="flex flex-wrap items-baseline justify-between gap-2">
             <dt class="text-stone/55">E-posta</dt>
             <dd>
-              <a href={`mailto:${site.eposta}`} class="font-medium underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+              <a href={`mailto:${site.eposta}`} class="font-semibold underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
                 {site.eposta}
               </a>
             </dd>

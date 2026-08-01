@@ -8,6 +8,7 @@ import Footer from '../components/Footer.astro';
 // always matches the hashed filename the CSS actually requests.
 import poppins700Latin from '@fontsource/poppins/files/poppins-latin-700-normal.woff2?url';
 import poppins700LatinExt from '@fontsource/poppins/files/poppins-latin-ext-700-normal.woff2?url';
+import interTr400 from '../fonts/inter-tr-400.woff2?url';
 
 interface Props {
   /** Keep under ~43 chars: the brand suffix adds 17 and Google cuts near 60. */
@@ -127,6 +128,12 @@ const semaJson = JSON.stringify(sema).replace(/<\//g, '<\\/');
       crossorigin
       href={poppins700LatinExt}
     />
+    {/*
+      Inter 400 latin is the body face and covers 67 of the elements on this
+      page, including the hero paragraph. The ext file is not preloaded: it is
+      1.5 KB and arrives long before anyone reads far enough to notice a ş.
+    */}
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={interTr400} />
 
     <meta name="robots" content="index, follow, max-image-preview:large" />
 

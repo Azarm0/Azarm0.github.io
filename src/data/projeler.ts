@@ -42,6 +42,38 @@ export type Proje = {
 
 export const projeler: Proje[] = [
   {
+    slug: 'bereket-lokantasi',
+    isletme: 'Bereket Lokantası',
+    sektor: 'Esnaf Lokantası',
+    sehir: 'Bahçelievler, İstanbul',
+    baslik: 'Menü her sabah değişiyor, masadaki karekod değişmiyor',
+    ozet:
+      'Sulu yemek yapan bir esnaf lokantası için Vitrin paketi konsept çalışması. Masaya konulan karekod doğrudan menü bölümünü açıyor.',
+    seoBaslik: 'Esnaf Lokantası Web Sitesi',
+    seoAciklama:
+      'Esnaf lokantası için konsept çalışma: her gün değişen sulu yemek listesi, çalışma saatleri, yol tarifi ve menüyü açan masa karekodu. Kurgusal örnek işletme.',
+    hikaye: [
+      'Esnaf lokantasında menü sabit değil. Tencerede ne varsa o gün o var, ertesi gün başka bir şey. Basılı menü bu yüzden zaten tutmuyor, duvardaki tahta da her sabah siliniyor.',
+      'Bu konsept çalışmada listeyi iki parçaya ayırdık. Sürekli yapılan yemekler sayfada duruyor, altındaki tek satır da günlük değiştiğini söylüyor ve soruyu telefona yönlendiriyor. Böylece sayfa ne yalan söylüyor ne de her sabah güncellenmeyi bekliyor.',
+      'Masadaki karekod da doğrudan menü bölümüne açılıyor, sayfanın en üstüne değil. Müşteri telefonu kaldırdığında aradığı şeyi görüyor. Menüye yeni bir tabak eklendiğinde kartların yeniden bastırılması gerekmiyor.',
+    ],
+    ozellikler: [
+      'Aynı gün yayında, tek sayfa',
+      'Menü bölümünü açan masa karekodu',
+      'Her gün değişen yemek listesi için ayrı not',
+      '“Şu anda açık” bilgisi saatlerden otomatik',
+      'Pazar kapalı bilgisi ayrıca belirtiliyor',
+    ],
+    teknik:
+      'Sahibinin WhatsApp’tan gönderdiği fotoğraflar tek komutla boyutlanıyor, karekod ve baskıya hazır masa kartı da tek komutla çıkıyor.',
+    demoUrl: 'https://mevcut.digital/bereket-lokantasi/',
+    gorsel: '/isler/bereket-lokantasi.webp',
+    gorselAlt: 'Bereket Lokantası konsept sitesinin açılış ekranı',
+    paket: 'Vitrin',
+    izinli: false,
+    kurgu: true,
+  },
+  {
     slug: 'cinaralti-kahvalti',
     isletme: 'Çınaraltı Kahvaltı Salonu',
     sektor: 'Kahvaltı Salonu',

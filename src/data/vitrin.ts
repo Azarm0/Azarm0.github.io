@@ -6,6 +6,17 @@
  * builds the page, and the existing Pages workflow publishes it. That is what
  * makes "aynı gün yayında" true rather than a promise we quietly break.
  *
+ * After adding an entry, three scripts finish the job. None of them need
+ * arguments; each takes an optional slug to do one customer:
+ *
+ *   npm run foto    sizes the owner's photos and writes the srcset manifest
+ *   npm run qr      table QR + print-ready A6 masa-karti.pdf/.png
+ *   npm run kart    the portfolio thumbnail and social image
+ *
+ * The QR is in this tier, not held back for Kurumsal, because the rule below is
+ * that the ceiling sits at our labour and a generated code costs none. What
+ * Kurumsal adds is prices in the menu behind it.
+ *
  * WHAT BELONGS IN VITRIN, AND WHY THE SHAPE IS WHAT IT IS
  *
  * The ceiling is drawn at our labour, not at how good the page looks. Anything
@@ -106,6 +117,14 @@ export type Vitrin = {
 
   listeBasligi: string;
   liste: VitrinListe[];
+  /**
+   * The line under the list. Defaults to the "call us for current prices" note.
+   *
+   * Exists because an esnaf lokantası cooks a different pot every morning. Under
+   * a günün yemekleri list the default sentence answers a question nobody asked,
+   * while the one people do ask ("is this today's food?") goes unanswered.
+   */
+  listeNotu?: string;
 
   kapak: VitrinGorsel;
   galeri: VitrinGorsel[];
@@ -129,9 +148,104 @@ export type Vitrin = {
    * carrying this flag.
    */
   kurgu?: boolean;
+
+  /**
+   * Overrides which section the table QR opens. See src/lib/vitrinHedef.ts.
+   *
+   * The default comes from `tur` and is right for every customer so far. This is
+   * here for the one whose page is built around something else.
+   */
+  qrBolum?: string;
 };
 
 export const vitrinler: Vitrin[] = [
+  {
+    slug: 'bereket-lokantasi',
+    tur: 'yemek',
+    isletme: 'Bereket Lokantası',
+    kategori: 'Esnaf Lokantası',
+    vurgu: 'Her sabah taze pişer, öğlene kalmaz',
+    kurulusYili: 1992,
+    hakkinda:
+      'Bereket, Hikmet Usta’nın babasından devraldığı bir esnaf lokantası. 1992’den bu yana aynı köşedeyiz. Sabah altıda ocak yanar, tencereler öğlene yetişsin diye erken kurulur. Yemeklerimiz her gün değişir; ne pişerse tezgâhta durur, bitince o gün için biter. Bir kişilik de veririz, tencereyle de. Mahallenin esnafı öğle arasında burada yer, biz de ona göre hızlı çıkarırız.',
+    telefon: '0212 555 26 40',
+    telefonE164: '902125552640',
+    whatsappMesaj: 'Merhaba, bugün hangi yemekler var?',
+    adres: {
+      satirlar: ['Adnan Kahveci Mahallesi, Pazar Sokak'],
+      tarif:
+        'PTT’nin arka sokağı. Salı pazarının kurulduğu yerin köşesindeyiz, kepenkte turuncu tabela var.',
+      ilce: 'Bahçelievler',
+      sehir: 'İstanbul',
+    },
+    saatler: [
+      {
+        gunler: 'Pazartesi - Cuma',
+        acilis: '08:00',
+        kapanis: '20:00',
+        gunKodlari: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      },
+      {
+        gunler: 'Cumartesi',
+        acilis: '08:00',
+        kapanis: '18:00',
+        gunKodlari: ['Saturday'],
+      },
+    ],
+    kapaliGunler: 'Pazar günleri kapalıyız.',
+    listeBasligi: 'Tencerede ne varsa',
+    listeNotu:
+      'Yemekler her gün değişir, buradakiler sürekli yaptıklarımızdır. Bugün ne olduğunu sormak için arayın veya WhatsApp’tan yazın.',
+    liste: [
+      {
+        baslik: 'Çorbalar',
+        maddeler: ['Mercimek', 'Ezogelin', 'İşkembe (pazartesi ve perşembe)', 'Yayla'],
+      },
+      {
+        baslik: 'Sulu Yemekler',
+        maddeler: ['Kuru fasulye', 'Nohut', 'Etli türlü', 'Karnıyarık', 'Taze fasulye', 'Barbunya'],
+      },
+      {
+        baslik: 'Yanında',
+        maddeler: ['Pirinç pilavı', 'Bulgur pilavı', 'Cacık', 'Turşu', 'Mevsim salata'],
+      },
+      {
+        baslik: 'Tatlı ve İçecek',
+        maddeler: ['Sütlaç', 'Kemalpaşa', 'Revani', 'Ayran', 'Şalgam'],
+      },
+    ],
+    kapak: {
+      src: '/vitrin/bereket-lokantasi/kapak.webp',
+      alt: 'Üstten çekilmiş lokanta masası: bakır sahanda soğan dolması, iki kâse işkembe çorbası, çiğ köfte ve sıcak pide ekmeği',
+    },
+    galeri: [
+      {
+        src: '/vitrin/bereket-lokantasi/galeri-1.webp',
+        alt: 'Beyaz duvarlı lokanta salonu, örtülü masalar ve pencere önünde dizili sandalyeler',
+      },
+      {
+        src: '/vitrin/bereket-lokantasi/galeri-2.webp',
+        alt: 'Masada lahmacun, ızgara sucuk, kelle paça ve közlenmiş biber tabakları',
+      },
+      {
+        src: '/vitrin/bereket-lokantasi/galeri-3.webp',
+        alt: 'Zeytinyağlı dolma, bulgur pilavı ve közlenmiş patlıcan tabaklarıyla kurulmuş sofra',
+      },
+      {
+        src: '/vitrin/bereket-lokantasi/galeri-4.webp',
+        alt: 'Lokantanın açık mutfağı: tezgâhta tencereler, arkada ocak başında çalışan aşçılar',
+      },
+    ],
+    // The owner sent no reviews and we do not write them. The section simply
+    // does not render, which is the behaviour a real same-day onboarding needs.
+    yorumlar: [],
+    seo: {
+      baslik: 'Bahçelievler Esnaf Lokantası',
+      aciklama:
+        'Bahçelievler’de 1992’den beri esnaf lokantası. Her gün değişen sulu yemek, çorba ve ev tatlıları. Çalışma saatleri, yol tarifi ve tek dokunuşla arama.',
+    },
+    kurgu: true,
+  },
   {
     slug: 'cinaralti-kahvalti',
     tur: 'yemek',

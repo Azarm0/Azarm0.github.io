@@ -25,3 +25,15 @@ pnpm-debug.log*
 
 # Brand source of record — contains personal contact details, not for the public repo
 brand-source/
+
+# Raw customer photo dumps. Roughly 6 MB per customer straight off a phone, and
+# this repo is a GitHub Pages user site that every clone pulls in full. The
+# owner still has the originals on WhatsApp, so they are re-requestable.
+#
+# eslesme.json is kept, because it is not re-requestable: it records which photo
+# we chose as the cover and in what gallery order. That judgement is ours, it is
+# a few hundred bytes, and losing it means guessing again from filenames.
+ham/**
+!ham/
+!ham/*/
+!ham/*/eslesme.json

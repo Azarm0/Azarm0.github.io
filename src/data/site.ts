@@ -42,6 +42,7 @@ export const paketler: Paket[] = [
       'Tek sayfalık site',
       'mevcut.digital/isletmeniz adresinde yayın',
       'Metninizi bir insan yazıyor, panel doldurmuyorsunuz',
+      'Masaya koyduğunuz karekod ve baskıya hazır masa kartı',
       '“Şu anda açık” bilgisi saatlerinizden otomatik',
       'Telefonda düzgün görünen tasarım',
       'Tek dokunuşla arama ve WhatsApp',
@@ -61,7 +62,7 @@ export const paketler: Paket[] = [
       'Vitrin paketindeki her şey',
       'Kendi alan adınız (isletmeniz.com)',
       'Alan adı ve yayın yönetimi bizde',
-      'Menü veya hizmet listesi',
+      'Fiyatlı menü veya hizmet listesi',
       'Instagram bağlantısı',
       'Google’da bulunabilirlik kurulumu',
       'Yıllık bakım ve güncelleme',
@@ -82,7 +83,7 @@ export const paketler: Paket[] = [
       'Sıfırdan özel tasarım',
       'Sinematik animasyon ve video',
       'Menünüzü ve saatlerinizi bilen yapay zekâ asistanı',
-      'Asistan sitede, WhatsApp’ta veya Instagram’da yanıtlar',
+      'Asistan sitede, WhatsApp’ta veya Instagram’da yanıtlar (aylık kullanım ücreti ayrı)',
       'Rezervasyon veya sipariş yönlendirmesi',
       'Çok şubeli yapı',
       'Öncelikli destek',
@@ -139,9 +140,14 @@ export const sorular = [
       'İşin kapsamına göre değişiyor, o yüzden sayfaya sabit bir fiyat yazmıyoruz. WhatsApp’tan işletmenizi anlatın, aynı gün net bir fiyat söylüyoruz.',
   },
   {
+    soru: 'Masadaki karekod menüyü de yapıyor musunuz?',
+    cevap:
+      'Evet, en küçük pakette bile veriyoruz. Menünüz zaten sitenizde duruyor, biz de masaya koyacağınız karekodu ona bağlıyoruz. Müşteri okuttuğunda menü telefonunda açılıyor. Masa kartını baskıya hazır halde biz gönderiyoruz, matbaaya olduğu gibi verebilirsiniz. Menüye yeni bir tabak eklenince bize yazmanız yeterli, aynı gün güncelliyoruz ve masadaki kartlar aynı kalıyor. Sipariş bu karekodun üzerinden geçmiyor: müşteri menüyü görüyor, siparişi yine size söylüyor. Fiyatların da menüde yazması isterseniz orası Kurumsal paket.',
+  },
+  {
     soru: 'Yapay zekâ asistanı ne işe yarıyor?',
     cevap:
-      'Menünüzü, saatlerinizi ve adresinizi öğreniyor; “kaça kadar açıksınız”, “şu yemek kaç para” gibi soruları gecenin üçünde de yanıtlıyor. Sitede, WhatsApp’ta veya Instagram’da çalışabiliyor. Bilmediği bir şey sorulduğunda uydurmuyor, sizin numaranıza yönlendiriyor. Özel pakette veriyoruz.',
+      'Menünüzü, saatlerinizi ve adresinizi biliyor. “Kaça kadar açıksınız”, “şu yemek kaç para” gibi soruları gecenin üçünde de yanıtlıyor. Bilmediği bir şey sorulduğunda uydurmuyor, sizin numaranıza yönlendiriyor. Bunu Özel pakette, her işletme için ayrı kuruyoruz. Şunu baştan söyleyelim: sitenin kendisinden farklı olarak asistanın her ay devam eden bir maliyeti var, çünkü gelen soruları yanıtlayan sistem kullandıkça ücret alıyor. WhatsApp ve Instagram üzerinden de yanıt vermesini isterseniz Meta’nın mesajlaşma ücreti bunun üstüne biniyor. İlgilenirseniz işletmenizin aldığı soru sayısına göre önce bir hesap çıkarıyoruz, rakamı gördükten sonra karar veriyorsunuz.',
   },
   {
     soru: 'Alan adı benim adıma mı olacak?',

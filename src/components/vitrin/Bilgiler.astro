@@ -43,7 +43,7 @@ const haritaAramasi =
         {
           saatler.map((s) => (
             <div class="flex items-baseline justify-between gap-6 py-3">
-              <dt class="font-medium">{s.gunler}</dt>
+              <dt class="font-semibold">{s.gunler}</dt>
               <dd class="tabular-nums" style="color:var(--v-muted)">
                 {s.acilis} - {s.kapanis}
               </dd>
@@ -55,7 +55,7 @@ const haritaAramasi =
       {
         kapaliGunler && (
           <p
-            class="mt-4 rounded px-4 py-3 text-sm font-medium"
+            class="mt-4 rounded px-4 py-3 text-sm font-semibold"
             style="background:var(--v-sunken);color:var(--v-ink)"
           >
             {kapaliGunler}

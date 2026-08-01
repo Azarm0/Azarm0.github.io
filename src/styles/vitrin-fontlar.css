@@ -1,0 +1,48 @@
+/*
+ * Vitrin display faces, cut to Turkish by scripts/font-altkume.mjs.
+ *
+ * One family per template: Fraunces for yemek, Oswald for usta. Both are
+ * declared here and only the one a page renders is ever fetched, so the unused
+ * declaration costs a few hundred bytes of CSS and nothing else.
+ *
+ * The ext files are where the saving is. Fraunces latin-ext shipped at 16.9 KB
+ * to deliver five Turkish letters and a lira sign; subset, it is 2.0 KB. Oswald
+ * went 11.8 KB to 1.5 KB the same way. On a Vitrin page that is the difference
+ * between a heading that paints and one that waits.
+ */
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/fraunces-tr-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+2013, U+2018-201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/fraunces-tr-ext-600.woff2') format('woff2');
+  unicode-range: U+011E-011F, U+0130, U+015E-015F, U+20BA;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/oswald-tr-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+2013, U+2018-201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/oswald-tr-ext-500.woff2') format('woff2');
+  unicode-range: U+011E-011F, U+0130, U+015E-015F, U+20BA;
+}

@@ -23,6 +23,8 @@ import Yorumlar from './Yorumlar.astro';
 import Bilgiler from './Bilgiler.astro';
 import CagriBar from './CagriBar.astro';
 import Durum from './Durum.astro';
+import { gorselNitelikleri } from '../../lib/gorsel';
+import { vitrinBolum } from '../../lib/vitrinHedef';
 
 interface Props {
   vitrin: Vitrin;
@@ -31,6 +33,9 @@ interface Props {
 const { vitrin } = Astro.props;
 const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURIComponent(vitrin.whatsappMesaj)}`;
 const baslik = vitrin.ustaAdi ?? vitrin.isletme;
+
+// The QR points here. Same constant the generator reads: see lib/vitrinHedef.ts.
+const hizmetBolumu = vitrinBolum(vitrin);
 ---
 
 <header class="v-shell flex items-center justify-between gap-4 py-5">
@@ -73,12 +78,12 @@ const baslik = vitrin.ustaAdi ?? vitrin.isletme;
     </div>
 
     <div class="overflow-hidden rounded-lg" style="background:var(--v-sunken)">
+      {/* LCP element on this template too, so it is never lazy. */}
       <img
-        src={vitrin.kapak.src}
+        {...gorselNitelikleri(vitrin.kapak.src)}
         alt={vitrin.kapak.alt}
         width="1200"
         height="1400"
-        /* LCP element on this template too, so it is never lazy. */
         loading="eager"
         fetchpriority="high"
         decoding="async"
@@ -96,7 +101,7 @@ const baslik = vitrin.ustaAdi ?? vitrin.isletme;
   </div>
 </section>
 
-<section id="hizmetler" class="v-section">
+<section id={hizmetBolumu} class="v-section">
   <div class="v-shell">
     <div class="v-reveal max-w-2xl">
       <p class="v-eyebrow">Hizmetler</p>

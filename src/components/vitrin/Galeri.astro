@@ -13,6 +13,7 @@
  * page and it lives in the template, not here.
  */
 import type { VitrinGorsel } from '../../data/vitrin';
+import { gorselNitelikleri } from '../../lib/gorsel';
 
 interface Props {
   gorseller: VitrinGorsel[];
@@ -38,7 +39,7 @@ const { gorseller, baslik, eyebrow, oran = 'kare' } = Astro.props;
           {gorseller.map((gorsel) => (
             <li class="v-reveal overflow-hidden rounded" style="background:var(--v-sunken)">
               <img
-                src={gorsel.src}
+                {...gorselNitelikleri(gorsel.src)}
                 alt={gorsel.alt}
                 width={oran === 'kare' ? 800 : 900}
                 height={oran === 'kare' ? 800 : 600}

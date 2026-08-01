@@ -16,6 +16,8 @@ import Yorumlar from './Yorumlar.astro';
 import Bilgiler from './Bilgiler.astro';
 import CagriBar from './CagriBar.astro';
 import Durum from './Durum.astro';
+import { gorselNitelikleri } from '../../lib/gorsel';
+import { vitrinBolum } from '../../lib/vitrinHedef';
 
 interface Props {
   vitrin: Vitrin;
@@ -23,6 +25,10 @@ interface Props {
 
 const { vitrin } = Astro.props;
 const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURIComponent(vitrin.whatsappMesaj)}`;
+
+// The table QR points at this id. Taken from the same constant the QR generator
+// reads so renaming the section cannot silently orphan a printed card.
+const menuBolumu = vitrinBolum(vitrin);
 ---
 
 <header class="v-shell flex items-center justify-between gap-4 py-5">
@@ -42,12 +48,12 @@ const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURICompone
 
 <section class="v-shell">
   <div class="relative overflow-hidden rounded-lg">
+    {/* The only eager image on the page. It is the LCP element. */}
     <img
-      src={vitrin.kapak.src}
+      {...gorselNitelikleri(vitrin.kapak.src)}
       alt={vitrin.kapak.alt}
       width="1600"
       height="1000"
-      /* The only eager image on the page. It is the LCP element. */
       loading="eager"
       fetchpriority="high"
       decoding="async"
@@ -106,7 +112,7 @@ const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURICompone
   </div>
 </section>
 
-<section id="menu" class="v-section" style="background:var(--v-sunken)">
+<section id={menuBolumu} class="v-section" style="background:var(--v-sunken)">
   <div class="v-shell">
     <div class="v-reveal max-w-2xl">
       <p class="v-eyebrow">Menü</p>
@@ -131,7 +137,10 @@ const whatsappUrl = `https://wa.me/${vitrin.telefonE164}?text=${encodeURICompone
     </div>
 
     <p class="v-reveal mt-8 text-sm" style="color:var(--v-muted)">
-      Güncel fiyatlar için bizi arayabilir veya WhatsApp’tan yazabilirsiniz.
+      {
+        vitrin.listeNotu ??
+          'Güncel fiyatlar için bizi arayabilir veya WhatsApp’tan yazabilirsiniz.'
+      }
     </p>
   </div>
 </section>

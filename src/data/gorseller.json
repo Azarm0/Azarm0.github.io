@@ -1,0 +1,195 @@
+{
+  "/isler/bereket-lokantasi.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/cinaralti-kahvalti.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/develi-etli-pide.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/mikron-teknik.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/sarihan-cinematic.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/sarihan-lokanta.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/sarihan-zeytinburnu.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/the-barber-company.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/isler/usta-nuri-berber.webp": {
+    "rol": "kart",
+    "genislikler": [
+      400,
+      800,
+      1200
+    ]
+  },
+  "/vitrin/bereket-lokantasi/galeri-1.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/bereket-lokantasi/galeri-2.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/bereket-lokantasi/galeri-3.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480
+    ]
+  },
+  "/vitrin/bereket-lokantasi/galeri-4.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/bereket-lokantasi/kapak.webp": {
+    "rol": "kapak",
+    "genislikler": [
+      480,
+      768,
+      1200,
+      1600
+    ]
+  },
+  "/vitrin/cinaralti-kahvalti/galeri-1.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/cinaralti-kahvalti/galeri-2.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/cinaralti-kahvalti/galeri-3.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/cinaralti-kahvalti/galeri-4.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/cinaralti-kahvalti/kapak.webp": {
+    "rol": "kapak",
+    "genislikler": [
+      480,
+      768,
+      1200,
+      1600
+    ]
+  },
+  "/vitrin/usta-nuri-berber/galeri-1.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/usta-nuri-berber/galeri-2.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/usta-nuri-berber/galeri-3.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/usta-nuri-berber/galeri-4.webp": {
+    "rol": "galeri",
+    "genislikler": [
+      320,
+      480,
+      768
+    ]
+  },
+  "/vitrin/usta-nuri-berber/kapak.webp": {
+    "rol": "kapak",
+    "genislikler": [
+      480,
+      768,
+      1200
+    ]
+  }
+}

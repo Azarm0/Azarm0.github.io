@@ -1,8 +1,13 @@
 /**
  * Capture the portfolio card and social image for every Vitrin site.
  *
- *   npm run dev                 # in one terminal
- *   node scripts/vitrin-kart.mjs
+ *   npm run dev                          # in one terminal
+ *   node scripts/vitrin-kart.mjs         # everyone
+ *   node scripts/vitrin-kart.mjs bereket-lokantasi
+ *
+ * Takes an optional slug for the same reason vitrin-qr.mjs does. Each card is
+ * two headless captures against a live dev server, so onboarding one customer
+ * should not re-shoot every customer that came before.
  *
  * Writes public/isler/<slug>.webp (1200x750, the card in the işler grid) and
  * public/isler/<slug>-og.jpg (1200x630, what WhatsApp and Facebook show). Both
@@ -28,6 +33,15 @@ const KOK = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CIKTI = path.join(KOK, 'public', 'isler');
 const TABAN = process.env.VITRIN_TABAN ?? 'http://localhost:4321';
 
+const secilen = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+const hedefler =
+  secilen.length > 0 ? vitrinler.filter((v) => secilen.includes(v.slug)) : vitrinler;
+
+if (hedefler.length === 0) {
+  console.error(`Eslesen vitrin yok: ${secilen.join(', ')}`);
+  process.exit(1);
+}
+
 const OLCULER = [
   { ad: 'kart', en: 1200, boy: 750, uzanti: 'webp' },
   { ad: 'og', en: 1200, boy: 630, uzanti: 'jpg' },
@@ -43,7 +57,7 @@ const tarayici = await puppeteer.launch({
 try {
   await mkdir(CIKTI, { recursive: true });
 
-  for (const vitrin of vitrinler) {
+  for (const vitrin of hedefler) {
     const sayfa = await tarayici.newPage();
 
     for (const olcu of OLCULER) {
