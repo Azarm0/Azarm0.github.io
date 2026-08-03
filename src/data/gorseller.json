@@ -1,10 +1,26 @@
 {
+  "/isler/bereket-lokantasi-telefon.webp": {
+    "rol": "telefon",
+    "genislikler": [
+      440,
+      660,
+      880
+    ]
+  },
   "/isler/bereket-lokantasi.webp": {
     "rol": "kart",
     "genislikler": [
       400,
       800,
       1200
+    ]
+  },
+  "/isler/cinaralti-kahvalti-telefon.webp": {
+    "rol": "telefon",
+    "genislikler": [
+      440,
+      660,
+      880
     ]
   },
   "/isler/cinaralti-kahvalti.webp": {
@@ -61,6 +77,14 @@
       400,
       800,
       1200
+    ]
+  },
+  "/isler/usta-nuri-berber-telefon.webp": {
+    "rol": "telefon",
+    "genislikler": [
+      440,
+      660,
+      880
     ]
   },
   "/isler/usta-nuri-berber.webp": {

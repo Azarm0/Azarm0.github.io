@@ -10,6 +10,7 @@
     "kart": "node scripts/vitrin-kart.mjs",
     "foto": "node scripts/vitrin-foto.mjs",
     "qr": "node scripts/vitrin-qr.mjs",
+    "telefon": "node scripts/vitrin-telefon.mjs",
     "font": "node scripts/font-altkume.mjs",
     "build": "astro build",
     "preview": "astro preview",

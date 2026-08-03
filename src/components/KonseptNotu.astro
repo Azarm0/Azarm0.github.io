@@ -1,0 +1,38 @@
+---
+/**
+ * The disclosure that has to sit under every grid of case studies.
+ *
+ * Shared rather than written twice, because the home page shows four of the eight
+ * and /isler/ shows all of them, and a disclosure that says something different on
+ * two pages showing the same businesses is worse than no disclosure. It is also the
+ * single most load-bearing paragraph on the site: none of these businesses asked
+ * for this work, and two of them do not exist.
+ *
+ * The kurgu sentence is derived from what is actually on the page rather than
+ * hardcoded. A grid with no invented business must not explain a badge it is not
+ * showing, and a grid that gains one must not stay silent.
+ */
+import type { Proje } from '../data/projeler';
+
+interface Props {
+  projeler: Proje[];
+  class?: string;
+}
+
+const { projeler: gosterilen, class: sinif = '' } = Astro.props;
+
+const kurguVar = gosterilen.some((p) => p.kurgu);
+---
+
+<p class:list={['max-w-2xl text-sm text-charcoal/80', sinif]}>
+  Bu sayfadaki işletmelerle henüz bir anlaşmamız bulunmuyor. Çalışmaları tanıtım
+  amacıyla, kendi girişimimizle hazırladık. Hiçbiri işletmenin resmi web sitesi
+  değildir.{
+    kurguVar && (
+      <>
+        {' '}“Kurgu konsept” etiketli çalışmalardaki işletmeler ise tamamen kurgusaldır: o
+        dükkânlar gerçekte yoktur, sayfadaki yorumlar ve fiyatlar örnek içeriktir.
+      </>
+    )
+  }
+</p>

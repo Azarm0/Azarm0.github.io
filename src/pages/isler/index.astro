@@ -1,0 +1,80 @@
+---
+/**
+ * Every case study, in one grid.
+ *
+ * Exists so the home page does not have to carry all eight. Eight full-width cards
+ * were 4,912px of a 13,755px phone page: a third of the site spent on a grid whose
+ * last three cards almost nobody reached. The home page now shows four and links
+ * here.
+ *
+ * The route is /isler/, which sits under the directory [slug].astro already owns,
+ * so it collides with nothing. Vitrin slugs are root-level and `isler` is already
+ * on the reserved list in the workspace AGENTS.md.
+ */
+import Layout from '../../layouts/Layout.astro';
+import IsKarti from '../../components/IsKarti.astro';
+import KonseptNotu from '../../components/KonseptNotu.astro';
+import { projeler } from '../../data/projeler';
+import { whatsapp } from '../../data/site';
+
+// Marked up as an ordered list of CreativeWork rather than anything with a
+// customer in it, matching what [slug].astro emits per project and for the same
+// reason: nobody hired us for these.
+const listeSema = {
+  '@type': 'ItemList',
+  name: 'Mevcut Digital konsept çalışmaları',
+  numberOfItems: projeler.length,
+  itemListElement: projeler.map((proje, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://mevcut.digital/isler/${proje.slug}/`,
+    name: `${proje.isletme} konsept web sitesi`,
+  })),
+};
+---
+
+<Layout
+  baslik="Konsept Web Sitesi Çalışmaları"
+  aciklama="İstanbul’daki lokanta, berber, pide salonu ve teknik servisler için hazırladığımız sekiz konsept web sitesi. Hepsi yayında, hepsini telefonunuzdan açabilirsiniz."
+  kirintiYolu={[{ ad: 'İşlerimiz', yol: '/isler/' }]}
+  semaEkleri={[listeSema]}
+>
+  <section>
+    <div class="container-page py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h1 class="baslik-buyuk font-bold">Sekiz çalışma, hepsi yayında.</h1>
+        <p class="mt-6 text-lg text-charcoal/80 md:text-xl">
+          Bunların hiçbirini bizden istemediler. Bir lokantaya, bir berbere ya da bir
+          teknik servise ne yapabileceğimizi anlatmak yerine yaptık, sonra sahibine
+          gösterdik. Açın, telefonunuzda gezin.
+        </p>
+      </div>
+
+      <ul class="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" role="list">
+        {projeler.map((proje, i) => <IsKarti proje={proje} oncelikli={i < 3} seviye={2} />)}
+      </ul>
+
+      <KonseptNotu projeler={projeler} class="reveal mt-10" />
+    </div>
+  </section>
+
+  <section class="bg-navy text-stone">
+    <div class="container-page py-14 text-center md:py-20">
+      <h2 class="reveal baslik-buyuk mx-auto max-w-2xl font-bold !text-stone">
+        Sıradaki sizin işletmeniz olsun.
+      </h2>
+      <p class="reveal mx-auto mt-5 max-w-xl text-lg text-stone/75">
+        İşletmenizi anlatın, örnek tasarımı ücretsiz hazırlayalım. Beğenmezseniz
+        yükümlülüğünüz yok.
+      </p>
+      <a
+        href={whatsapp()}
+        target="_blank"
+        rel="noopener"
+        class="reveal mt-8 inline-flex min-h-13 items-center gap-2.5 rounded-full bg-stone px-8 py-3.5 font-display text-base font-semibold text-navy transition-all duration-200 hover:bg-white active:scale-[0.98]"
+      >
+        WhatsApp’tan yazın
+      </a>
+    </div>
+  </section>
+</Layout>

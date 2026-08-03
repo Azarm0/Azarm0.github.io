@@ -1,6 +1,16 @@
 ---
 import Logo from './Logo.astro';
 import { site, whatsapp } from '../data/site';
+
+/*
+ * One list, rendered twice: inline from md up, inside a disclosure below it. Two
+ * hardcoded copies drifted apart the moment a fourth section was considered.
+ */
+const menu = [
+  { ad: 'İşlerimiz', yol: '/#isler' },
+  { ad: 'Hizmetler', yol: '/#hizmetler' },
+  { ad: 'Süreç', yol: '/#surec' },
+];
 ---
 
 <header
@@ -9,25 +19,33 @@ import { site, whatsapp } from '../data/site';
   <div class="container-page flex h-16 items-center justify-between gap-4 md:h-20">
     <a
       href="/"
-      class="flex items-center gap-3 text-navy transition-opacity duration-200 hover:opacity-80"
+      class="flex min-h-11 min-w-11 items-center gap-3 text-navy transition-opacity duration-200 hover:opacity-80"
       aria-label={`${site.ad} ana sayfa`}
     >
       <Logo class="h-8 w-auto md:h-9" />
-      <span class="font-display text-base font-bold tracking-tight md:text-lg">
+      {/*
+        Hidden below sm. Adding the Menü button left the header with a mark, a
+        wordmark and two buttons on a 390px screen, and "MEVCUT DIGITAL" wrapped to
+        two lines inside a 65px bar, so the first thing a phone visitor saw was a
+        broken lockup. The mark alone carries the brand at that width, and the
+        anchor's aria-label already names the site for anyone not looking at it.
+      */}
+      <span class="hidden font-display text-base font-bold tracking-tight whitespace-nowrap sm:inline md:text-lg">
         MEVCUT <span class="text-charcoal">DIGITAL</span>
       </span>
     </a>
 
     <nav class="hidden items-center gap-8 md:flex" aria-label="Ana menü">
-      <a href="/#isler" class="text-sm font-semibold text-charcoal transition-colors duration-200 hover:text-navy">
-        İşlerimiz
-      </a>
-      <a href="/#hizmetler" class="text-sm font-semibold text-charcoal transition-colors duration-200 hover:text-navy">
-        Hizmetler
-      </a>
-      <a href="/#surec" class="text-sm font-semibold text-charcoal transition-colors duration-200 hover:text-navy">
-        Süreç
-      </a>
+      {
+        menu.map((m) => (
+          <a
+            href={m.yol}
+            class="baglanti-alti py-1 text-sm font-semibold text-charcoal transition-colors duration-200 hover:text-navy"
+          >
+            {m.ad}
+          </a>
+        ))
+      }
     </nav>
 
     <a
@@ -44,5 +62,57 @@ import { site, whatsapp } from '../data/site';
       <span class="hidden sm:inline">WhatsApp</span>
       <span class="sm:hidden">Yazın</span>
     </a>
+
+      {/*
+        Below md there was no navigation at all: the <nav> above is `hidden md:flex`
+        with nothing behind it, so a phone visitor could only scroll. A <details>
+        disclosure fixes that without shipping a menu framework. It is keyboard
+        operable, announces its own expanded state, and works with scripting off,
+        which the rest of this site's chrome also does.
+
+        Labelled "Menü", not a bare icon: an unlabelled hamburger is exactly the
+        thing a first-time visitor on a shop owner's phone hesitates over.
+      */}
+      <details class="menu-ac relative md:hidden">
+        <summary
+          class="inline-flex min-h-11 min-w-11 cursor-pointer list-none items-center gap-2 rounded-full border border-navy/40 px-4 py-2.5 font-display text-sm font-semibold text-navy"
+        >
+          <svg viewBox="0 0 20 20" class="h-4 w-4 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path class="menu-cizgi-1" d="M3 6h14" />
+            <path class="menu-cizgi-2" d="M3 13h14" />
+          </svg>
+          Menü
+        </summary>
+
+        <nav
+          class="absolute right-0 z-50 mt-3 w-56 rounded-2xl border border-charcoal/15 bg-stone-light p-2 shadow-[0_18px_44px_-22px_rgb(46_59_105_/_0.5)]"
+          aria-label="Ana menü"
+        >
+          {
+            menu.map((m) => (
+              <a
+                href={m.yol}
+                class="flex min-h-11 items-center rounded-xl px-4 font-display text-base font-semibold text-navy hover:bg-navy/5"
+              >
+                {m.ad}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
   </div>
 </header>
+
+<script>
+  /*
+   * Close the disclosure when a link inside it is taken. Without this the panel
+   * stays open over the section it just jumped to, because <details> has no reason
+   * to close on its own. Progressive enhancement only: with scripting off the menu
+   * still opens, still navigates, and merely stays open.
+   */
+  for (const ac of document.querySelectorAll<HTMLDetailsElement>('details.menu-ac')) {
+    ac.addEventListener('click', (olay) => {
+      if ((olay.target as HTMLElement).closest('a')) ac.open = false;
+    });
+  }
+</script>

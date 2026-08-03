@@ -1,13 +1,33 @@
 ---
 import Logo from './Logo.astro';
-import { site, whatsapp } from '../data/site';
+import { site } from '../data/site';
 
 const yil = new Date().getFullYear();
+
+const menu = [
+  { ad: 'İşlerimiz', yol: '/#isler' },
+  { ad: 'Tüm işler', yol: '/isler/' },
+  { ad: 'Hizmetler', yol: '/#hizmetler' },
+  { ad: 'Süreç', yol: '/#surec' },
+  { ad: 'İletişim', yol: '/#iletisim' },
+];
 ---
 
-<footer class="mt-24 bg-navy text-stone md:mt-32">
-  <div class="container-page py-16 md:py-20">
-    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+{/*
+  No top margin. Both pages that use this layout close on a navy section: the
+  homepage ends on #iletisim and every case study ends on its navy CTA band. A
+  margin here put a 130px stone stripe between two navy blocks, which read as a
+  rendering fault rather than as spacing. Sections that need air above the footer
+  carry their own padding.
+
+  The İletişim column that used to sit here is gone too. It repeated the phone,
+  the email and the WhatsApp link that #iletisim shows about 200px further up, in
+  the same navy, so the page said the same thing twice within one screen. The
+  footer keeps the brand, the map of the site, and the legal line.
+*/}
+<footer class="bg-navy text-stone">
+  <div class="container-page py-14 md:py-16">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
       <div>
         <div class="flex items-center gap-3">
           <Logo class="h-10 w-auto" />
@@ -18,54 +38,26 @@ const yil = new Date().getFullYear();
         </p>
       </div>
 
-      <div>
-        <h2 class="font-display text-sm font-semibold uppercase tracking-[0.18em] text-stone/60">
-          İletişim
-        </h2>
-        <ul class="mt-5 space-y-3">
-          <li>
-            <a
-              href={whatsapp()}
-              target="_blank"
-              rel="noopener"
-              class="inline-flex min-h-11 items-center text-stone transition-opacity duration-200 hover:opacity-75"
-            >
-              WhatsApp ile yazın
-            </a>
-          </li>
-          <li>
-            <a
-              href={site.telefonHref}
-              class="inline-flex min-h-11 items-center text-stone transition-opacity duration-200 hover:opacity-75"
-            >
-              {site.telefon}
-            </a>
-          </li>
-          <li>
-            <a
-              href={`mailto:${site.eposta}`}
-              class="inline-flex min-h-11 items-center break-all text-stone transition-opacity duration-200 hover:opacity-75"
-            >
-              {site.eposta}
-            </a>
-          </li>
+      <nav aria-label="Alt menü">
+        <ul class="flex flex-wrap gap-x-8 gap-y-1 md:justify-end">
+          {
+            menu.map((m) => (
+              <li>
+                <a
+                  href={m.yol}
+                  class="baglanti-alti inline-flex min-h-11 items-center font-semibold text-stone transition-opacity duration-200 hover:opacity-80"
+                >
+                  {m.ad}
+                </a>
+              </li>
+            ))
+          }
         </ul>
-      </div>
-
-      <div>
-        <h2 class="font-display text-sm font-semibold uppercase tracking-[0.18em] text-stone/60">
-          Menü
-        </h2>
-        <ul class="mt-5 space-y-3">
-          <li><a href="/#isler" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">İşlerimiz</a></li>
-          <li><a href="/#hizmetler" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">Hizmetler</a></li>
-          <li><a href="/#surec" class="inline-flex min-h-11 items-center transition-opacity duration-200 hover:opacity-75">Süreç</a></li>
-        </ul>
-      </div>
+      </nav>
     </div>
 
     <div
-      class="mt-14 flex flex-col gap-3 border-t border-stone/15 pt-8 text-sm text-stone/55 sm:flex-row sm:items-center sm:justify-between"
+      class="mt-12 flex flex-col gap-3 border-t border-stone/15 pt-8 text-sm text-stone/75 sm:flex-row sm:items-center sm:justify-between"
     >
       <p>© {yil} Mevcut Digital</p>
       <p>İstanbul, Türkiye</p>

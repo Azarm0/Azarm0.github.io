@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Logo from '../components/Logo.astro';
+import IsKarti from '../components/IsKarti.astro';
+import KonseptNotu from '../components/KonseptNotu.astro';
 import { site, whatsapp, paketler, surec, sorular } from '../data/site';
 import { projeler } from '../data/projeler';
 import { gorselNitelikleri } from '../lib/gorsel';
@@ -14,6 +15,37 @@ const sssSema = {
     acceptedAnswer: { '@type': 'Answer', text: s.cevap },
   })),
 };
+
+/*
+ * Four of the eight, chosen in projeler.ts rather than sliced here. The rest live
+ * on /isler/. Eight full-width cards were 4,912px of a 13,755px phone page, which
+ * is a third of the site spent on a grid nobody scrolls to the end of.
+ */
+const vitrinlik = projeler.filter((p) => p.oneCikan);
+
+/*
+ * The hero phones. Both are real Vitrin pages, captured by scripts/vitrin-telefon.mjs
+ * and scrolled behind a mask by CSS. They are the two sectors the hero paragraph
+ * names, in that order, so the picture and the sentence agree.
+ *
+ * Only the berber loads on phones. The lokanta strip is inside a <picture> whose
+ * only <source> is gated at lg, so a phone never fetches it: a `hidden lg:block`
+ * wrapper would still have cost the download.
+ */
+const telefonlar = [
+  {
+    slug: 'usta-nuri-berber',
+    alt: 'Usta Nuri Erkek Kuaförü konsept sitesi bir telefon ekranında',
+    gorsel: '/isler/usta-nuri-berber-telefon.webp',
+  },
+  {
+    slug: 'bereket-lokantasi',
+    alt: 'Bereket Lokantası konsept sitesi bir telefon ekranında',
+    gorsel: '/isler/bereket-lokantasi-telefon.webp',
+  },
+];
+
+const [berber, lokanta] = telefonlar;
 
 const sorunlar = [
   {
@@ -32,6 +64,9 @@ const sorunlar = [
       'Telefonda geç açılan ya da bozuk görünen bir sayfa, müşteriye işletme hakkında olmayan bir şey anlatıyor. Adil değil ama böyle oluyor.',
   },
 ];
+
+/** How many bullets a package card shows before the rest fold into a <details>. */
+const ACIK_MADDE = 4;
 ---
 
 <Layout
@@ -41,22 +76,27 @@ const sorunlar = [
 >
   {/* ---------- HERO ---------- */}
   <section class="relative overflow-hidden">
-    <div class="container-page grid items-center gap-14 py-20 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:py-36">
-      <div>
-        <p class="eyebrow reveal">İstanbul · Web Tasarım</p>
-
-        <h1 class="reveal reveal-delay-1 mt-5 text-[clamp(2.25rem,6vw,4.25rem)] font-bold">
-          Müşteriniz sizi<br />
-          <span class="text-charcoal">arıyor.</span> Bulabiliyor mu?
+    <div
+      class="container-page grid items-center gap-5 py-10 md:py-20 lg:grid-cols-[1fr_0.85fr] lg:gap-16 lg:py-28"
+    >
+      {/*
+        Order matters on phones. The heading comes first, then the proof, then the
+        argument: a visitor who has seen a real page working on a real phone reads
+        the paragraph differently. On lg the phones move to their own column and the
+        text runs uninterrupted, so the order class only applies below it.
+      */}
+      <div class="contents lg:block">
+        <h1 class="reveal order-1 text-[clamp(2.25rem,6vw,4.25rem)] font-bold">
+          Müşteriniz sizi <span class="text-charcoal">arıyor.</span> Bulabiliyor mu?
         </h1>
 
-        <p class="reveal reveal-delay-2 mt-7 max-w-xl text-lg text-charcoal/80 md:text-xl">
+        <p class="reveal order-3 max-w-xl text-lg text-charcoal/80 md:text-xl lg:mt-7">
           Bugün bir lokantayı ya da berberi merak eden kişi önce telefonunu açıyor.
           Karşısında bir site yoksa bir sonrakine geçiyor. Biz o siteyi kuruyoruz:
           hızlı açılan, telefonda düzgün görünen ve sizin adınıza olan bir site.
         </p>
 
-        <div class="reveal reveal-delay-3 mt-10 flex flex-wrap items-center gap-4">
+        <div class="reveal order-4 mt-1 flex flex-wrap items-center gap-4 lg:mt-10">
           <a
             href={whatsapp()}
             target="_blank"
@@ -67,23 +107,85 @@ const sorunlar = [
           </a>
           <a
             href="#isler"
-            class="inline-flex min-h-13 items-center gap-2 rounded-full border border-navy/25 px-7 py-3.5 font-display text-base font-semibold text-navy transition-colors duration-200 hover:border-navy/60 hover:bg-navy/5"
+            class="inline-flex min-h-13 items-center gap-2 rounded-full border border-navy/40 px-7 py-3.5 font-display text-base font-semibold text-navy transition-colors duration-200 hover:border-navy hover:bg-navy/5"
           >
             İşlerimize bakın
           </a>
         </div>
 
-        <p class="reveal reveal-delay-4 mt-7 text-sm text-charcoal/60">
+        <p class="reveal order-7 text-sm text-charcoal/80 lg:order-5">
           İlk görüşme ve örnek tasarım ücretsiz. Beğenmediyseniz orada bırakırız.
         </p>
       </div>
 
-      {/* Brand mark as a quiet ornament rather than decoration for its own sake */}
-      <div class="reveal reveal-delay-2 relative hidden lg:block" aria-hidden="true">
-        <div class="relative mx-auto aspect-square w-full max-w-md">
-          <div class="absolute inset-0 rounded-full bg-stone-light/70"></div>
-          <div class="absolute inset-[12%] rounded-full border border-navy/10"></div>
-          <Logo class="absolute inset-0 m-auto h-auto w-[46%] text-navy/90" />
+      {/*
+        The phones. Two on lg, overlapped so the pair reads as one object; one below
+        it, because a second 480px-wide strip on a 390px screen is a download with
+        nowhere to go.
+
+        Order on phones is the whole argument of this hero, and it took three
+        measurements to place. It began at order-2, directly under the h1, on the
+        reasoning that proof should precede the argument: that put a 481px frame
+        across 57% of a 390x844 screen and pushed the primary CTA to y=1061, 217px
+        below the fold, so the first thing anyone read was the demo's own "bu bir
+        örnek çalışmadır" bar in another brand's voice with nothing to act on.
+        Moving it dead last fixed the CTA (y=514) but left only 32px of phone above
+        the fold, which is not proof, just a sliver.
+
+        So it sits between the CTA and the reassurance line: headline, promise,
+        button, then roughly 250px of a real page visibly scrolling. The reassurance
+        line goes below it on phones and back to its natural place from lg, where
+        the phones occupy their own column and order stops applying.
+      */}
+      <div class="reveal order-6 mt-1 lg:relative lg:mt-0 lg:h-[34rem]">
+        <div class="mx-auto w-[57vw] max-w-[15rem] sm:w-[42vw] lg:absolute lg:top-0 lg:right-0 lg:w-[17rem] lg:max-w-none lg:rotate-[3deg]">
+          <div class="telefon">
+            <img
+              {...gorselNitelikleri(berber.gorsel)}
+              alt={berber.alt}
+              width="390"
+              height="1600"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <div
+          class="absolute bottom-0 left-0 hidden w-[16rem] -rotate-[4deg] lg:block"
+          aria-hidden="true"
+        >
+          <div class="telefon" style="--sure: 34s">
+            {/*
+              The second phone is desktop-only, and "desktop-only" has to mean the
+              bytes never leave the server: this strip is 98 KB and a phone has
+              nowhere to put it. A hidden wrapper, display:none and loading="lazy"
+              all still fetch in at least one engine, so the gate is a <picture>
+              whose single <source> is media-gated at lg. Measured: desktop transfers
+              98 KB for this element, a 390px phone transfers 0.
+
+              The fallback is a 1x1 transparent GIF as a data URI rather than no src
+              at all. An <img> without src is invalid HTML and the design detector
+              flags it, correctly; a data URI keeps the element valid, costs no
+              request, and is what a phone "loads" instead of the strip.
+            */}
+            <picture>
+              <source
+                media="(min-width: 1024px)"
+                srcset={gorselNitelikleri(lokanta.gorsel).srcset}
+                sizes="16rem"
+              />
+              <img
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                alt=""
+                width="390"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </div>
         </div>
       </div>
     </div>
@@ -91,20 +193,17 @@ const sorunlar = [
 
   {/* ---------- SORUN ---------- */}
   <section class="border-y border-charcoal/10 bg-stone-light/60">
-    <div class="container-page py-20 md:py-28">
-      <div class="max-w-3xl">
-        <p class="eyebrow reveal">Neden gerekli</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Google’da çıkmıyorsanız, o müşteri komşunuza gidiyor.
-        </h2>
-      </div>
+    <div class="container-page py-12 md:py-24">
+      <h2 class="reveal max-w-3xl text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+        Google’da çıkmıyorsanız, o müşteri komşunuza gidiyor.
+      </h2>
 
-      <div class="mt-14 grid gap-px overflow-hidden rounded-2xl bg-charcoal/10 sm:grid-cols-3">
+      <div class="reveal mt-10 grid gap-px overflow-hidden rounded-2xl bg-charcoal/10 sm:grid-cols-3">
         {
-          sorunlar.map((madde, i) => (
-            <div class={`reveal reveal-delay-${i + 1} bg-stone-light p-8 md:p-10`}>
+          sorunlar.map((madde) => (
+            <div class="bg-stone-light p-7 md:p-9">
               <h3 class="font-display text-lg font-semibold">{madde.baslik}</h3>
-              <p class="mt-3.5 text-charcoal/75">{madde.metin}</p>
+              <p class="mt-3.5 text-charcoal/80">{madde.metin}</p>
             </div>
           ))
         }
@@ -113,14 +212,11 @@ const sorunlar = [
   </section>
 
   {/* ---------- İŞLER ---------- */}
-  <section id="isler" class="scroll-mt-24">
-    <div class="container-page py-20 md:py-28">
+  <section id="isler" aria-labelledby="isler-basligi" class="scroll-mt-24">
+    <div class="container-page py-12 md:py-24">
       <div class="max-w-3xl">
-        <p class="eyebrow reveal">İşlerimiz</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Anlatmak yerine yaptık.
-        </h2>
-        <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
+        <h2 id="isler-basligi" class="reveal baslik-buyuk font-bold">Anlatmak yerine yaptık.</h2>
+        <p class="reveal mt-6 text-lg text-charcoal/80">
           {/*
             The space before <strong> is explicit. Astro strips a trailing newline
             between text and an inline tag, which rendered this live as
@@ -133,170 +229,191 @@ const sorunlar = [
         </p>
       </div>
 
-      <ul class="mt-14 grid gap-7 sm:grid-cols-2 lg:gap-8" role="list">
-        {
-          projeler.map((proje, i) => (
-            <li class={`reveal reveal-delay-${(i % 4) + 1} group`}>
-              <a
-                href={`/isler/${proje.slug}/`}
-                class="flex h-full flex-col overflow-hidden rounded-2xl border border-charcoal/10 bg-stone-light transition-all duration-300 hover:-translate-y-1 hover:border-navy/25 hover:shadow-[0_18px_40px_-24px_rgba(46,59,105,0.45)]"
-              >
-                <div class="relative aspect-16/10 overflow-hidden bg-stone-dark">
-                  <img
-                    {...gorselNitelikleri(proje.gorsel)}
-                    alt={proje.gorselAlt}
-                    width="1200"
-                    height="750"
-                    loading={i < 2 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                  <span class="absolute top-3.5 left-3.5 rounded-full bg-stone/92 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-wide text-navy uppercase backdrop-blur-sm">
-                    {proje.kurgu ? 'Kurgu konsept' : 'Konsept'}
-                  </span>
-                </div>
-
-                <div class="flex flex-1 flex-col p-7">
-                  <p class="font-display text-xs font-semibold tracking-widest text-charcoal/50 uppercase">
-                    {proje.sektor} · {proje.sehir}
-                  </p>
-                  <h3 class="mt-3 font-display text-xl font-semibold">{proje.baslik}</h3>
-                  <p class="mt-3 flex-1 text-charcoal/75">{proje.ozet}</p>
-                  <span class="mt-6 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-navy">
-                    Çalışmayı gör
-                    <svg
-                      viewBox="0 0 20 20"
-                      class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      aria-hidden="true"
-                    >
-                      <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </span>
-                </div>
-              </a>
-            </li>
-          ))
-        }
+      <ul class="reveal mt-8 grid gap-5 sm:grid-cols-2 sm:gap-7 lg:gap-8" role="list">
+        {vitrinlik.map((proje) => <IsKarti proje={proje} />)}
       </ul>
 
-      <p class="reveal mt-10 max-w-3xl text-sm text-charcoal/60">
-        Bu sayfadaki işletmelerle henüz bir anlaşmamız bulunmuyor. Çalışmaları tanıtım
-        amacıyla, kendi girişimimizle hazırladık. Hiçbiri işletmenin resmi web sitesi değildir.
-        “Kurgu konsept” etiketli çalışmadaki işletme ise tamamen kurgusaldır: o dükkân
-        gerçekte yoktur, sayfadaki yorumlar ve fiyatlar örnek içeriktir.
-      </p>
+      <a
+        href="/isler/"
+        class="baglanti-alti reveal mt-10 inline-flex min-h-11 items-center gap-2 font-display text-base font-semibold text-navy"
+      >
+        Sekiz çalışmanın tamamı
+        <svg
+          viewBox="0 0 20 20"
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+
+      <KonseptNotu projeler={vitrinlik} class="reveal mt-8" />
     </div>
   </section>
 
   {/* ---------- HİZMETLER ---------- */}
-  <section id="hizmetler" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
-    <div class="container-page py-20 md:py-28">
+  <section id="hizmetler" aria-labelledby="hizmetler-basligi" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
+    <div class="container-page py-12 md:py-24">
       <div class="max-w-3xl">
-        <p class="eyebrow reveal">Hizmetler</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+        <h2 id="hizmetler-basligi" class="reveal text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
           Bütçenize göre bir başlangıç var.
         </h2>
-        <p class="reveal reveal-delay-2 mt-6 text-lg text-charcoal/80">
+        <p class="reveal mt-6 text-lg text-charcoal/80">
           En küçük paketimiz küçük bir kurulum ücretiyle başlıyor, sonrasında aylık ya
           da yıllık ödeme istemiyoruz. Siteniz bizim adresimiz altında yayına giriyor,
           işe yaradığını gördüğünüzde kendi alan adınıza geçiyorsunuz.
         </p>
       </div>
 
-      <div class="mt-14 grid gap-7 lg:grid-cols-3">
+      <div class="reveal mt-10 grid gap-7 lg:grid-cols-3">
         {
-          paketler.map((paket, i) => (
-            <div
-              class={`reveal reveal-delay-${i + 1} flex flex-col rounded-2xl border p-8 md:p-9 ${
-                paket.oneCikan
-                  ? 'border-navy bg-navy text-stone shadow-[0_20px_50px_-30px_rgba(46,59,105,0.7)]'
-                  : 'border-charcoal/12 bg-stone-light'
-              }`}
-            >
-              {paket.oneCikan && (
-                <span class="mb-5 self-start rounded-full bg-stone/20 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-widest uppercase">
-                  En çok tercih edilen
-                </span>
-              )}
+          paketler.map((paket) => {
+            const acik = paket.kapsam.slice(0, ACIK_MADDE);
+            const kalan = paket.kapsam.slice(ACIK_MADDE);
+            const ikon = paket.oneCikan ? 'text-stone/80' : 'text-navy';
+            const govde = paket.oneCikan ? 'text-stone/90' : 'text-charcoal/80';
 
-              <h3 class={`font-display text-2xl font-bold ${paket.oneCikan ? 'text-stone' : ''}`}>
-                {paket.ad}
-              </h3>
-              <p
-                class={`mt-1.5 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/70' : 'text-charcoal/55'}`}
-              >
-                {paket.vurgu}
-              </p>
-
-              <p class={`mt-5 ${paket.oneCikan ? 'text-stone/85' : 'text-charcoal/75'}`}>
-                {paket.aciklama}
-              </p>
-
-              <ul class="mt-7 flex-1 space-y-3" role="list">
-                {paket.kapsam.map((madde) => (
-                  <li class="flex gap-3">
-                    <svg
-                      viewBox="0 0 20 20"
-                      class={`mt-1 h-4 w-4 shrink-0 ${paket.oneCikan ? 'text-stone/70' : 'text-navy'}`}
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.25"
-                      aria-hidden="true"
-                    >
-                      <path d="m4.5 10.5 3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class={`text-sm ${paket.oneCikan ? 'text-stone/90' : 'text-charcoal/80'}`}>
-                      {madde}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <p
-                class={`mt-7 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/70' : 'text-charcoal/55'}`}
-              >
-                {paket.fiyatNotu}
-              </p>
-
-              <a
-                href={whatsapp(paket.cta)}
-                target="_blank"
-                rel="noopener"
-                class={`mt-4 inline-flex min-h-12 items-center justify-center rounded-full px-6 py-3 font-display text-sm font-semibold transition-all duration-200 active:scale-[0.98] ${
+            return (
+              <div
+                class={`flex flex-col rounded-2xl border p-6 md:p-9 ${
                   paket.oneCikan
-                    ? 'bg-stone text-navy hover:bg-white'
-                    : 'bg-navy text-stone hover:bg-navy-deep'
+                    ? 'border-navy bg-navy text-stone shadow-[0_20px_50px_-30px_rgba(46,59,105,0.7)]'
+                    : 'border-charcoal/12 bg-stone-light'
                 }`}
               >
-                {paket.ctaEtiket}
-              </a>
-            </div>
-          ))
+                {paket.oneCikan && (
+                  <span class="mb-5 self-start rounded-full bg-stone/20 px-3 py-1 font-display text-[0.68rem] font-semibold tracking-widest uppercase">
+                    En çok tercih edilen
+                  </span>
+                )}
+
+                <h3 class={`font-display text-2xl font-bold ${paket.oneCikan ? 'text-stone' : ''}`}>
+                  {paket.ad}
+                </h3>
+                <p
+                  class={`mt-1.5 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/75' : 'text-charcoal/80'}`}
+                >
+                  {paket.vurgu}
+                </p>
+
+                <p class={`mt-5 ${paket.oneCikan ? 'text-stone/90' : 'text-charcoal/80'}`}>
+                  {paket.aciklama}
+                </p>
+
+                <ul class="mt-7 space-y-3" role="list">
+                  {acik.map((madde) => (
+                    <li class="flex gap-3">
+                      <svg
+                        viewBox="0 0 20 20"
+                        class={`mt-1 h-4 w-4 shrink-0 ${ikon}`}
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.25"
+                        aria-hidden="true"
+                      >
+                        <path d="m4.5 10.5 3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span class={`text-sm ${govde}`}>{madde}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/*
+                  The rest fold away. Three tiers of eight bullets each was 2,722px on
+                  a phone, which made the one thing these cards exist for, comparing
+                  them, impossible: you could never hold two on screen at once.
+                  <details> keeps that zero-JS, the same way the FAQ does.
+                */}
+                {kalan.length > 0 && (
+                  <details class="group mt-4">
+                    <summary
+                      class={`inline-flex min-h-11 cursor-pointer list-none items-center gap-1.5 font-display text-sm font-semibold ${
+                        paket.oneCikan ? 'text-stone/90' : 'text-navy'
+                      }`}
+                    >
+                      <span class="group-open:hidden">{kalan.length} madde daha</span>
+                      <span class="hidden group-open:inline">Kısalt</span>
+                      <svg
+                        viewBox="0 0 20 20"
+                        class="h-4 w-4 transition-transform duration-200 group-open:rotate-180"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        aria-hidden="true"
+                      >
+                        <path d="m5 8 5 5 5-5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </summary>
+                    <ul class="mt-3 space-y-3" role="list">
+                      {kalan.map((madde) => (
+                        <li class="flex gap-3">
+                          <svg
+                            viewBox="0 0 20 20"
+                            class={`mt-1 h-4 w-4 shrink-0 ${ikon}`}
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.25"
+                            aria-hidden="true"
+                          >
+                            <path d="m4.5 10.5 3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <span class={`text-sm ${govde}`}>{madde}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+
+                <p
+                  class={`mt-7 font-display text-sm font-semibold ${paket.oneCikan ? 'text-stone/75' : 'text-charcoal/80'}`}
+                >
+                  {paket.fiyatNotu}
+                </p>
+
+                <a
+                  href={whatsapp(paket.cta)}
+                  target="_blank"
+                  rel="noopener"
+                  class={`mt-4 inline-flex min-h-12 items-center justify-center rounded-full px-6 py-3 font-display text-sm font-semibold transition-all duration-200 active:scale-[0.98] ${
+                    paket.oneCikan
+                      ? 'bg-stone text-navy hover:bg-white'
+                      : 'bg-navy text-stone hover:bg-navy-deep'
+                  }`}
+                >
+                  {paket.ctaEtiket}
+                </a>
+              </div>
+            );
+          })
         }
       </div>
     </div>
   </section>
 
   {/* ---------- SÜREÇ ---------- */}
-  <section id="surec" class="scroll-mt-24">
-    <div class="container-page py-20 md:py-28">
-      <div class="max-w-3xl">
-        <p class="eyebrow reveal">Nasıl çalışıyoruz</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          Dört adımda ilerliyoruz.
-        </h2>
-      </div>
+  <section id="surec" aria-labelledby="surec-basligi" class="scroll-mt-24">
+    <div class="container-page py-12 md:py-24">
+      <h2 id="surec-basligi" class="reveal max-w-3xl text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+        Dört adımda ilerliyoruz.
+      </h2>
 
-      <ol class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4" role="list">
+      <ol class="reveal mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-4" role="list">
         {
-          surec.map((adim, i) => (
-            <li class={`reveal reveal-delay-${i + 1} border-t-2 border-navy/20 pt-6`}>
-              <span class="font-display text-3xl font-bold text-navy/25">{adim.adim}</span>
-              <h3 class="mt-3 font-display text-lg font-semibold">{adim.baslik}</h3>
-              <p class="mt-3 text-charcoal/75">{adim.metin}</p>
+          surec.map((adim) => (
+            <li class="border-t-2 border-navy/25 pt-5">
+              {/*
+                Full navy at label size, not a 30px ghost at navy/25. The number is
+                the only thing telling the reader these four are a sequence rather
+                than a list, and it was measuring 1.52:1.
+              */}
+              <span class="font-display text-sm font-bold tracking-[0.18em] text-navy">
+                {adim.adim}
+              </span>
+              <h3 class="mt-2.5 font-display text-lg font-semibold">{adim.baslik}</h3>
+              <p class="mt-3 text-charcoal/80">{adim.metin}</p>
             </li>
           ))
         }
@@ -305,22 +422,17 @@ const sorunlar = [
   </section>
 
   {/* ---------- SIK SORULANLAR ---------- */}
-  <section id="sorular" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
-    <div class="container-page py-20 md:py-28">
-      <div class="max-w-3xl">
-        <p class="eyebrow reveal">Sık sorulanlar</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
-          WhatsApp’ta en çok bunlar soruluyor.
-        </h2>
-      </div>
+  <section id="sorular" aria-labelledby="sorular-basligi" class="scroll-mt-24 border-y border-charcoal/10 bg-stone-light/60">
+    <div class="container-page py-12 md:py-24">
+      <h2 id="sorular-basligi" class="reveal max-w-3xl text-[clamp(1.75rem,4vw,2.75rem)] font-bold">
+        WhatsApp’ta en çok bunlar soruluyor.
+      </h2>
 
-      <div class="mt-12 grid max-w-4xl gap-4">
+      <div class="reveal mt-10 grid max-w-4xl gap-4">
         {
-          sorular.map((s, i) => (
-            <details
-              class={`reveal reveal-delay-${(i % 4) + 1} group rounded-xl border border-charcoal/12 bg-stone-light px-6 py-5 open:bg-stone`}
-            >
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-semibold text-navy">
+          sorular.map((s) => (
+            <details class="group rounded-xl border border-charcoal/12 bg-stone-light px-6 py-3 open:bg-stone">
+              <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-2 font-display text-base font-semibold text-navy">
                 {s.soru}
                 <svg
                   viewBox="0 0 20 20"
@@ -333,7 +445,7 @@ const sorunlar = [
                   <path d="M10 4.5v11M4.5 10h11" stroke-linecap="round" />
                 </svg>
               </summary>
-              <p class="mt-4 text-charcoal/80">{s.cevap}</p>
+              <p class="mt-2 max-w-2xl pb-3 text-charcoal/80">{s.cevap}</p>
             </details>
           ))
         }
@@ -342,14 +454,13 @@ const sorunlar = [
   </section>
 
   {/* ---------- HAKKIMIZDA + CTA ---------- */}
-  <section id="iletisim" class="scroll-mt-24 bg-navy text-stone">
-    <div class="container-page grid gap-14 py-20 md:py-28 lg:grid-cols-2 lg:gap-20">
+  <section id="iletisim" aria-labelledby="iletisim-basligi" class="scroll-mt-24 bg-navy text-stone">
+    <div class="container-page grid gap-10 py-12 md:py-24 lg:grid-cols-2 lg:gap-20">
       <div>
-        <p class="eyebrow reveal !text-stone/55">Hakkımızda</p>
-        <h2 class="reveal reveal-delay-1 mt-5 text-[clamp(1.75rem,4vw,2.75rem)] font-bold !text-stone">
+        <h2 id="iletisim-basligi" class="reveal text-[clamp(1.75rem,4vw,2.75rem)] font-bold !text-stone">
           İki kişilik bir ekibiz.
         </h2>
-        <div class="reveal reveal-delay-2 mt-6 space-y-4 text-lg text-stone/80">
+        <div class="reveal mt-6 space-y-4 text-lg text-stone/75">
           <p>
             Mevcut Digital iki ortaktan oluşuyor. Biri işi konuşuyor, diğeri kodu yazıyor.
             Aradığınızda çağrı merkezine değil, siteyi yapan kişiye ulaşıyorsunuz.
@@ -362,7 +473,7 @@ const sorunlar = [
         </div>
       </div>
 
-      <div class="reveal reveal-delay-3 rounded-2xl bg-stone/8 p-8 md:p-10">
+      <div class="reveal rounded-2xl bg-stone/8 p-6 md:p-10">
         <h3 class="font-display text-xl font-semibold !text-stone">Bir mesaj yeterli</h3>
         <p class="mt-3 text-stone/75">
           İşletmenizi anlatın, size ne yapabileceğimizi ücretsiz gösterelim.
@@ -377,19 +488,25 @@ const sorunlar = [
           Hemen mesaj gönderin
         </a>
 
-        <dl class="mt-8 space-y-4 border-t border-stone/15 pt-8 text-sm">
-          <div class="flex flex-wrap items-baseline justify-between gap-2">
-            <dt class="text-stone/55">Telefon</dt>
+        <dl class="mt-8 space-y-2 border-t border-stone/20 pt-6 text-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <dt class="text-stone/75">Telefon</dt>
             <dd>
-              <a href={site.telefonHref} class="font-semibold underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+              <a
+                href={site.telefonHref}
+                class="inline-flex min-h-11 items-center font-semibold underline decoration-stone/40 underline-offset-4 hover:decoration-stone"
+              >
                 {site.telefon}
               </a>
             </dd>
           </div>
-          <div class="flex flex-wrap items-baseline justify-between gap-2">
-            <dt class="text-stone/55">E-posta</dt>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <dt class="text-stone/75">E-posta</dt>
             <dd>
-              <a href={`mailto:${site.eposta}`} class="font-semibold underline decoration-stone/30 underline-offset-4 hover:decoration-stone">
+              <a
+                href={`mailto:${site.eposta}`}
+                class="inline-flex min-h-11 items-center font-semibold underline decoration-stone/40 underline-offset-4 hover:decoration-stone"
+              >
                 {site.eposta}
               </a>
             </dd>

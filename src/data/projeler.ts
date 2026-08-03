@@ -31,6 +31,14 @@ export type Proje = {
   /** True only once the business has given written permission to be featured. */
   izinli: boolean;
   /**
+   * Shown in the four-card grid on the home page. Everything else waits on
+   * /isler/. A flag rather than `projeler.slice(0, 4)`, because array order here
+   * is editorial (it reads Vitrin first, then up through the tiers) and should
+   * not silently double as the home page's shortlist. Aim for one per package
+   * tier and no two of the same sector.
+   */
+  oneCikan?: boolean;
+  /**
    * True when the business itself is invented rather than a real one we built
    * for unasked. Every other entry is a real İstanbul business with real
    * scraped reviews, so a fictional one has to say so — otherwise the visible
@@ -71,6 +79,7 @@ export const projeler: Proje[] = [
     gorselAlt: 'Bereket Lokantası konsept sitesinin açılış ekranı',
     paket: 'Vitrin',
     izinli: false,
+    oneCikan: true,
     kurgu: true,
   },
   {
@@ -197,6 +206,7 @@ export const projeler: Proje[] = [
     gorselAlt: 'Mikron Teknik Servis konsept sitesinin fiyat sorgulama ekranı',
     paket: 'Özel',
     izinli: false,
+    oneCikan: true,
     kurgu: true,
   },
   {
@@ -228,6 +238,7 @@ export const projeler: Proje[] = [
     gorselAlt: 'The Barber Company konsept sitesinin açılış ekranı',
     paket: 'Kurumsal',
     izinli: false,
+    oneCikan: true,
   },
   {
     slug: 'sarihan-cinematic',
@@ -259,6 +270,7 @@ export const projeler: Proje[] = [
     gorselAlt: 'Sarıhan İşkembe sinematik konsept sitesinin açılış ekranı',
     paket: 'Özel',
     izinli: false,
+    oneCikan: true,
   },
   {
     slug: 'develi-etli-pide',

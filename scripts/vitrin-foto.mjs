@@ -92,9 +92,15 @@ function rolBul(dosyaYolu) {
   const ad = path.basename(dosyaYolu);
   const dizin = path.dirname(dosyaYolu).replace(/\\/g, '/');
 
-  // The og.jpg is generated at its final size by vitrin-kart.mjs and has no
-  // variants, so it is skipped on purpose rather than unrecognised.
-  if (/[\\/]isler$/.test(dizin)) return ad.endsWith('-og.jpg') ? 'yoksay' : 'kart';
+  // The og.jpg is generated at its final size by vitrin-kart.mjs, and the
+  // -telefon variants are generated at their final sizes by vitrin-telefon.mjs.
+  // Both are skipped on purpose rather than unrecognised. Without the -telefon
+  // rule this would treat a 4000px-tall scrolling capture as a 16:10 card photo
+  // and cut kart-width variants nothing ever requests.
+  if (/[\\/]isler$/.test(dizin)) {
+    if (ad.endsWith('-og.jpg') || /-telefon(-\d+)?\.webp$/.test(ad)) return 'yoksay';
+    return 'kart';
+  }
   if (ad.startsWith('kapak.')) return 'kapak';
   if (ad.startsWith('galeri-')) return 'galeri';
   // Print output from vitrin-qr.mjs, sized for A6 paper. Not a photograph and

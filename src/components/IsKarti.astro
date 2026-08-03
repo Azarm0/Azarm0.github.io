@@ -1,0 +1,79 @@
+---
+/**
+ * One case-study card in the işler grid.
+ *
+ * Shared by the four-card shortlist on the home page and the full eight on
+ * /isler/. It exists because those two grids drifting apart is exactly the kind of
+ * thing nothing in the build would catch: the badge that distinguishes a kurgu
+ * business from a real one has to read the same on both, or one page is making a
+ * claim the other is not.
+ */
+import type { Proje } from '../data/projeler';
+import { gorselNitelikleri } from '../lib/gorsel';
+
+interface Props {
+  proje: Proje;
+  /** Above-the-fold cards may load eagerly. Everything else waits. */
+  oncelikli?: boolean;
+  /**
+   * Heading level for the card title, because the same card sits at two different
+   * depths. On the home page the grid lives under a section h2, so the card is an
+   * h3. On /isler/ the grid is the page's only content and sits directly under the
+   * h1, where an h3 skips a level and leaves a hole in the outline.
+   */
+  seviye?: 2 | 3;
+}
+
+const { proje, oncelikli = false, seviye = 3 } = Astro.props;
+const Baslik = `h${seviye}` as 'h2' | 'h3';
+---
+
+<li class="group">
+  <a
+    href={`/isler/${proje.slug}/`}
+    class="flex h-full flex-col overflow-hidden rounded-2xl border border-charcoal/12 bg-stone-light transition-all duration-300 hover:-translate-y-1 hover:border-navy/30 hover:shadow-[0_18px_40px_-24px_rgba(46,59,105,0.45)]"
+  >
+    <div class="relative aspect-16/10 overflow-hidden bg-stone-dark">
+      <img
+        {...gorselNitelikleri(proje.gorsel)}
+        alt={proje.gorselAlt}
+        width="1200"
+        height="750"
+        loading={oncelikli ? 'eager' : 'lazy'}
+        decoding="async"
+        class="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+      />
+      {/*
+        The badge sits on a screenshot whose top edge is sometimes near-white and
+        sometimes near-black, so it carries its own opaque navy plate rather than a
+        translucent one. "Kurgu konsept" is not decoration: it is the difference
+        between a real İstanbul business we built for unasked and an invented one,
+        and it has to survive whatever is behind it.
+      */}
+      <span class="absolute top-3.5 left-3.5 rounded-full bg-navy px-3 py-1 font-display text-[0.68rem] font-semibold tracking-wide text-stone uppercase">
+        {proje.kurgu ? 'Kurgu konsept' : 'Konsept'}
+      </span>
+    </div>
+
+    <div class="flex flex-1 flex-col p-5 md:p-7">
+      <p class="font-display text-xs font-semibold tracking-widest text-charcoal/80 uppercase">
+        {proje.sektor} · {proje.sehir}
+      </p>
+      <Baslik class="mt-3 font-display text-xl font-semibold">{proje.baslik}</Baslik>
+      <p class="mt-3 flex-1 text-charcoal/80">{proje.ozet}</p>
+      <span class="mt-6 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-navy">
+        Çalışmayı gör
+        <svg
+          viewBox="0 0 20 20"
+          class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </div>
+  </a>
+</li>

@@ -36,6 +36,26 @@
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+/*
+ * Text tint floors, measured against the built page rather than judged by eye.
+ * Tailwind v4 resolves these through oklab, so reading getComputedStyle and
+ * parsing the numbers gives nonsense; the figures below come from compositing
+ * each colour onto its real backdrop through a canvas and computing WCAG
+ * contrast on the result.
+ *
+ *   On stone (#e3dddb)      charcoal/75 = 4.47:1  FAILS
+ *                           charcoal/80 = 5.08:1  floor for every size
+ *                           navy        = 7.98:1
+ *   On navy  (#2e3b69)      stone/65    = 4.31:1  FAILS
+ *                           stone/70    = 4.75:1
+ *                           stone/75    = 5.22:1  floor used here
+ *
+ * So there are two tints per surface and no more: full strength, and one step
+ * down. Anything that needs to recede further recedes by size, weight or
+ * letter-spacing, never by getting lighter. The old /50 /55 /60 /70 ladder was
+ * four rungs of illegible.
+ */
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -49,6 +69,18 @@
     font-size: 1rem;
     line-height: 1.65;
     text-rendering: optimizeLegibility;
+
+    /*
+     * Paper grain. The palette is three shades of the same stone and reads flat
+     * without it. Inline SVG so it costs no request, tiled at 120px, desaturated
+     * because raw feTurbulence is colour noise. Kept at 3.5% on the rect: past
+     * about 5% it stops being paper and starts being dirt.
+     *
+     * On the background rather than as a fixed overlay on purpose. An overlay
+     * would need a z-index above the sticky header and would sit on top of focus
+     * rings; this way the navy sections simply paint over it and stay clean.
+     */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
   }
 
   h1, h2, h3, h4 {
@@ -63,10 +95,22 @@
     text-wrap: pretty;
   }
 
-  /* Visible focus for keyboard users. Never removed. */
+  /*
+   * Visible focus for keyboard users. Never removed.
+   *
+   * The navy ring alone was invisible on every navy surface: the footer, the whole
+   * #iletisim block including its primary button, the featured package card, and
+   * the case-study CTA band. Measured navy-on-navy at 1.00:1, which is roughly a
+   * third of the site's interactive elements including the main conversion action.
+   *
+   * Two tones rather than one colour that compromises on both. The stone halo sits
+   * outside the navy ring, so on stone the navy reads and on navy the stone reads;
+   * whichever surface it lands on, one of the two is always in contrast with it.
+   */
   :focus-visible {
     outline: 3px solid var(--color-navy);
     outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-stone);
     border-radius: 2px;
   }
 
@@ -118,14 +162,127 @@
     .container-page { padding-inline: 2.5rem; }
   }
 
-  /* Section eyebrow label */
-  .eyebrow {
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--color-charcoal) 55%, transparent);
+  /*
+   * There is no .eyebrow rule any more. Seven sections carried a small uppercase
+   * label above the heading ("NEDEN GEREKLİ", "HİZMETLER", "SIK SORULANLAR") and
+   * every one of them restated the heading underneath it in fewer words. They
+   * were also the worst contrast failure on the site at 2.79:1. The headings
+   * carry themselves; nothing replaced the labels.
+   */
+
+  /* ---------------------------------------------------------------------------
+   * Hero phone
+   *
+   * The frame is a phone-shaped window with overflow hidden. Inside it sits a
+   * 1600-CSS-px-tall capture of a real Vitrin page (scripts/vitrin-telefon.mjs),
+   * and the keyframe walks that strip upward so the page appears to scroll on the
+   * phone. One image, one keyframe, no JavaScript.
+   *
+   * The two custom properties are the contract with the capture script: --serit
+   * must equal its STRIP_BOY and --ekran must equal the viewport height it shot
+   * at. Because the travel is expressed as a percentage of the strip's own
+   * height, the loop stays correct at any rendered frame width, and recapturing
+   * a taller strip needs only the number here changed to match.
+   * ------------------------------------------------------------------------- */
+  .telefon {
+    --serit: 1600;
+    --ekran: 844;
+    --sure: 28s;
+
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 390 / var(--ekran);
+    border-radius: 2.25rem;
+    background: #14110f;
+    /* Offset and blur, so the phone sits on the page instead of glowing on it. */
+    box-shadow:
+      0 2px 0 0 rgb(255 255 255 / 0.28) inset,
+      0 28px 60px -28px rgb(46 59 105 / 0.55),
+      0 6px 18px -10px rgb(68 55 55 / 0.35);
+  }
+
+  /* The bezel. A ring inside the frame reads as glass edge; a border outside it
+     reads as a rectangle with a stroke. */
+  .telefon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: 0 0 0 1px rgb(20 17 15 / 0.9) inset;
+    pointer-events: none;
+  }
+
+  .telefon img {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: telefon-kaydir var(--sure) ease-in-out infinite alternate;
+  }
+
+  @keyframes telefon-kaydir {
+    from { transform: translateY(0); }
+    to   { transform: translateY(calc(-100% * (var(--serit) - var(--ekran)) / var(--serit))); }
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Header link underline. The links previously only shifted colour, which on a
+   * navy-on-stone palette is a change of about one shade and easy to miss.
+   * ------------------------------------------------------------------------- */
+  .baglanti-alti {
+    position: relative;
+  }
+
+  .baglanti-alti::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.35rem;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+
+  .baglanti-alti:hover::after,
+  .baglanti-alti:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Two headings carry the page: the work grid and the closing CTA. Everything
+   * else sat at the same clamp, which gave the page a flat line instead of a
+   * crest.
+   * ------------------------------------------------------------------------- */
+  .baslik-buyuk {
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: -0.03em;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Mobile menu disclosure. Safari still paints a default triangle on <summary>
+   * unless the webkit pseudo-element is cleared too, which `list-none` alone does
+   * not do; without this the button reads as a stray bullet next to the label.
+   * ------------------------------------------------------------------------- */
+  .menu-ac > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* The two bars cross into an X while open, so the control says what it will do
+     next rather than what it currently is. */
+  .menu-ac .menu-cizgi-1,
+  .menu-ac .menu-cizgi-2 {
+    transform-origin: center;
+    transition: transform 0.2s var(--ease-out-soft);
+  }
+
+  .menu-ac[open] .menu-cizgi-1 {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .menu-ac[open] .menu-cizgi-2 {
+    transform: translateY(-3.5px) rotate(-45deg);
   }
 }
 
@@ -138,6 +295,18 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /*
+   * The phone strip is the one animation on the page that is content rather than
+   * decoration, so it needs saying explicitly: it stops at the top of the demo
+   * page, which is the frame anyone would have chosen for a still. The blanket
+   * rule below would otherwise run it to completion in 0.001ms and freeze it
+   * two-thirds of the way down, mid-menu.
+   */
+  .telefon img {
+    animation: none !important;
+    transform: none !important;
   }
 
   *, *::before, *::after {

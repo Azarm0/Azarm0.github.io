@@ -14,21 +14,25 @@ import manifest from '../data/gorseller.json';
  * and forgets to run the script, and it must render rather than break.
  */
 
-type Rol = 'kapak' | 'galeri' | 'kart';
+type Rol = 'kapak' | 'galeri' | 'kart' | 'telefon';
 
 type Kayit = { rol: string; genislikler: number[] };
 
 /**
  * How wide each role renders, as the browser needs to know it before layout.
  * Read off the built pages rather than guessed:
- *  - kapak  is full bleed on every breakpoint
- *  - galeri is a 2-up grid on phones and 4-up from md
- *  - kart   is 1-up on phones, 2-up from sm, inside a max-width shell
+ *  - kapak   is full bleed on every breakpoint
+ *  - galeri  is a 2-up grid on phones and 4-up from md
+ *  - kart    is 1-up on phones, 2-up from sm, inside a max-width shell
+ *  - telefon is the hero's phone frame: ~19rem inside the lg screen, ~57vw below
+ *    it. The strip is masked and permanently in motion, so the browser is asked
+ *    for the frame width and no more.
  */
 const OLCULER: Record<Rol, string> = {
   kapak: '100vw',
   galeri: '(min-width: 768px) 23vw, 47vw',
   kart: '(min-width: 1024px) 33rem, (min-width: 640px) 47vw, 92vw',
+  telefon: '(min-width: 1024px) 19rem, 57vw',
 };
 
 export type GorselNitelikleri = {
